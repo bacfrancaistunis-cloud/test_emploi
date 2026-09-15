@@ -172,6 +172,11 @@
         .download-btn svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
         .download-btn:hover svg { transform: translateY(3px); }
 
+        .download-btn.is-loading { pointer-events: none; background: #4a55e0; }
+        .download-btn.is-loading .btn-text, .download-btn.is-loading .btn-icon { opacity: 0; }
+        .download-btn.is-success { background: #16a34a; }
+        .download-btn.is-success .btn-text, .download-btn.is-success .btn-icon { opacity: 0; }
+
         /* NOTICE */
         .notice {
             display: flex;
@@ -229,11 +234,10 @@
             width: 100%;
             min-width: 1050px;
             border-collapse: separate;
-            border-spacing: 8px; /* Espacement moderne entre les cases */
+            border-spacing: 8px;
             table-layout: fixed;
         }
 
-        /* En-têtes (Jours) */
         .schedule thead th {
             padding: 10px;
             text-align: center;
@@ -257,7 +261,6 @@
             margin-bottom: 4px;
         }
 
-        /* Colonne Horaires */
         .schedule tbody th {
             text-align: right;
             padding: 0 16px 0 0;
@@ -280,10 +283,9 @@
             color: var(--text-muted);
         }
 
-        /* Les cases (Slots) */
         .schedule tbody td {
             height: 95px;
-            background: #f8fafc; /* Couleur des cases vides */
+            background: #f8fafc;
             border-radius: 16px;
             padding: 4px;
             transition: background 0.2s ease;
@@ -291,7 +293,6 @@
 
         .schedule tbody td:hover:empty { background: #f1f5f9; }
 
-        /* Le point au milieu des cases vides */
         .schedule tbody td:empty::after {
             content: '';
             display: block;
@@ -303,7 +304,7 @@
         }
 
         /* =====================================================
-           CARTES DE COURS (DESIGN PREMIUM)
+           CARTES DE COURS
         ====================================================== */
         .course-block {
             height: 100%;
@@ -317,6 +318,7 @@
             overflow: hidden;
             transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            border: 2px solid transparent;
         }
 
         .course-block:hover {
@@ -390,7 +392,7 @@
         .cb-techno { background: #fae8ff; color: #4c1d95; }
         .cb-techno .cb-badge { color: #5b21b6; }
 
-        /* ÉTATS (ANNULÉ, REPORTÉ, RATTRAPAGE) */
+        /* ÉTATS ET NOTES (Google Sheets) */
         .status-badge {
             display: none;
             padding: 4px 8px;
@@ -405,28 +407,31 @@
 
         .cb-custom-note {
             display: none;
-            margin-top: 6px;
-            padding: 4px 8px;
+            margin-top: 8px;
+            padding: 6px 8px;
             border-radius: 6px;
             font-size: 10px;
             font-weight: 700;
             background: rgba(255, 255, 255, 0.9);
-            border: 1px dashed rgba(0,0,0,0.2);
+            color: #1e293b;
             line-height: 1.3;
         }
 
+        /* 1. ANNULÉ */
         .course-block.is-cancelled { background: #f8fafc !important; color: #94a3b8 !important; }
         .course-block.is-cancelled .cb-name { text-decoration: line-through; }
         .course-block.is-cancelled .status-badge.badge-cancelled {
             display: block; background: #fee2e2; color: #dc2626;
         }
 
-        .course-block.is-postponed { background: #fffbeb !important; color: #b45309 !important; border: 1px solid #fde68a; }
+        /* 2. REPORTÉ */
+        .course-block.is-postponed { background: #fffbeb !important; color: #b45309 !important; border-color: #fde68a !important; }
         .course-block.is-postponed .status-badge.badge-postponed {
             display: block; background: #fef3c7; color: #d97706;
         }
 
-        .course-block.is-rattrapage { border: 2px solid var(--primary); }
+        /* 3. RATTRAPAGE / NOUVEAU BLOC */
+        .course-block.is-rattrapage { border-color: var(--primary) !important; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2); }
         .course-block.is-rattrapage .status-badge.badge-rattrapage {
             display: block; background: var(--primary); color: #fff;
         }
@@ -521,7 +526,6 @@
             .schedule tbody td { height: 85px; }
         }
 
-        /* IMPRESSION NATIVE & PDF FIX */
         @media print {
             body { background: #fff !important; }
             header { position: static; box-shadow: none; border-bottom: 1px solid #ccc; padding:0; margin-bottom:20px; }
@@ -612,7 +616,6 @@
                                 <div class="course-block cb-maths" data-course-id="maths">
                                     <span class="status-badge badge-cancelled">Annulé</span>
                                     <span class="status-badge badge-postponed">Reporté</span>
-                                    <span class="status-badge badge-rattrapage">★ Rattrapage</span>
                                     <span class="cb-name">Mathématiques</span>
                                     <div class="cb-details">
                                         <span class="cb-badge">2h</span>
@@ -633,7 +636,6 @@
                                 <div class="course-block cb-svt" data-course-id="svt">
                                     <span class="status-badge badge-cancelled">Annulé</span>
                                     <span class="status-badge badge-postponed">Reporté</span>
-                                    <span class="status-badge badge-rattrapage">★ Rattrapage</span>
                                     <span class="cb-name">SVT</span>
                                     <div class="cb-details">
                                         <span class="cb-badge">2h</span>
@@ -654,7 +656,6 @@
                                 <div class="course-block cb-francais" data-course-id="francais">
                                     <span class="status-badge badge-cancelled">Annulé</span>
                                     <span class="status-badge badge-postponed">Reporté</span>
-                                    <span class="status-badge badge-rattrapage">★ Rattrapage</span>
                                     <span class="cb-name">Français</span>
                                     <div class="cb-details">
                                         <span class="cb-badge">2h</span>
@@ -675,7 +676,6 @@
                                 <div class="course-block cb-physique" data-course-id="physique">
                                     <span class="status-badge badge-cancelled">Annulé</span>
                                     <span class="status-badge badge-postponed">Reporté</span>
-                                    <span class="status-badge badge-rattrapage">★ Rattrapage</span>
                                     <span class="cb-name">Physique-Chimie</span>
                                     <div class="cb-details">
                                         <span class="cb-badge">2h</span>
@@ -712,7 +712,7 @@
                 <div class="legend-list">
                     <div class="legend-tag"><span class="legend-dot ld-maths"></span>Mathématiques</div>
                     <div class="legend-tag"><span class="legend-dot ld-svt"></span>SVT</div>
-                    <div class="legend-tag"><span class="legend-dot ld-francais"></span>Français</div>
+                    <div class="legend-tag"><span class="legend-bar ld-francais"></span>Français</div>
                     <div class="legend-tag"><span class="legend-dot ld-physique"></span>Physique-Chimie</div>
                 </div>
                 <div class="total-hours">Volume : <span>8 h / semaine</span></div>
@@ -732,7 +732,6 @@
         const CURRENT_LEVEL = "premiere_generale"; 
 
         const DAY_MAP = { 'lundi': 1, 'mardi': 2, 'mercredi': 3, 'jeudi': 4, 'vendredi': 5, 'samedi': 6, 'dimanche': 0 };
-
         const HOUR_ROW_MAP = {
             '14h': 1, '14h00': 1, '14': 1,
             '15h': 2, '15h00': 2, '15': 2,
@@ -742,7 +741,15 @@
             '19h': 6, '19h00': 6, '19': 6
         };
 
-        // Fonction de placement dynamique pour les rattrapages
+        // Surbrillance du jour actuel
+        const today = new Date().getDay();
+        document.querySelectorAll('#timetable th[data-day], #timetable td[data-day]').forEach(el => {
+            if (parseInt(el.dataset.day) === today) {
+                if (el.tagName === 'TH') el.classList.add('today-header');
+            }
+        });
+
+        // Fonction pour injecter une carte de Rattrapage dans un nouveau créneau
         function placeRattrapageCourse(courseId, subjectName, dayName, hourStart, noteText) {
             const dayNum = DAY_MAP[dayName.toLowerCase()];
             const rowIndex = HOUR_ROW_MAP[hourStart.toLowerCase()];
@@ -756,6 +763,7 @@
             const targetCell = targetRow.querySelector(`td[data-day="${dayNum}"]`);
             if (!targetCell) return;
 
+            // Gestion de la hauteur (si le cours dure 2h -> rowspan 2)
             if (rowIndex <= 4) {
                 const nextRow = tbody.querySelectorAll('tr')[rowIndex];
                 if (nextRow) {
@@ -765,6 +773,7 @@
                 targetCell.setAttribute('rowspan', '2');
             }
 
+            // Récupérer la couleur d'origine (cb-...)
             const origBlock = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
             let cbClass = 'cb-' + courseId;
             if (origBlock) {
@@ -782,12 +791,12 @@
                         <span class="cb-badge">2h</span>
                         <span class="cb-time">${startHInt}h – ${endHInt}h</span>
                     </div>
-                    ${noteText ? `<div class="cb-custom-note" style="display:block;">📝 ${noteText}</div>` : ''}
+                    ${noteText ? `<div class="cb-custom-note" style="display:block;">📅 ${noteText}</div>` : ''}
                 </div>
             `;
         }
 
-        // Synchro Google Sheets
+        // Lecture du CSV
         async function fetchGoogleSheetsStatuses() {
             if (!GOOGLE_SHEET_CSV_URL) return;
 
@@ -801,47 +810,65 @@
                 lines.forEach(line => {
                     const columns = line.split(/,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/);
                     if (columns.length >= 4) {
-                        const level = columns[0].replace(/"/g, '').trim().toLowerCase();
-                        const courseId = columns[1].replace(/"/g, '').trim().toLowerCase();
+                        const level = columns[0] ? columns[0].replace(/"/g, '').trim().toLowerCase() : "";
+                        const courseId = columns[1] ? columns[1].replace(/"/g, '').trim().toLowerCase() : "";
                         const subjectName = columns[2] ? columns[2].replace(/"/g, '').trim() : "";
-                        const status = columns[3].replace(/"/g, '').trim().toLowerCase();
+                        const status = columns[3] ? columns[3].replace(/"/g, '').trim().toLowerCase() : "";
                         
-                        const rattrapageDay = columns[4] ? columns[4].replace(/"/g, '').trim() : "";
-                        const rattrapageHour = columns[5] ? columns[5].replace(/"/g, '').trim() : "";
+                        const targetDay = columns[4] ? columns[4].replace(/"/g, '').trim() : "";
+                        const targetHour = columns[5] ? columns[5].replace(/"/g, '').trim() : "";
                         const noteText = columns[6] ? columns[6].replace(/"/g, '').trim() : "";
+                        const dateText = columns[7] ? columns[7].replace(/"/g, '').trim() : "";
 
                         if (level === CURRENT_LEVEL.toLowerCase()) {
-                            const origBlock = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
                             
-                            if (origBlock) {
-                                origBlock.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
-                                const noteDiv = origBlock.querySelector('.cb-custom-note');
+                            // A) Si RATTRAPAGE ou SUPPLÉMENTAIRE : créer juste la nouvelle case (ne touche pas à l'original)
+                            if (status.includes('rattrap') || status.includes('suppl')) {
+                                if (targetDay && targetHour) {
+                                    let rattrapNote = [];
+                                    if (dateText) rattrapNote.push(dateText);
+                                    if (noteText) rattrapNote.push(noteText);
+                                    placeRattrapageCourse(courseId, subjectName, targetDay, targetHour, rattrapNote.join(' - '));
+                                }
+                            } 
+                            // B) Si NORMAL, ANNULÉ, REPORTÉ : Modifie la case d'origine du cours
+                            else {
+                                const origBlock = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
+                                if (origBlock) {
+                                    origBlock.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
+                                    const noteDiv = origBlock.querySelector('.cb-custom-note');
 
-                                if (status.includes('annul') || status.includes('cancel')) {
-                                    origBlock.classList.add('is-cancelled');
-                                    if (noteDiv && noteText) {
-                                        noteDiv.textContent = '❌ ' + noteText;
-                                        noteDiv.style.display = 'block';
-                                    }
-                                } else if (status.includes('report') || status.includes('postpon')) {
-                                    origBlock.classList.add('is-postponed');
-                                    if (noteDiv && (noteText || rattrapageDay)) {
-                                        noteDiv.textContent = '⏳ ' + (noteText ? noteText : `Déplacé au ${rattrapageDay} ${rattrapageHour}`);
-                                        noteDiv.style.display = 'block';
-                                    }
-                                } else if (status.includes('rattrap') || status.includes('makeup')) {
-                                    origBlock.classList.add('is-postponed');
-                                    if (noteDiv) {
-                                        noteDiv.textContent = '⏳ ' + (noteText ? noteText : (rattrapageDay ? `Rattrapage ${rattrapageDay} à ${rattrapageHour}` : 'Séance décalée'));
-                                        noteDiv.style.display = 'block';
-                                    }
-                                    if (rattrapageDay && rattrapageHour) {
-                                        placeRattrapageCourse(courseId, subjectName, rattrapageDay, rattrapageHour, noteText);
-                                    }
-                                } else {
-                                    if (noteDiv && noteText) {
-                                        noteDiv.textContent = '📌 ' + noteText;
-                                        noteDiv.style.display = 'block';
+                                    if (status.includes('annul') || status.includes('cancel')) {
+                                        origBlock.classList.add('is-cancelled');
+                                        if (noteDiv && (noteText || dateText)) {
+                                            let msg = noteText || dateText;
+                                            noteDiv.textContent = '❌ ' + msg;
+                                            noteDiv.style.display = 'block';
+                                        } else if (noteDiv) {
+                                            noteDiv.style.display = 'none';
+                                        }
+                                    } 
+                                    else if (status.includes('report') || status.includes('postpon')) {
+                                        origBlock.classList.add('is-postponed');
+                                        if (noteDiv) {
+                                            let msg = [];
+                                            if (noteText) msg.push(noteText);
+                                            if (targetDay) msg.push(`Reporté au ${targetDay} ${targetHour}`);
+                                            if (msg.length > 0) {
+                                                noteDiv.textContent = '⏳ ' + msg.join(' • ');
+                                                noteDiv.style.display = 'block';
+                                            } else {
+                                                noteDiv.style.display = 'none';
+                                            }
+                                        }
+                                    } 
+                                    else { // Normal
+                                        if (noteDiv && noteText) {
+                                            noteDiv.textContent = '📌 ' + noteText;
+                                            noteDiv.style.display = 'block';
+                                        } else if (noteDiv) {
+                                            noteDiv.style.display = 'none';
+                                        }
                                     }
                                 }
                             }
@@ -849,13 +876,13 @@
                     }
                 });
             } catch (error) {
-                console.warn("Google Sheets Sync Error");
+                console.warn("Erreur Google Sheets Sync");
             }
         }
 
         fetchGoogleSheetsStatuses();
 
-        // Export PDF propre et moderne
+        // Export PDF
         async function downloadPDF() {
             const btn = document.getElementById('downloadBtn');
             btn.classList.add('is-loading');
