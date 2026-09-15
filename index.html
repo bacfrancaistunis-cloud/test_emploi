@@ -1,1 +1,982 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Emploi du temps — Première Générale</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --blue: #2736d8;
+            --blue-dark: #18239b;
+            --blue-light: #eef0ff;
+
+            --yellow: #f59e0b;
+            --yellow-light: #fff8e7;
+
+            --text: #171b2d;
+            --muted: #73798c;
+            --border: #e8eaf1;
+            --background: #f6f7fb;
+            --white: #ffffff;
+
+            --svt: #2563eb;
+            --physique: #7c3aed;
+            --francais: #ea580c;
+            --maths: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* =========================================
+           ANIMATIONS
+        ========================================= */
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.35);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+            }
+        }
+
+        @keyframes subtleNotice {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-2px);
+            }
+        }
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        header {
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+
+            position: sticky;
+            top: 0;
+            z-index: 10;
+
+            backdrop-filter: blur(12px);
+
+            animation: fadeDown 0.7s ease both;
+        }
+
+        .header-inner {
+            max-width: 1150px;
+            margin: auto;
+
+            padding: 15px 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+            flex-shrink: 0;
+
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        .brand-text h1 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .brand-text p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .level-badge {
+            background: var(--blue-light);
+            color: var(--blue);
+
+            border: 1px solid #dfe2ff;
+
+            padding: 9px 15px;
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        main {
+            max-width: 1050px;
+            margin: auto;
+
+            padding: 50px 25px 70px;
+        }
+
+        .hero {
+            margin-bottom: 30px;
+
+            animation: fadeUp 0.7s ease 0.1s both;
+        }
+
+        .eyebrow {
+            color: var(--blue);
+
+            font-size: 12px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+
+            margin-bottom: 10px;
+        }
+
+        .hero h2 {
+            font-size: clamp(30px, 5vw, 42px);
+            line-height: 1.1;
+
+            letter-spacing: -1.8px;
+            font-weight: 800;
+        }
+
+        .hero h2 span {
+            color: var(--blue);
+        }
+
+        .hero p {
+            margin-top: 12px;
+
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           AVERTISSEMENT
+        ========================================= */
+
+        .notice {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            background: var(--yellow-light);
+
+            border: 1px solid #f7dfaa;
+
+            border-radius: 14px;
+
+            padding: 14px 17px;
+
+            margin-bottom: 25px;
+
+            animation:
+                fadeUp 0.7s ease 0.25s both,
+                subtleNotice 3s ease-in-out 1.5s infinite;
+        }
+
+        .notice-icon {
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #fef3c7;
+            color: #d97706;
+
+            border-radius: 50%;
+
+            font-size: 16px;
+
+            animation: pulse 2.5s infinite;
+        }
+
+        .notice-text {
+            flex: 1;
+        }
+
+        .notice-title {
+            color: #92400e;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            margin-bottom: 3px;
+        }
+
+        .notice-description {
+            color: #a16207;
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* =========================================
+           TABLEAU
+        ========================================= */
+
+        .planning {
+            background: var(--white);
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px rgba(24, 35, 80, 0.045);
+
+            overflow: hidden;
+
+            animation: fadeUp 0.7s ease 0.35s both;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .schedule-table {
+            width: 100%;
+            min-width: 650px;
+
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .schedule-table thead {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        .schedule-table th {
+            padding: 17px 20px;
+
+            text-align: left;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+
+            white-space: nowrap;
+        }
+
+        .schedule-table th:nth-child(1) {
+            width: 25%;
+        }
+
+        .schedule-table th:nth-child(2) {
+            width: 42%;
+        }
+
+        .schedule-table th:nth-child(3) {
+            width: 33%;
+        }
+
+        .schedule-table tbody tr {
+            border-bottom: 1px solid var(--border);
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .schedule-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-table tbody tr:hover {
+            background: #fafbff;
+        }
+
+        .schedule-table td {
+            padding: 17px 20px;
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+        /* =========================================
+           JOUR
+        ========================================= */
+
+        .day-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .day-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--blue-light);
+            color: var(--blue);
+
+            border-radius: 12px;
+
+            font-size: 17px;
+
+            flex-shrink: 0;
+        }
+
+        .day-info strong {
+            display: block;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .day-info span {
+            display: block;
+
+            margin-top: 3px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+        /* =========================================
+           MATIÈRE
+        ========================================= */
+
+        .subject-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .subject-line {
+            width: 5px;
+            height: 38px;
+
+            border-radius: 20px;
+
+            flex-shrink: 0;
+        }
+
+        .subject-name {
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .subject-svt {
+            background: var(--svt);
+        }
+
+        .subject-physique {
+            background: var(--physique);
+        }
+
+        .subject-francais {
+            background: var(--francais);
+        }
+
+        .subject-maths {
+            background: var(--maths);
+        }
+
+        /* =========================================
+           HORAIRE
+        ========================================= */
+
+        .time-cell {
+            color: var(--muted);
+
+            font-size: 12px;
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+        .time-cell::before {
+            content: "◷";
+
+            color: var(--blue);
+
+            margin-right: 7px;
+
+            font-size: 14px;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+            text-align: center;
+
+            padding: 0 20px 30px;
+
+            color: #9aa0b1;
+
+            font-size: 11px;
+
+            animation: fadeUp 0.7s ease 0.7s both;
+        }
+
+        footer strong {
+            color: #777d8f;
+        }
+
+        /* =========================================
+           TABLETTE
+        ========================================= */
+
+        @media (max-width: 800px) {
+
+            main {
+                padding-top: 40px;
+            }
+
+            .schedule-table {
+                min-width: 600px;
+            }
+        }
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 520px) {
+
+            .header-inner {
+                padding: 12px 16px;
+            }
+
+            .logo {
+                width: 48px;
+                height: 48px;
+            }
+
+            .brand-text h1 {
+                font-size: 14px;
+            }
+
+            .brand-text p {
+                font-size: 10px;
+            }
+
+            .level-badge {
+                display: none;
+            }
+
+            main {
+                padding: 32px 15px 50px;
+            }
+
+            .hero {
+                margin-bottom: 25px;
+            }
+
+            .hero h2 {
+                font-size: 29px;
+                letter-spacing: -1px;
+            }
+
+            .hero p {
+                font-size: 13px;
+            }
+
+            .notice {
+                padding: 13px;
+            }
+
+            .notice-description {
+                font-size: 10px;
+            }
+
+            .planning {
+                border-radius: 17px;
+            }
+
+            .schedule-table {
+                min-width: 560px;
+            }
+
+            .schedule-table th {
+                padding: 14px 15px;
+                font-size: 10px;
+            }
+
+            .schedule-table td {
+                padding: 15px;
+            }
+
+            .day-icon {
+                width: 36px;
+                height: 36px;
+
+                border-radius: 10px;
+
+                font-size: 15px;
+            }
+
+            .day-info strong {
+                font-size: 13px;
+            }
+
+            .day-info span {
+                font-size: 9px;
+            }
+
+            .subject-name {
+                font-size: 13px;
+            }
+
+            .time-cell {
+                font-size: 11px;
+            }
+        }
+
+        /* =========================================
+           PETITS TELEPHONES
+        ========================================= */
+
+        @media (max-width: 360px) {
+
+            .brand-text {
+                display: none;
+            }
+
+            .brand {
+                margin: auto;
+            }
+
+            .hero h2 {
+                font-size: 26px;
+            }
+
+            .schedule-table {
+                min-width: 520px;
+            }
+        }
+
+        /* =========================================
+           ACCESSIBILITÉ
+        ========================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header>
+
+        <div class="header-inner">
+
+            <div class="brand">
+
+                <img
+                    class="logo"
+                    src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png"
+                    alt="BFT Education Group"
+                >
+
+                <div class="brand-text">
+
+                    <h1>BFT Education Group</h1>
+
+                    <p>
+                        Emploi du temps
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="level-badge">
+                Première Générale
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         CONTENU
+    ========================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="eyebrow">
+                Planning des cours
+            </div>
+
+            <h2>
+                Première <span>Générale</span>
+            </h2>
+
+            <p>
+                Retrouvez votre emploi du temps du week-end
+                et les horaires de chaque cours.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             AVERTISSEMENT
+        ========================== -->
+
+        <div class="notice">
+
+            <div class="notice-icon">
+                !
+            </div>
+
+            <div class="notice-text">
+
+                <div class="notice-title">
+                    À noter
+                </div>
+
+                <div class="notice-description">
+                    L’emploi du temps est susceptible d’être modifié. Pensez à consulter régulièrement cette page afin de prendre connaissance des éventuelles mises à jour.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             EMPLOI DU TEMPS
+        ========================== -->
+
+        <section class="planning">
+
+            <div class="table-wrapper">
+
+                <table class="schedule-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Jour</th>
+                            <th>Matière</th>
+                            <th>Horaire</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <!-- SAMEDI -->
+
+                        <tr>
+
+                            <td>
+
+                                <div class="day-cell">
+
+                                    <div class="day-icon">
+                                        ☀
+                                    </div>
+
+                                    <div class="day-info">
+
+                                        <strong>
+                                            Samedi
+                                        </strong>
+
+                                        <span>
+                                            2 cours
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                <div class="subject-cell">
+
+                                    <div class="subject-line subject-svt"></div>
+
+                                    <div class="subject-name">
+                                        SVT
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td class="time-cell">
+                                15h00 — 17h00
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <div class="day-cell">
+
+                                    <div class="day-icon">
+                                        ☀
+                                    </div>
+
+                                    <div class="day-info">
+
+                                        <strong>
+                                            Samedi
+                                        </strong>
+
+                                        <span>
+                                            2 cours
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                <div class="subject-cell">
+
+                                    <div class="subject-line subject-physique"></div>
+
+                                    <div class="subject-name">
+                                        Physique-Chimie
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td class="time-cell">
+                                17h00 — 19h00
+                            </td>
+
+                        </tr>
+
+
+                        <!-- DIMANCHE -->
+
+                        <tr>
+
+                            <td>
+
+                                <div class="day-cell">
+
+                                    <div class="day-icon">
+                                        ☀
+                                    </div>
+
+                                    <div class="day-info">
+
+                                        <strong>
+                                            Dimanche
+                                        </strong>
+
+                                        <span>
+                                            2 cours
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                <div class="subject-cell">
+
+                                    <div class="subject-line subject-francais"></div>
+
+                                    <div class="subject-name">
+                                        Français
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td class="time-cell">
+                                14h00 — 16h00
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <div class="day-cell">
+
+                                    <div class="day-icon">
+                                        ☀
+                                    </div>
+
+                                    <div class="day-info">
+
+                                        <strong>
+                                            Dimanche
+                                        </strong>
+
+                                        <span>
+                                            2 cours
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                <div class="subject-cell">
+
+                                    <div class="subject-line subject-maths"></div>
+
+                                    <div class="subject-name">
+                                        Mathématiques
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td class="time-cell">
+                                16h00 — 18h00
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <strong>BFT Education Group</strong>
+        · Première Générale
+        · Emploi du temps 2026-2027
+
+    </footer>
+
+</body>
+</html>
 
