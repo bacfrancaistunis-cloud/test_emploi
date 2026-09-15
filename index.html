@@ -9,737 +9,527 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
         :root {
-            --blue: #2736d8;
-            --blue-light: #eef0ff;
-            --yellow: #f59e0b;
-            --yellow-light: #fff8e7;
-            --text: #171b2d;
-            --muted: #73798c;
-            --border: #8b8b8b;
-            --background: #f6f7fb;
-            --white: #ffffff;
+            --bg-color: #f4f7f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --surface: #ffffff;
+            --surface-hover: #f8fafc;
+            --border-light: #e2e8f0;
+            
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
 
-            --svt: #fff0dc;
-            --physique: #d4b4a6;
-            --francais: #f4a56f;
-            --maths: #7bc9aa;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            --shadow-float: 0 20px 40px -10px rgba(79, 70, 229, 0.15);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', Arial, sans-serif;
-            background: var(--background);
-            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,0.03) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, hsla(225,39%,30%,0.03) 0, transparent 50%);
+            color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* ANIMATIONS */
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(25px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.35); }
-            70% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
-        }
-
-        @keyframes pulseNotice {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-2px); }
-        }
-
-        @keyframes hintPulse {
-            0%, 100% { opacity: 0.7; transform: translateX(0); }
-            50% { opacity: 1; transform: translateX(3px); }
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        @keyframes downloadSuccess {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-            100% { transform: scale(1); }
-        }
-
-        /* HEADER */
+        /* HEADER FLOTTANT (GLASSMORPHISM) */
         header {
-            background: rgba(255, 255, 255, 0.96);
-            border-bottom: 1px solid #e8eaf1;
             position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(12px);
-            animation: fadeDown 0.7s ease both;
+            top: 20px;
+            z-index: 50;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+            animation: fadeUp 0.6s ease both;
         }
 
         .header-inner {
-            max-width: 1150px;
-            margin: auto;
-            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: var(--radius-lg);
+            padding: 12px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
+            box-shadow: var(--shadow-md);
         }
 
-        .brand { display: flex; align-items: center; gap: 14px; }
-
-        .logo {
-            width: 58px;
-            height: 58px;
-            object-fit: contain;
-            flex-shrink: 0;
-            animation: logoFloat 4s ease-in-out infinite;
-        }
-
-        .brand-text h1 { font-size: 17px; font-weight: 800; }
-        .brand-text p { color: var(--muted); font-size: 12px; margin-top: 4px; }
+        .brand { display: flex; align-items: center; gap: 16px; }
+        .logo { width: 48px; height: 48px; object-fit: contain; border-radius: 12px; }
+        .brand-text h1 { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
+        .brand-text p { color: var(--text-muted); font-size: 12px; font-weight: 500; }
 
         .level-badge {
-            background: var(--blue-light);
-            color: var(--blue);
-            border: 1px solid #dfe2ff;
-            padding: 9px 15px;
-            border-radius: 999px;
+            background: #eef2ff;
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
             font-size: 12px;
             font-weight: 700;
-            white-space: nowrap;
+            letter-spacing: -0.2px;
         }
 
-        /* MAIN */
+        /* MAIN CONTAINER */
         main {
-            max-width: 1150px;
+            max-width: 1200px;
             margin: auto;
-            padding: 45px 25px 65px;
+            padding: 0 20px 80px;
         }
 
+        /* HERO SECTION */
         .hero-row {
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 28px;
-            animation: fadeUp 0.7s ease 0.1s both;
+            gap: 24px;
+            margin-bottom: 32px;
+            animation: fadeUp 0.6s ease 0.1s both;
         }
 
-        .hero { flex: 1; min-width: 0; }
-
         .eyebrow {
-            color: var(--blue);
-            font-size: 12px;
+            display: inline-block;
+            color: var(--primary);
+            background: #e0e7ff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1.4px;
-            margin-bottom: 10px;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
         }
 
         .hero h2 {
-            font-size: clamp(30px, 5vw, 42px);
+            font-size: clamp(32px, 5vw, 48px);
             line-height: 1.1;
-            letter-spacing: -1.8px;
-            font-weight: 800;
+            letter-spacing: -2px;
+            font-weight: 900;
         }
 
-        .hero h2 span { color: var(--blue); }
+        .hero h2 span {
+            background: linear-gradient(135deg, var(--primary), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         .hero p {
             margin-top: 12px;
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.6;
+            color: var(--text-muted);
+            font-size: 15px;
+            max-width: 500px;
         }
 
-        /* BOUTON */
+        /* BOUTON MODERN */
         .download-btn {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 13px 24px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 12px;
-            background: var(--blue);
+            border-radius: var(--radius-full);
+            background: var(--primary);
             color: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
+            font-family: inherit;
+            font-size: 14px;
             font-weight: 700;
-            letter-spacing: -0.1px;
             cursor: pointer;
-            white-space: nowrap;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .download-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
-            pointer-events: none;
+            box-shadow: var(--shadow-float);
+            transition: all 0.3s ease;
         }
 
         .download-btn:hover {
-            background: #1e2bc0;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(39, 54, 216, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.4);
+            background: var(--primary-hover);
         }
 
-        .download-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(39, 54, 216, 0.2);
-        }
-
-        .download-btn svg {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-            transition: transform 0.2s ease;
-        }
-
-        .download-btn:hover svg { transform: translateY(2px); }
-        .download-btn .btn-text { transition: opacity 0.2s ease; }
-
-        .download-btn.is-loading {
-            pointer-events: none;
-            background: #4a55e0;
-        }
-
-        .download-btn.is-loading .btn-text,
-        .download-btn.is-loading .btn-icon { opacity: 0; }
-
-        .download-btn.is-loading .btn-spinner { display: block; }
-
-        .download-btn.is-success {
-            background: #16a34a;
-            animation: downloadSuccess 0.4s ease;
-        }
-
-        .download-btn.is-success .btn-text,
-        .download-btn.is-success .btn-icon { opacity: 0; }
-        .download-btn.is-success .btn-check { display: block; }
-
-        .btn-spinner {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2.5px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-
-        .btn-check {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .btn-check svg { width: 22px; height: 22px; }
+        .download-btn:active { transform: translateY(0); }
+        .download-btn svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .download-btn:hover svg { transform: translateY(3px); }
 
         /* NOTICE */
         .notice {
             display: flex;
             align-items: center;
-            gap: 13px;
-            background: var(--yellow-light);
-            border: 1px solid #f7dfaa;
-            border-radius: 14px;
-            padding: 14px 17px;
-            margin-bottom: 25px;
-            animation: fadeUp 0.7s ease 0.25s both, pulseNotice 3s ease-in-out 1.5s infinite;
+            gap: 16px;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            animation: fadeUp 0.6s ease 0.2s both;
         }
 
         .notice-icon {
-            width: 34px;
-            height: 34px;
-            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: #fef3c7;
+            color: #d97706;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #fef3c7;
-            color: #d97706;
-            border-radius: 50%;
-            font-size: 16px;
-            animation: pulse 2.5s infinite;
+            font-size: 18px;
+            font-weight: 800;
         }
 
         .notice-text { flex: 1; }
-        .notice-title { color: #92400e; font-size: 13px; font-weight: 800; margin-bottom: 3px; }
-        .notice-description { color: #a16207; font-size: 11px; line-height: 1.5; }
+        .notice-title { color: #92400e; font-size: 14px; font-weight: 800; }
+        .notice-description { color: #b45309; font-size: 12px; margin-top: 4px; }
 
-        /* TABLEAU */
-        .planning {
-            background: var(--white);
-            border: 1px solid #d1d1d1;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(24, 35, 80, 0.06);
-            overflow: hidden;
-            animation: fadeUp 0.7s ease 0.35s both;
+        /* =====================================================
+           LE NOUVEAU TABLEAU (CARD-BASED)
+        ====================================================== */
+        .planning-wrapper {
+            background: var(--surface);
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255,255,255,0.8);
+            animation: scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
         }
 
         .table-scroll {
             width: 100%;
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
-            scrollbar-color: #c1c5d4 transparent;
+            scrollbar-color: #cbd5e1 transparent;
+            padding-bottom: 10px;
         }
 
         .table-scroll::-webkit-scrollbar { height: 8px; }
-        .table-scroll::-webkit-scrollbar-thumb { background: #c1c5d4; border-radius: 4px; }
+        .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 
         .schedule {
             width: 100%;
             min-width: 1050px;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 8px; /* Espacement moderne entre les cases */
             table-layout: fixed;
         }
 
+        /* En-têtes (Jours) */
         .schedule thead th {
-            height: 52px;
-            background: linear-gradient(180deg, #f8f9fd 0%, #f0f1f7 100%);
-            color: #3d4663;
-            border-bottom: 2px solid #d1d5e4;
-            font-size: 11px;
-            font-weight: 700;
+            padding: 10px;
             text-align: center;
-            vertical-align: middle;
-            padding: 6px 4px;
-            position: relative;
-        }
-
-        .schedule thead th:first-child {
-            width: 105px;
-            background: linear-gradient(180deg, #eceef6 0%, #e4e6f0 100%);
-        }
-
-        .schedule thead th + th { border-left: 1px solid #e0e3ee; }
-
-        .schedule thead th.today-header {
-            background: linear-gradient(180deg, #eef0ff 0%, #e4e7fc 100%);
-        }
-
-        .schedule thead th.today-header::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--blue);
-            z-index: 1;
+            vertical-align: bottom;
         }
 
         .schedule thead th .day-full {
             display: block;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 800;
-            letter-spacing: -0.1px;
-            color: #171b2d;
+            color: var(--text-main);
         }
-
-        .schedule thead th.today-header .day-full { color: var(--blue); }
 
         .schedule thead th .day-sub {
             display: block;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 600;
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #a0a5b8;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
         }
 
+        /* Colonne Horaires */
         .schedule tbody th {
-            width: 105px;
-            height: 90px;
-            background: #f8f9fd;
-            border-bottom: 1px solid #e4e6f0;
-            border-right: 2px solid #d1d5e4;
-            text-align: center;
+            text-align: right;
+            padding: 0 16px 0 0;
             vertical-align: middle;
-            padding: 0 6px;
+            width: 90px;
         }
 
         .schedule tbody th .time-main {
             display: block;
             font-size: 13px;
             font-weight: 800;
-            color: #171b2d;
-            letter-spacing: -0.3px;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
         }
 
         .schedule tbody th .time-end {
             display: block;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 500;
-            color: #a0a5b8;
-            margin-top: 2px;
+            color: var(--text-muted);
         }
 
+        /* Les cases (Slots) */
         .schedule tbody td {
-            height: 90px;
-            border-bottom: 1px solid #eceef5;
-            border-left: 1px solid #eceef5;
-            text-align: center;
-            vertical-align: middle;
-            padding: 5px;
-            position: relative;
+            height: 95px;
+            background: #f8fafc; /* Couleur des cases vides */
+            border-radius: 16px;
+            padding: 4px;
             transition: background 0.2s ease;
         }
 
-        .schedule tbody td.today-col { background: rgba(39, 54, 216, 0.015); }
-        .schedule tbody tr:hover td:not([rowspan]) { background: #f8f9fe; }
+        .schedule tbody td:hover:empty { background: #f1f5f9; }
 
+        /* Le point au milieu des cases vides */
         .schedule tbody td:empty::after {
             content: '';
             display: block;
-            width: 4px;
-            height: 4px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: #e4e6f0;
+            background: #e2e8f0;
             margin: auto;
         }
 
-        .schedule tbody tr:last-child th,
-        .schedule tbody tr:last-child td { border-bottom: none; }
-
-        /* BLOCS COURS */
+        /* =====================================================
+           CARTES DE COURS (DESIGN PREMIUM)
+        ====================================================== */
         .course-block {
             height: 100%;
             width: 100%;
-            border-radius: 10px;
-            padding: 8px 8px 8px 12px;
+            border-radius: 14px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
             justify-content: center;
-            text-align: left;
             position: relative;
             overflow: hidden;
-            border: 1.5px solid transparent;
-            transition: transform 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s ease;
-        }
-
-        .course-block::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 8px;
-            bottom: 8px;
-            width: 3.5px;
-            border-radius: 0 4px 4px 0;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
         .course-block:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            z-index: 2;
+            transform: scale(1.03);
+            box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
+            z-index: 10;
         }
 
         .course-block .cb-name {
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 800;
+            letter-spacing: -0.3px;
+            margin-bottom: 6px;
             line-height: 1.2;
-            letter-spacing: -0.2px;
-            word-break: break-word;
-            overflow-wrap: anywhere;
-            hyphens: auto;
-            width: 100%;
         }
 
         .course-block .cb-details {
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 5px;
-            width: 100%;
+            gap: 6px;
         }
 
         .course-block .cb-badge {
             display: inline-flex;
             align-items: center;
-            gap: 3px;
-            padding: 2px 6px;
-            border-radius: 5px;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-size: 10px;
-            font-weight: 700;
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(4px);
-            white-space: nowrap;
+            font-weight: 800;
+            background: rgba(255,255,255,0.7);
         }
-
-        .course-block .cb-badge svg { width: 10px; height: 10px; flex-shrink: 0; }
 
         .course-block .cb-time {
-            font-size: 10px;
-            font-weight: 500;
-            opacity: 0.75;
-            white-space: nowrap;
+            font-size: 11px;
+            font-weight: 600;
+            opacity: 0.8;
         }
 
-        /* BADGES SPÉCIAUX (Annulé, Reporté, Rattrapage) */
+        /* PALETTES DE COULEURS MODERNES */
+        .cb-maths { background: #dcfce7; color: #065f46; }
+        .cb-maths .cb-badge { color: #047857; }
+
+        .cb-svt { background: #fef3c7; color: #92400e; }
+        .cb-svt .cb-badge { color: #b45309; }
+
+        .cb-francais { background: #fee2e2; color: #991b1b; }
+        .cb-francais .cb-badge { color: #b91c1c; }
+
+        .cb-physique { background: #e0e7ff; color: #3730a3; }
+        .cb-physique .cb-badge { color: #4338ca; }
+        
+        .cb-histoire { background: #f3e8ff; color: #581c87; }
+        .cb-histoire .cb-badge { color: #6b21a8; }
+
+        .cb-philo { background: #fce7f3; color: #831843; }
+        .cb-philo .cb-badge { color: #9d174d; }
+
+        .cb-ens-sci { background: #e0f2fe; color: #075985; }
+        .cb-ens-sci .cb-badge { color: #0369a1; }
+
+        .cb-msgn { background: #f1f5f9; color: #1e293b; }
+        .cb-msgn .cb-badge { color: #334155; }
+
+        .cb-mercatique { background: #ffe4e6; color: #881337; }
+        .cb-mercatique .cb-badge { color: #9f1239; }
+
+        .cb-eco-droit { background: #d1fae5; color: #064e3b; }
+        .cb-eco-droit .cb-badge { color: #047857; }
+
+        .cb-techno { background: #fae8ff; color: #4c1d95; }
+        .cb-techno .cb-badge { color: #5b21b6; }
+
+        /* ÉTATS (ANNULÉ, REPORTÉ, RATTRAPAGE) */
         .status-badge {
             display: none;
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-size: 9px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            margin-bottom: 3px;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            width: fit-content;
         }
 
         .cb-custom-note {
             display: none;
-            margin-top: 4px;
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-size: 9.5px;
+            margin-top: 6px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
             font-weight: 700;
             background: rgba(255, 255, 255, 0.9);
-            color: #1e293b;
-            border: 1px dashed rgba(0, 0, 0, 0.15);
-            width: 100%;
-            word-break: break-word;
-            line-height: 1.25;
+            border: 1px dashed rgba(0,0,0,0.2);
+            line-height: 1.3;
         }
 
-        /* ÉTAT ANNULÉ */
-        .course-block.is-cancelled {
-            background: #f1f5f9 !important;
-            border-color: #cbd5e1 !important;
-        }
-        .course-block.is-cancelled::before { background: #ef4444 !important; }
-        .course-block.is-cancelled .cb-name { text-decoration: line-through; color: #64748b !important; }
+        .course-block.is-cancelled { background: #f8fafc !important; color: #94a3b8 !important; }
+        .course-block.is-cancelled .cb-name { text-decoration: line-through; }
         .course-block.is-cancelled .status-badge.badge-cancelled {
-            display: inline-block;
-            background: #fee2e2;
-            color: #dc2626;
-            border: 1px solid #fca5a5;
+            display: block; background: #fee2e2; color: #dc2626;
         }
 
-        /* ÉTAT REPORTÉ */
-        .course-block.is-postponed {
-            background: #fff7ed !important;
-            border-color: #fed7aa !important;
-        }
-        .course-block.is-postponed::before { background: #f97316 !important; }
+        .course-block.is-postponed { background: #fffbeb !important; color: #b45309 !important; border: 1px solid #fde68a; }
         .course-block.is-postponed .status-badge.badge-postponed {
-            display: inline-block;
-            background: #ffedd5;
-            color: #c2410c;
-            border: 1px solid #fdba74;
+            display: block; background: #fef3c7; color: #d97706;
         }
 
-        /* ÉTAT RATTRAPAGE */
-        .course-block.is-rattrapage {
-            box-shadow: 0 4px 14px rgba(39, 54, 216, 0.15);
-        }
+        .course-block.is-rattrapage { border: 2px solid var(--primary); }
         .course-block.is-rattrapage .status-badge.badge-rattrapage {
-            display: inline-block;
-            background: #2736d8;
-            color: #ffffff;
-            border: 1px solid #1e2bc0;
+            display: block; background: var(--primary); color: #fff;
         }
-
-        /* Couleurs Matières */
-        .cb-maths { background: var(--maths); border-color: rgba(43, 122, 90, 0.2); }
-        .cb-maths::before { background: #2b7a5a; }
-        .cb-maths .cb-name { color: #0f5132; }
-        .cb-maths .cb-badge { color: #0f5132; }
-        .cb-maths .cb-time { color: #1a6b45; }
-
-        .cb-svt { background: var(--svt); border-color: rgba(201, 146, 14, 0.2); }
-        .cb-svt::before { background: #c9920e; }
-        .cb-svt .cb-name { color: #7a5a0a; }
-        .cb-svt .cb-badge { color: #7a5a0a; }
-        .cb-svt .cb-time { color: #92700e; }
-
-        .cb-francais { background: var(--francais); border-color: rgba(201, 104, 48, 0.2); }
-        .cb-francais::before { background: #c96830; }
-        .cb-francais .cb-name { color: #7c3a12; }
-        .cb-francais .cb-badge { color: #7c3a12; }
-        .cb-francais .cb-time { color: #9a4a1a; }
-
-        .cb-physique { background: var(--physique); border-color: rgba(140, 106, 88, 0.2); }
-        .cb-physique::before { background: #8c6a58; }
-        .cb-physique .cb-name { color: #4d3526; }
-        .cb-physique .cb-badge { color: #4d3526; }
-        .cb-physique .cb-time { color: #5c3d31; }
-
-        .cb-histoire { background: #ede9fe; border-color: rgba(99, 102, 241, 0.2); }
-        .cb-histoire::before { background: #6366f1; }
-        .cb-histoire .cb-name { color: #312e81; }
-
-        .cb-philo { background: #fce7f3; border-color: rgba(236, 72, 153, 0.2); }
-        .cb-philo::before { background: #ec4899; }
-        .cb-philo .cb-name { color: #831843; }
-
-        .cb-ens-sci { background: #e0f2fe; border-color: rgba(14, 165, 233, 0.2); }
-        .cb-ens-sci::before { background: #0ea5e9; }
-        .cb-ens-sci .cb-name { color: #0c4a6e; }
-
-        .cb-msgn { background: #f1f5f9; border-color: rgba(100, 116, 139, 0.2); }
-        .cb-msgn::before { background: #64748b; }
-        .cb-msgn .cb-name { color: #0f172a; }
-
-        .cb-mercatique { background: #fee2e2; border-color: rgba(239, 68, 68, 0.2); }
-        .cb-mercatique::before { background: #ef4444; }
-        .cb-mercatique .cb-name { color: #7f1d1d; }
-
-        .cb-eco-droit { background: #d1fae5; border-color: rgba(16, 185, 129, 0.2); }
-        .cb-eco-droit::before { background: #10b981; }
-        .cb-eco-droit .cb-name { color: #064e3b; }
-
-        .cb-techno { background: #f3e8ff; border-color: rgba(168, 85, 247, 0.2); }
-        .cb-techno::before { background: #a855f7; }
-        .cb-techno .cb-name { color: #3b0764; }
 
         /* LÉGENDE */
-        .table-footer {
+        .legend-area {
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 12px;
-            padding: 14px 20px;
-            border-top: 1px solid #e4e6f0;
-            background: #f8f9fd;
+            gap: 16px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
         }
 
-        .legend {
+        .legend-list {
             display: flex;
-            align-items: center;
-            gap: 18px;
             flex-wrap: wrap;
+            gap: 12px;
         }
 
-        .legend-item {
+        .legend-tag {
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 6px;
+            background: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: 600;
-            color: #3d4663;
+            font-weight: 700;
+            color: var(--text-muted);
         }
 
-        .legend-bar { width: 3.5px; height: 16px; border-radius: 2px; }
+        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-        .lb-maths { background: #2b7a5a; }
-        .lb-svt { background: #c9920e; }
-        .lb-francais { background: #c96830; }
-        .lb-physique { background: #8c6a58; }
+        .ld-maths { background: #10b981; }
+        .ld-svt { background: #f59e0b; }
+        .ld-francais { background: #ef4444; }
+        .ld-physique { background: #6366f1; }
+        .ld-histoire { background: #8b5cf6; }
+        .ld-philo { background: #ec4899; }
+        .ld-ens-sci { background: #0ea5e9; }
+        .ld-msgn { background: #475569; }
+        .ld-mercatique { background: #e11d48; }
+        .ld-eco-droit { background: #059669; }
+        .ld-techno { background: #7c3aed; }
 
-        .total-label { font-size: 11px; font-weight: 600; color: #73798c; }
-        .total-label strong { color: #3d4663; }
+        .total-hours { font-size: 13px; font-weight: 800; color: var(--text-main); }
+        .total-hours span { color: var(--primary); }
 
         /* SCROLL HINT */
         .scroll-hint {
             display: none;
-            align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 10px 15px;
-            color: var(--blue);
-            background: #eef0ff;
-            border-bottom: 1px solid #dfe2ff;
-            text-align: center;
-            font-size: 11px;
-            font-weight: 600;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: #eef2ff;
+            color: var(--primary);
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 16px;
         }
 
-        .scroll-hint svg {
-            width: 14px;
-            height: 14px;
-            animation: hintPulse 1.5s ease-in-out infinite;
-        }
-
+        /* FOOTER */
         footer {
             text-align: center;
-            padding: 0 20px 30px;
-            color: #9aa0b1;
-            font-size: 11px;
-            animation: fadeUp 0.7s ease 0.7s both;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 500;
         }
-
-        footer strong { color: #777d8f; }
 
         /* RESPONSIVE */
-        @media (max-width: 900px) {
-            main { padding-top: 38px; }
-        }
-
-        @media (max-width: 680px) {
+        @media (max-width: 800px) {
             .scroll-hint { display: flex; }
-            .hero-row { flex-direction: column; align-items: flex-start; gap: 18px; }
-            .download-btn { align-self: stretch; justify-content: center; }
+            .hero-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .download-btn { width: 100%; justify-content: center; }
+            header { top: 10px; margin-bottom: 24px; }
+            .planning-wrapper { padding: 16px; border-radius: 24px; }
         }
 
-        @media (max-width: 520px) {
-            .header-inner { padding: 12px 16px; }
-            .logo { width: 48px; height: 48px; }
+        @media (max-width: 500px) {
+            .header-inner { padding: 10px 16px; border-radius: 20px; }
+            .logo { width: 40px; height: 40px; }
             .brand-text h1 { font-size: 14px; }
-            .brand-text p { font-size: 10px; }
             .level-badge { display: none; }
-            main { padding: 30px 12px 50px; }
-            .hero-row { margin-bottom: 23px; }
-            .hero h2 { font-size: 29px; letter-spacing: -1px; }
-            .hero p { font-size: 13px; }
-            .notice { padding: 12px; }
-            .notice-description { font-size: 10px; }
-            .planning { border-radius: 10px; }
-            .table-footer { padding: 12px 14px; gap: 8px; }
-            .legend { gap: 10px; }
-            .legend-item { font-size: 10px; }
-            .download-btn { font-size: 13px; padding: 13px 20px; }
+            main { padding: 0 12px 60px; }
+            .hero h2 { font-size: 28px; }
+            .schedule tbody td { height: 85px; }
         }
 
-        @media (max-width: 360px) {
-            .brand-text { display: none; }
-            .brand { margin: auto; }
-            .hero h2 { font-size: 26px; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
+        /* IMPRESSION NATIVE & PDF FIX */
         @media print {
-            header { position: static; box-shadow: none; border-bottom: 2px solid #ccc; }
+            body { background: #fff !important; }
+            header { position: static; box-shadow: none; border-bottom: 1px solid #ccc; padding:0; margin-bottom:20px; }
+            .header-inner { border:none; box-shadow:none; padding:0; }
             .download-btn, .scroll-hint { display: none !important; }
-            main { padding: 10px 0; }
-            .planning { box-shadow: none; border: 1px solid #aaa; }
+            .planning-wrapper { box-shadow: none; border: none; padding: 0; }
             .table-scroll { overflow: visible !important; }
-            .schedule { min-width: 100% !important; width: 100% !important; }
+            .schedule { min-width: 100% !important; border-spacing: 4px !important; }
             @page { size: landscape; margin: 5mm; }
         }
     </style>
@@ -760,53 +550,46 @@
     </header>
 
     <main>
-
         <div class="hero-row">
             <section class="hero">
-                <div class="eyebrow">Planning des cours</div>
+                <div class="eyebrow">Année 2026-2027</div>
                 <h2>Première <span>Générale</span></h2>
-                <p>Retrouvez votre emploi du temps du week-end et les horaires de chaque cours.</p>
+                <p>Retrouvez votre emploi du temps et l'état de chaque cours en temps réel.</p>
             </section>
 
             <button class="download-btn" id="downloadBtn" onclick="downloadPDF()">
-                <span class="btn-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                </span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
                 <span class="btn-text">Télécharger PDF</span>
                 <div class="btn-spinner"></div>
                 <div class="btn-check">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
             </button>
         </div>
 
         <div class="notice">
-            <div class="notice-icon">!</div>
+            <div class="notice-icon">🔔</div>
             <div class="notice-text">
-                <div class="notice-title">À noter</div>
-                <div class="notice-description">L'emploi du temps est susceptible d'être modifié. Pensez à consulter régulièrement cette page afin de prendre connaissance des éventuelles mises à jour.</div>
+                <div class="notice-title">Mises à jour en direct</div>
+                <div class="notice-description">Les absences et rattrapages s'affichent automatiquement ci-dessous. Pensez à vérifier avant de vous déplacer.</div>
             </div>
         </div>
 
-        <section class="planning" id="planningSection">
-
+        <section class="planning-wrapper" id="planningSection">
             <div class="scroll-hint">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                Faites glisser horizontalement pour tout voir
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                Faites glisser pour voir le week-end
             </div>
 
             <div class="table-scroll">
                 <table class="schedule" id="timetable">
                     <thead>
                         <tr>
-                            <th><span class="day-sub">Horaire</span></th>
+                            <th><span class="day-sub">Heure</span></th>
                             <th data-day="1"><span class="day-full">Lundi</span></th>
                             <th data-day="2"><span class="day-full">Mardi</span></th>
                             <th data-day="3"><span class="day-full">Mercredi</span></th>
@@ -832,10 +615,7 @@
                                     <span class="status-badge badge-rattrapage">★ Rattrapage</span>
                                     <span class="cb-name">Mathématiques</span>
                                     <div class="cb-details">
-                                        <span class="cb-badge">
-                                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                                            2h
-                                        </span>
+                                        <span class="cb-badge">2h</span>
                                         <span class="cb-time">14h – 16h</span>
                                     </div>
                                     <div class="cb-custom-note"></div>
@@ -856,10 +636,7 @@
                                     <span class="status-badge badge-rattrapage">★ Rattrapage</span>
                                     <span class="cb-name">SVT</span>
                                     <div class="cb-details">
-                                        <span class="cb-badge">
-                                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                                            2h
-                                        </span>
+                                        <span class="cb-badge">2h</span>
                                         <span class="cb-time">15h – 17h</span>
                                     </div>
                                     <div class="cb-custom-note"></div>
@@ -880,10 +657,7 @@
                                     <span class="status-badge badge-rattrapage">★ Rattrapage</span>
                                     <span class="cb-name">Français</span>
                                     <div class="cb-details">
-                                        <span class="cb-badge">
-                                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                                            2h
-                                        </span>
+                                        <span class="cb-badge">2h</span>
                                         <span class="cb-time">16h – 18h</span>
                                     </div>
                                     <div class="cb-custom-note"></div>
@@ -904,10 +678,7 @@
                                     <span class="status-badge badge-rattrapage">★ Rattrapage</span>
                                     <span class="cb-name">Physique-Chimie</span>
                                     <div class="cb-details">
-                                        <span class="cb-badge">
-                                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                                            2h
-                                        </span>
+                                        <span class="cb-badge">2h</span>
                                         <span class="cb-time">17h – 19h</span>
                                     </div>
                                     <div class="cb-custom-note"></div>
@@ -937,25 +708,26 @@
                 </table>
             </div>
 
-            <div class="table-footer">
-                <div class="legend">
-                    <div class="legend-item"><span class="legend-bar lb-maths"></span>Mathématiques</div>
-                    <div class="legend-item"><span class="legend-bar lb-svt"></span>SVT</div>
-                    <div class="legend-item"><span class="legend-bar lb-francais"></span>Français</div>
-                    <div class="legend-item"><span class="legend-bar lb-physique"></span>Physique-Chimie</div>
+            <div class="legend-area">
+                <div class="legend-list">
+                    <div class="legend-tag"><span class="legend-dot ld-maths"></span>Mathématiques</div>
+                    <div class="legend-tag"><span class="legend-dot ld-svt"></span>SVT</div>
+                    <div class="legend-tag"><span class="legend-dot ld-francais"></span>Français</div>
+                    <div class="legend-tag"><span class="legend-dot ld-physique"></span>Physique-Chimie</div>
                 </div>
-                <div class="total-label">Volume : <strong>8 h / semaine</strong></div>
+                <div class="total-hours">Volume : <span>8 h / semaine</span></div>
             </div>
-
         </section>
-
     </main>
 
     <footer>
-        <strong>BFT Education Group</strong> · Première Générale · Emploi du temps 2026-2027
+        BFT Education Group &copy; 2026-2027 — Document généré automatiquement
     </footer>
 
     <script>
+        // ====================================================================
+        // CONFIGURATION GOOGLE SHEETS
+        // ====================================================================
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlhZH8-HZduOPsbbmHVYtbeVaJwPVmijJkxRWsjhix5I7UwBH4-lWOTuJn3VvBQVIN4yEOIPqDCPDJ/pub?gid=1961795058&single=true&output=csv";
         const CURRENT_LEVEL = "premiere_generale"; 
 
@@ -970,16 +742,7 @@
             '19h': 6, '19h00': 6, '19': 6
         };
 
-        // Surbrillance du jour actuel
-        const today = new Date().getDay();
-        document.querySelectorAll('#timetable th[data-day], #timetable td[data-day]').forEach(el => {
-            if (parseInt(el.dataset.day) === today) {
-                if (el.tagName === 'TH') el.classList.add('today-header');
-                else el.classList.add('today-col');
-            }
-        });
-
-        // Placer un bloc de rattrapage
+        // Fonction de placement dynamique pour les rattrapages
         function placeRattrapageCourse(courseId, subjectName, dayName, hourStart, noteText) {
             const dayNum = DAY_MAP[dayName.toLowerCase()];
             const rowIndex = HOUR_ROW_MAP[hourStart.toLowerCase()];
@@ -1010,20 +773,16 @@
 
             let startHInt = parseInt(hourStart);
             let endHInt = startHInt + (rowIndex <= 4 ? 2 : 1);
-            let timeDisplay = `${startHInt}h – ${endHInt}h`;
-
+            
             targetCell.innerHTML = `
                 <div class="course-block ${cbClass} is-rattrapage" data-course-id="${courseId}-rattrapage">
-                    <span class="status-badge badge-rattrapage" style="display:inline-block;">★ RATTRAPAGE</span>
+                    <span class="status-badge badge-rattrapage" style="display:block;">★ RATTRAPAGE</span>
                     <span class="cb-name">${subjectName}</span>
                     <div class="cb-details">
-                        <span class="cb-badge">
-                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                            2h
-                        </span>
-                        <span class="cb-time">${timeDisplay}</span>
+                        <span class="cb-badge">2h</span>
+                        <span class="cb-time">${startHInt}h – ${endHInt}h</span>
                     </div>
-                    ${noteText ? `<div class="cb-custom-note" style="display:block;">📅 ${noteText}</div>` : ''}
+                    ${noteText ? `<div class="cb-custom-note" style="display:block;">📝 ${noteText}</div>` : ''}
                 </div>
             `;
         }
@@ -1058,51 +817,31 @@
                                 origBlock.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
                                 const noteDiv = origBlock.querySelector('.cb-custom-note');
 
-                                // 1. CAS : ANNULÉ (Affiche aussi la note de la colonne G !)
                                 if (status.includes('annul') || status.includes('cancel')) {
                                     origBlock.classList.add('is-cancelled');
-                                    if (noteDiv) {
-                                        if (noteText) {
-                                            noteDiv.textContent = '📌 ' + noteText;
-                                            noteDiv.style.display = 'block';
-                                        } else {
-                                            noteDiv.style.display = 'none';
-                                        }
-                                    }
-                                } 
-                                // 2. CAS : REPORTÉ
-                                else if (status.includes('report') || status.includes('postpon')) {
-                                    origBlock.classList.add('is-postponed');
-                                    if (noteDiv) {
-                                        if (noteText || rattrapageDay) {
-                                            noteDiv.textContent = '📅 ' + (noteText ? noteText : `Déplacé au ${rattrapageDay} ${rattrapageHour}`);
-                                            noteDiv.style.display = 'block';
-                                        } else {
-                                            noteDiv.style.display = 'none';
-                                        }
-                                    }
-                                } 
-                                // 3. CAS : RATTRAPAGE
-                                else if (status.includes('rattrap') || status.includes('makeup')) {
-                                    origBlock.classList.add('is-postponed');
-                                    if (noteDiv) {
-                                        noteDiv.textContent = '📅 ' + (noteText ? noteText : (rattrapageDay ? `Rattrapage ${rattrapageDay} à ${rattrapageHour}` : 'Séance décalée'));
+                                    if (noteDiv && noteText) {
+                                        noteDiv.textContent = '❌ ' + noteText;
                                         noteDiv.style.display = 'block';
                                     }
-
+                                } else if (status.includes('report') || status.includes('postpon')) {
+                                    origBlock.classList.add('is-postponed');
+                                    if (noteDiv && (noteText || rattrapageDay)) {
+                                        noteDiv.textContent = '⏳ ' + (noteText ? noteText : `Déplacé au ${rattrapageDay} ${rattrapageHour}`);
+                                        noteDiv.style.display = 'block';
+                                    }
+                                } else if (status.includes('rattrap') || status.includes('makeup')) {
+                                    origBlock.classList.add('is-postponed');
+                                    if (noteDiv) {
+                                        noteDiv.textContent = '⏳ ' + (noteText ? noteText : (rattrapageDay ? `Rattrapage ${rattrapageDay} à ${rattrapageHour}` : 'Séance décalée'));
+                                        noteDiv.style.display = 'block';
+                                    }
                                     if (rattrapageDay && rattrapageHour) {
                                         placeRattrapageCourse(courseId, subjectName, rattrapageDay, rattrapageHour, noteText);
                                     }
-                                }
-                                // 4. CAS : NORMAL
-                                else {
-                                    if (noteDiv) {
-                                        if (noteText) {
-                                            noteDiv.textContent = 'ℹ️ ' + noteText;
-                                            noteDiv.style.display = 'block';
-                                        } else {
-                                            noteDiv.style.display = 'none';
-                                        }
+                                } else {
+                                    if (noteDiv && noteText) {
+                                        noteDiv.textContent = '📌 ' + noteText;
+                                        noteDiv.style.display = 'block';
                                     }
                                 }
                             }
@@ -1110,36 +849,33 @@
                     }
                 });
             } catch (error) {
-                console.warn("Liaison Google Sheets...");
+                console.warn("Google Sheets Sync Error");
             }
         }
 
         fetchGoogleSheetsStatuses();
 
-        // Export PDF
+        // Export PDF propre et moderne
         async function downloadPDF() {
             const btn = document.getElementById('downloadBtn');
             btn.classList.add('is-loading');
-            btn.classList.remove('is-success');
 
             try {
                 const planningClone = document.getElementById('planningSection').cloneNode(true);
-                const footerClone = document.querySelector('footer').cloneNode(true);
-
                 const hint = planningClone.querySelector('.scroll-hint');
                 if (hint) hint.remove();
 
                 const pdfHeader = document.createElement('div');
                 pdfHeader.innerHTML = `
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; padding-bottom:12px; border-bottom:2px solid #2736d8;">
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <div style="width:38px; height:38px; background:#2736d8; color:#fff; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px;">BFT</div>
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; padding-bottom:15px; border-bottom:3px solid #e2e8f0; font-family:'Inter', sans-serif;">
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <div style="width:45px; height:45px; background:#4f46e5; color:#fff; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:18px;">BFT</div>
                             <div>
-                                <h1 style="font-size:16px; font-weight:800; color:#171b2d; margin:0;">BFT Education Group</h1>
-                                <p style="font-size:11px; color:#73798c; margin:2px 0 0 0;">Planning des cours — Année Scolaire 2026-2027</p>
+                                <h1 style="font-size:20px; font-weight:900; color:#0f172a; margin:0; letter-spacing:-0.5px;">BFT Education Group</h1>
+                                <p style="font-size:12px; color:#64748b; margin:4px 0 0 0; font-weight:600;">Planning des cours — 2026-2027</p>
                             </div>
                         </div>
-                        <div style="background:#eef0ff; color:#2736d8; border:1px solid #dfe2ff; padding:6px 14px; border-radius:999px; font-size:12px; font-weight:700;">
+                        <div style="background:#eef2ff; color:#4f46e5; padding:8px 16px; border-radius:99px; font-size:14px; font-weight:800;">
                             Première Générale
                         </div>
                     </div>
@@ -1149,69 +885,43 @@
                 wrapper.style.position = 'absolute';
                 wrapper.style.left = '-9999px';
                 wrapper.style.top = '0';
-                wrapper.style.width = '1100px';
+                wrapper.style.width = '1150px';
                 wrapper.style.background = '#ffffff';
-                wrapper.style.padding = '20px';
+                wrapper.style.padding = '30px';
 
                 const styleFix = document.createElement('style');
                 styleFix.innerHTML = `
-                    * {
-                        animation: none !important;
-                        transition: none !important;
-                        transform: none !important;
-                        box-shadow: none !important;
-                        opacity: 1 !important;
-                    }
+                    * { animation: none !important; transition: none !important; transform: none !important; box-shadow: none !important; }
                     .table-scroll { overflow: visible !important; width: 100% !important; }
-                    .schedule { width: 100% !important; min-width: 100% !important; }
-                    .planning { border: 1px solid #d1d1d1 !important; border-radius: 12px !important; margin-bottom: 15px !important; }
-                    footer { padding: 15px 0 5px !important; margin: 0 !important; border-top: 1px solid #e8eaf1 !important; text-align: center !important; }
+                    .schedule { width: 100% !important; min-width: 100% !important; border-spacing: 6px !important; }
+                    .planning-wrapper { border: none !important; border-radius: 0 !important; padding: 0 !important; background: transparent !important; }
+                    .course-block { border: 1px solid rgba(0,0,0,0.05) !important; }
                 `;
 
                 wrapper.appendChild(styleFix);
                 wrapper.appendChild(pdfHeader);
                 wrapper.appendChild(planningClone);
-                wrapper.appendChild(footerClone);
                 document.body.appendChild(wrapper);
 
-                const canvas = await html2canvas(wrapper, {
-                    scale: 1.5,
-                    backgroundColor: '#ffffff',
-                    useCORS: true,
-                    logging: false
-                });
-
+                const canvas = await html2canvas(wrapper, { scale: 1.5, backgroundColor: '#ffffff', logging: false });
                 document.body.removeChild(wrapper);
 
-                const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF({
-                    orientation: 'landscape',
-                    unit: 'mm',
-                    format: 'a4',
-                    compress: true
-                });
+                const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
 
                 const pdfW = pdf.internal.pageSize.getWidth();
                 const pdfH = pdf.internal.pageSize.getHeight();
                 const margin = 5;
 
-                const usableW = pdfW - (margin * 2);
-                const usableH = pdfH - (margin * 2);
-                const imgRatio = canvas.width / canvas.height;
+                let finalW = pdfW - margin * 2;
+                let finalH = finalW / (canvas.width / canvas.height);
 
-                let finalW = usableW;
-                let finalH = usableW / imgRatio;
-
-                if (finalH > usableH) {
-                    finalH = usableH;
-                    finalW = usableH * imgRatio;
+                if (finalH > pdfH - margin * 2) {
+                    finalH = pdfH - margin * 2;
+                    finalW = finalH * (canvas.width / canvas.height);
                 }
 
-                const xPos = (pdfW - finalW) / 2;
-                const yPos = (pdfH - finalH) / 2;
-
-                pdf.addImage(imgData, 'PNG', xPos, yPos, finalW, finalH);
+                pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', (pdfW - finalW)/2, (pdfH - finalH)/2, finalW, finalH);
                 pdf.save('Emploi-du-temps-Premiere-Generale.pdf');
 
                 btn.classList.remove('is-loading');
@@ -1219,12 +929,10 @@
                 setTimeout(() => btn.classList.remove('is-success'), 2000);
 
             } catch (err) {
-                console.error('Erreur PDF :', err);
+                console.error(err);
                 btn.classList.remove('is-loading');
-                alert('Erreur lors de la génération PDF.');
             }
         }
     </script>
-
 </body>
 </html>
