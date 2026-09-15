@@ -116,6 +116,7 @@
             height: 58px;
             object-fit: contain;
             flex-shrink: 0;
+            border-radius: 12px;
             animation: logoFloat 4s ease-in-out infinite;
         }
 
@@ -233,9 +234,7 @@
             transform: translateY(2px);
         }
 
-        .download-btn .btn-text {
-            transition: opacity 0.2s ease;
-        }
+        .download-btn .btn-text { transition: opacity 0.2s ease; }
 
         /* États du bouton */
         .download-btn.is-loading {
@@ -246,9 +245,7 @@
         .download-btn.is-loading .btn-text,
         .download-btn.is-loading .btn-icon { opacity: 0; }
 
-        .download-btn.is-loading .btn-spinner {
-            display: block;
-        }
+        .download-btn.is-loading .btn-spinner { display: block; }
 
         .download-btn.is-success {
             background: #16a34a;
@@ -281,10 +278,7 @@
             transform: translate(-50%, -50%);
         }
 
-        .btn-check svg {
-            width: 22px;
-            height: 22px;
-        }
+        .btn-check svg { width: 22px; height: 22px; }
 
         /* AVERTISSEMENT */
         .notice {
@@ -685,7 +679,7 @@
     <header>
         <div class="header-inner">
             <div class="brand">
-                <img class="logo" id="mainLogo" crossorigin="anonymous" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT Education Group">
+                <img class="logo" id="mainLogo" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT Education Group" onerror="this.onerror=null; this.src=fallbackSvgLogo;">
                 <div class="brand-text">
                     <h1>BFT Education Group</h1>
                     <p>Emploi du temps</p>
@@ -883,6 +877,9 @@
     </footer>
 
     <script>
+        // Logo Vectoriel de secours universel (garantit 0 erreur)
+        const fallbackSvgLogo = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%232736d8"/><text x="50" y="62" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="%23ffffff" text-anchor="middle">BFT</text></svg>';
+
         // Surbrillance du jour actuel
         const today = new Date().getDay();
         document.querySelectorAll('#timetable th[data-day], #timetable td[data-day]').forEach(el => {
@@ -892,48 +889,14 @@
             }
         });
 
-        // Convertir l'image en Base64
-        async function getLogoBase64() {
-            const img = document.getElementById('mainLogo');
-            if (!img) return null;
-
-            return new Promise((resolve) => {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.naturalWidth || 120;
-                canvas.height = img.naturalHeight || 120;
-                const ctx = canvas.getContext('2d');
-
-                try {
-                    ctx.drawImage(img, 0, 0);
-                    const dataURL = canvas.toDataURL('image/png');
-                    resolve(dataURL);
-                } catch (e) {
-                    // Si le canvas est bloqué par le navigateur, charger via Image
-                    const tempImg = new Image();
-                    tempImg.crossOrigin = 'anonymous';
-                    tempImg.onload = function() {
-                        canvas.width = tempImg.width;
-                        canvas.height = tempImg.height;
-                        ctx.drawImage(tempImg, 0, 0);
-                        resolve(canvas.toDataURL('image/png'));
-                    };
-                    tempImg.onerror = function() { resolve(img.src); };
-                    tempImg.src = img.src;
-                }
-            });
-        }
-
-        // Génération PDF
+        // Génération PDF sécurisée
         async function downloadPDF() {
             const btn = document.getElementById('downloadBtn');
             btn.classList.add('is-loading');
             btn.classList.remove('is-success');
 
             try {
-                // Convertir le logo en Base64 pour garantir son affichage dans html2canvas
-                const logoBase64 = await getLogoBase64();
-
-                // 1. Création du container temporaire
+                // 1. Container temporaire d'exportation
                 const exportContainer = document.createElement('div');
                 exportContainer.style.position = 'fixed';
                 exportContainer.style.top = '-10000px';
@@ -948,25 +911,25 @@
                 const mainClone = document.querySelector('main').cloneNode(true);
                 const footerClone = document.querySelector('footer').cloneNode(true);
 
-                // Injecter l'image Base64 dans le clone pour contourner le problème CORS
+                // Remplacer le logo dans le PDF par la version SVG garantie
                 const clonedLogo = headerClone.querySelector('.logo');
-                if (clonedLogo && logoBase64) {
-                    clonedLogo.src = logoBase64;
+                if (clonedLogo) {
+                    clonedLogo.src = fallbackSvgLogo;
                 }
 
-                // Supprimer les éléments inutiles pour le PDF
+                // Nettoyage des boutons et éléments inutiles pour l'exportation
                 const btnInClone = mainClone.querySelector('#downloadBtn');
                 if (btnInClone) btnInClone.remove();
 
                 const hintInClone = mainClone.querySelector('.scroll-hint');
                 if (hintInClone) hintInClone.remove();
 
-                // Assembler le document
+                // Assembler le document virtuel
                 exportContainer.appendChild(headerClone);
                 exportContainer.appendChild(mainClone);
                 exportContainer.appendChild(footerClone);
 
-                // Styles spécifiques pour l'exportation
+                // Styles sur-mesure pour l'exportation PDF
                 const overrideStyle = document.createElement('style');
                 overrideStyle.innerHTML = `
                     * {
@@ -986,10 +949,10 @@
                 exportContainer.appendChild(overrideStyle);
                 document.body.appendChild(exportContainer);
 
-                // Attente du rendu complet des éléments
-                await new Promise(r => setTimeout(r, 300));
+                // Pause pour stabiliser le rendu
+                await new Promise(r => setTimeout(r, 200));
 
-                // Capture Canvas
+                // Capture Canvas HD
                 const canvas = await html2canvas(exportContainer, {
                     scale: 2,
                     useCORS: true,
@@ -1031,7 +994,7 @@
                 pdf.addImage(imgData, 'PNG', xPos, yPos, finalW, finalH);
                 pdf.save('Emploi-du-temps-Premiere-Generale.pdf');
 
-                // État Succès
+                // Succès
                 btn.classList.remove('is-loading');
                 btn.classList.add('is-success');
 
