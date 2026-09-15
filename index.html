@@ -502,7 +502,7 @@
             white-space: nowrap;
         }
 
-        /* BADGES SPÉCIAUX */
+        /* BADGES SPÉCIAUX (Annulé, Reporté, Rattrapage) */
         .status-badge {
             display: none;
             padding: 2px 6px;
@@ -517,11 +517,11 @@
         .cb-custom-note {
             display: none;
             margin-top: 4px;
-            padding: 2px 6px;
+            padding: 3px 6px;
             border-radius: 4px;
             font-size: 9.5px;
             font-weight: 700;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             color: #1e293b;
             border: 1px dashed rgba(0, 0, 0, 0.15);
             width: 100%;
@@ -959,10 +959,8 @@
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlhZH8-HZduOPsbbmHVYtbeVaJwPVmijJkxRWsjhix5I7UwBH4-lWOTuJn3VvBQVIN4yEOIPqDCPDJ/pub?gid=1961795058&single=true&output=csv";
         const CURRENT_LEVEL = "premiere_generale"; 
 
-        // Mapping des jours
         const DAY_MAP = { 'lundi': 1, 'mardi': 2, 'mercredi': 3, 'jeudi': 4, 'vendredi': 5, 'samedi': 6, 'dimanche': 0 };
 
-        // Mapping des heures de début vers l'index de la ligne
         const HOUR_ROW_MAP = {
             '14h': 1, '14h00': 1, '14': 1,
             '15h': 2, '15h00': 2, '15': 2,
@@ -981,7 +979,7 @@
             }
         });
 
-        // Placer dynamiquement un bloc de rattrapage dans une nouvelle case du tableau
+        // Placer un bloc de rattrapage
         function placeRattrapageCourse(courseId, subjectName, dayName, hourStart, noteText) {
             const dayNum = DAY_MAP[dayName.toLowerCase()];
             const rowIndex = HOUR_ROW_MAP[hourStart.toLowerCase()];
@@ -995,7 +993,6 @@
             const targetCell = targetRow.querySelector(`td[data-day="${dayNum}"]`);
             if (!targetCell) return;
 
-            // Si c'est un cours de 2h démarrant entre 14h et 17h, fusionner avec la ligne du bas
             if (rowIndex <= 4) {
                 const nextRow = tbody.querySelectorAll('tr')[rowIndex];
                 if (nextRow) {
@@ -1005,7 +1002,6 @@
                 targetCell.setAttribute('rowspan', '2');
             }
 
-            // Récupérer la classe de couleur de la matière
             const origBlock = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
             let cbClass = 'cb-' + courseId;
             if (origBlock) {
@@ -1060,28 +1056,53 @@
                             
                             if (origBlock) {
                                 origBlock.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
+                                const noteDiv = origBlock.querySelector('.cb-custom-note');
 
+                                // 1. CAS : ANNULÉ (Affiche aussi la note de la colonne G !)
                                 if (status.includes('annul') || status.includes('cancel')) {
                                     origBlock.classList.add('is-cancelled');
-                                } else if (status.includes('report') || status.includes('postpon')) {
-                                    origBlock.classList.add('is-postponed');
-                                    const noteDiv = origBlock.querySelector('.cb-custom-note');
-                                    if (noteDiv && (rattrapageDay || noteText)) {
-                                        noteDiv.textContent = '📅 ' + (rattrapageDay ? `Déplacé au ${rattrapageDay} ${rattrapageHour}` : noteText);
-                                        noteDiv.style.display = 'block';
-                                    }
-                                } else if (status.includes('rattrap') || status.includes('makeup')) {
-                                    // Le créneau d'origine passe en "Reporté"
-                                    origBlock.classList.add('is-postponed');
-                                    const noteDiv = origBlock.querySelector('.cb-custom-note');
                                     if (noteDiv) {
-                                        noteDiv.textContent = '📅 ' + (rattrapageDay ? `Rattrapage ${rattrapageDay} à ${rattrapageHour}` : 'Séance décalée');
+                                        if (noteText) {
+                                            noteDiv.textContent = '📌 ' + noteText;
+                                            noteDiv.style.display = 'block';
+                                        } else {
+                                            noteDiv.style.display = 'none';
+                                        }
+                                    }
+                                } 
+                                // 2. CAS : REPORTÉ
+                                else if (status.includes('report') || status.includes('postpon')) {
+                                    origBlock.classList.add('is-postponed');
+                                    if (noteDiv) {
+                                        if (noteText || rattrapageDay) {
+                                            noteDiv.textContent = '📅 ' + (noteText ? noteText : `Déplacé au ${rattrapageDay} ${rattrapageHour}`);
+                                            noteDiv.style.display = 'block';
+                                        } else {
+                                            noteDiv.style.display = 'none';
+                                        }
+                                    }
+                                } 
+                                // 3. CAS : RATTRAPAGE
+                                else if (status.includes('rattrap') || status.includes('makeup')) {
+                                    origBlock.classList.add('is-postponed');
+                                    if (noteDiv) {
+                                        noteDiv.textContent = '📅 ' + (noteText ? noteText : (rattrapageDay ? `Rattrapage ${rattrapageDay} à ${rattrapageHour}` : 'Séance décalée'));
                                         noteDiv.style.display = 'block';
                                     }
 
-                                    // Si un nouveau jour et heure de rattrapage sont renseignés, PLACER LE COURS dans le nouveau créneau !
                                     if (rattrapageDay && rattrapageHour) {
                                         placeRattrapageCourse(courseId, subjectName, rattrapageDay, rattrapageHour, noteText);
+                                    }
+                                }
+                                // 4. CAS : NORMAL
+                                else {
+                                    if (noteDiv) {
+                                        if (noteText) {
+                                            noteDiv.textContent = 'ℹ️ ' + noteText;
+                                            noteDiv.style.display = 'block';
+                                        } else {
+                                            noteDiv.style.display = 'none';
+                                        }
                                     }
                                 }
                             }
