@@ -1,3 +1,6 @@
+
+
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -185,7 +188,7 @@
            VUE DESKTOP — TABLEAU
         ====================================================== */
 
-        .planning-table {
+        .planning-desktop {
             background: var(--white);
             border: 1px solid #d1d1d1;
             border-radius: 14px;
@@ -333,7 +336,7 @@
             border-bottom: none;
         }
 
-        /* BLOCS COURS TABLEAU */
+        /* BLOCS COURS DESKTOP */
         .course-block {
             height: 100%;
             border-radius: 10px;
@@ -430,7 +433,7 @@
         .cb-physique .cb-badge { color: #4d3526; }
         .cb-physique .cb-time { color: #5c3d31; }
 
-        /* Légende tableau */
+        /* Légende desktop */
         .table-footer {
             display: flex;
             align-items: center;
@@ -481,22 +484,22 @@
            VUE MOBILE — CARTES
         ====================================================== */
 
-        .planning-cards {
+        .planning-mobile {
             display: none;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
             animation: fadeUp 0.7s ease 0.35s both;
         }
 
-        .card-day {
+        .m-day {
             background: var(--white);
             border: 1px solid #d1d5e4;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(24, 35, 80, 0.045);
+            box-shadow: 0 4px 16px rgba(24, 35, 80, 0.05);
         }
 
-        .card-day-header {
+        .m-day-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -505,57 +508,59 @@
             border-bottom: 2px solid #d1d5e4;
         }
 
-        .card-day-title {
+        .m-day-left {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .card-day-icon {
-            width: 36px;
-            height: 36px;
+        .m-day-icon {
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--blue-light);
             color: var(--blue);
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 17px;
+            flex-shrink: 0;
         }
 
-        .card-day-title h3 {
-            font-size: 16px;
+        .m-day-name {
+            font-size: 17px;
             font-weight: 800;
         }
 
-        .card-day-title .card-day-sub {
-            font-size: 10px;
+        .m-day-sub {
+            font-size: 11px;
             color: var(--muted);
             font-weight: 500;
             margin-top: 2px;
         }
 
-        .card-day-hours-tag {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 10px;
+        .m-day-tag {
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: 700;
             background: var(--white);
             color: var(--muted);
             border: 1px solid #d1d5e4;
+            flex-shrink: 0;
         }
 
-        .card-day-body {
-            padding: 14px 14px 16px;
+        .m-day-body {
+            padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
 
-        .card-course {
+        /* Carte cours mobile */
+        .m-course {
             display: flex;
-            align-items: center;
-            gap: 0;
+            align-items: stretch;
             background: #fafbfe;
             border: 1.5px solid #e4e6f0;
             border-radius: 12px;
@@ -563,112 +568,144 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .card-course:active {
+        .m-course:active {
             transform: scale(0.98);
         }
 
-        .card-course-accent {
+        .m-course-bar {
             width: 4px;
-            align-self: stretch;
             flex-shrink: 0;
         }
 
-        .accent-maths { background: #2b7a5a; }
-        .accent-svt { background: #c9920e; }
-        .accent-francais { background: #c96830; }
-        .accent-physique { background: #8c6a58; }
+        .bar-maths { background: #2b7a5a; }
+        .bar-svt { background: #c9920e; }
+        .bar-francais { background: #c96830; }
+        .bar-physique { background: #8c6a58; }
 
-        .card-course-content {
+        .m-course-body {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
             padding: 14px 14px 14px 12px;
+            min-width: 0;
         }
 
-        .card-course-left { flex: 1; min-width: 0; }
+        .m-course-info {
+            flex: 1;
+            min-width: 0;
+        }
 
-        .card-course-name {
-            font-size: 14px;
+        .m-course-name {
+            font-size: 15px;
             font-weight: 800;
             letter-spacing: -0.2px;
             color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .card-course-time-row {
+        .m-course-time-row {
             display: flex;
             align-items: center;
             gap: 6px;
             margin-top: 5px;
         }
 
-        .card-course-time-row svg {
-            width: 12px;
-            height: 12px;
+        .m-course-time-row svg {
+            width: 13px;
+            height: 13px;
             color: var(--muted);
             flex-shrink: 0;
         }
 
-        .card-course-time {
-            font-size: 12px;
+        .m-course-time {
+            font-size: 13px;
             font-weight: 500;
             color: var(--muted);
         }
 
-        .card-course-badge {
+        .m-course-badge {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 10px;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: 700;
             flex-shrink: 0;
             white-space: nowrap;
         }
 
-        .card-badge-maths { background: #dcf5ea; color: #0f5132; border: 1px solid rgba(43,122,90,0.15); }
-        .card-badge-svt { background: #fef3e2; color: #7a5a0a; border: 1px solid rgba(201,146,14,0.15); }
-        .card-badge-francais { background: #fde8d8; color: #7c3a12; border: 1px solid rgba(201,104,48,0.15); }
-        .card-badge-physique { background: #ede4df; color: #4d3526; border: 1px solid rgba(140,106,88,0.15); }
-
-        .card-course-badge svg {
-            width: 10px;
-            height: 10px;
+        .m-course-badge svg {
+            width: 11px;
+            height: 11px;
             flex-shrink: 0;
         }
 
-        .card-day-footer {
+        .mbadge-maths { background: #dcf5ea; color: #0f5132; border: 1px solid rgba(43,122,90,0.15); }
+        .mbadge-svt { background: #fef3e2; color: #7a5a0a; border: 1px solid rgba(201,146,14,0.15); }
+        .mbadge-francais { background: #fde8d8; color: #7c3a12; border: 1px solid rgba(201,104,48,0.15); }
+        .mbadge-physique { background: #ede4df; color: #4d3526; border: 1px solid rgba(140,106,88,0.15); }
+
+        .m-day-footer {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding: 10px 14px;
+            padding: 10px 16px;
             border-top: 1px solid #eceef5;
             background: #f8f9fd;
-        }
-
-        .card-day-footer-total {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--muted);
         }
 
-        .card-day-footer-total strong { color: #3d4663; }
-
-        /* SCROLL HINT */
-        .scroll-hint {
-            display: none;
-            padding: 10px 15px;
-            color: var(--muted);
-            background: #fafbfe;
-            border-top: 1px solid #e8eaf1;
-            text-align: center;
-            font-size: 10px;
+        .m-day-footer strong {
+            color: #3d4663;
         }
+
+        /* Légende mobile */
+        .m-legend {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 14px 16px;
+            background: var(--white);
+            border: 1px solid #d1d5e4;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .m-legend-items {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .m-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #3d4663;
+        }
+
+        .m-legend-dot {
+            width: 3.5px;
+            height: 14px;
+            border-radius: 2px;
+        }
+
+        .m-total {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .m-total strong { color: #3d4663; }
 
         /* FOOTER */
         footer {
@@ -690,15 +727,10 @@
             .schedule { min-width: 850px; }
         }
 
-        /* Bascule mobile : cartes au lieu du tableau */
+        /* Bascule vers cartes mobiles */
         @media (max-width: 680px) {
-            .planning-table {
-                display: none;
-            }
-
-            .planning-cards {
-                display: flex;
-            }
+            .planning-desktop { display: none; }
+            .planning-mobile { display: flex; }
         }
 
         @media (max-width: 520px) {
@@ -715,12 +747,17 @@
             .notice-description { font-size: 10px; }
         }
 
+        @media (max-width: 380px) {
+            .m-course-name { font-size: 14px; }
+            .m-course-time { font-size: 12px; }
+            .m-course-badge { padding: 4px 9px; font-size: 10px; }
+            .m-day-name { font-size: 15px; }
+        }
+
         @media (max-width: 360px) {
             .brand-text { display: none; }
             .brand { margin: auto; }
             .hero h2 { font-size: 26px; }
-            .card-course-name { font-size: 13px; }
-            .card-course-time { font-size: 11px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -763,11 +800,9 @@
             </div>
         </div>
 
-        <!-- =====================================================
-             VUE DESKTOP — TABLEAU
-        ====================================================== -->
+        <!-- ===== VUE DESKTOP — TABLEAU ===== -->
 
-        <section class="planning-table">
+        <section class="planning-desktop">
             <div class="table-scroll">
                 <table class="schedule" id="timetable">
                     <thead>
@@ -886,7 +921,6 @@
                     </tbody>
                 </table>
             </div>
-
             <div class="table-footer">
                 <div class="legend">
                     <div class="legend-item"><span class="legend-bar lb-maths"></span>Mathématiques</div>
@@ -898,54 +932,52 @@
             </div>
         </section>
 
-        <!-- =====================================================
-             VUE MOBILE — CARTES
-        ====================================================== -->
+        <!-- ===== VUE MOBILE — CARTES ===== -->
 
-        <section class="planning-cards">
+        <section class="planning-mobile">
 
-            <!-- SAMEDI -->
-            <article class="card-day">
-                <div class="card-day-header">
-                    <div class="card-day-title">
-                        <div class="card-day-icon">☀</div>
+            <!-- Samedi -->
+            <article class="m-day">
+                <div class="m-day-header">
+                    <div class="m-day-left">
+                        <div class="m-day-icon">☀</div>
                         <div>
-                            <h3>Samedi</h3>
-                            <div class="card-day-sub">2 cours · Après-midi</div>
+                            <div class="m-day-name">Samedi</div>
+                            <div class="m-day-sub">2 cours · Après-midi</div>
                         </div>
                     </div>
-                    <div class="card-day-hours-tag">4 h</div>
+                    <div class="m-day-tag">4 h</div>
                 </div>
-                <div class="card-day-body">
+                <div class="m-day-body">
 
-                    <div class="card-course">
-                        <div class="card-course-accent accent-svt"></div>
-                        <div class="card-course-content">
-                            <div class="card-course-left">
-                                <div class="card-course-name">SVT</div>
-                                <div class="card-course-time-row">
+                    <div class="m-course">
+                        <div class="m-course-bar bar-svt"></div>
+                        <div class="m-course-body">
+                            <div class="m-course-info">
+                                <div class="m-course-name">SVT</div>
+                                <div class="m-course-time-row">
                                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                                    <span class="card-course-time">15h00 — 17h00</span>
+                                    <span class="m-course-time">15h00 — 17h00</span>
                                 </div>
                             </div>
-                            <div class="card-course-badge card-badge-svt">
+                            <div class="m-course-badge mbadge-svt">
                                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
                                 2h
                             </div>
                         </div>
                     </div>
 
-                    <div class="card-course">
-                        <div class="card-course-accent accent-physique"></div>
-                        <div class="card-course-content">
-                            <div class="card-course-left">
-                                <div class="card-course-name">Physique-Chimie</div>
-                                <div class="card-course-time-row">
+                    <div class="m-course">
+                        <div class="m-course-bar bar-physique"></div>
+                        <div class="m-course-body">
+                            <div class="m-course-info">
+                                <div class="m-course-name">Physique-Chimie</div>
+                                <div class="m-course-time-row">
                                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                                    <span class="card-course-time">17h00 — 19h00</span>
+                                    <span class="m-course-time">17h00 — 19h00</span>
                                 </div>
                             </div>
-                            <div class="card-course-badge card-badge-physique">
+                            <div class="m-course-badge mbadge-physique">
                                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
                                 2h
                             </div>
@@ -953,53 +985,51 @@
                     </div>
 
                 </div>
-                <div class="card-day-footer">
-                    <div class="card-day-footer-total">Total samedi : <strong>4 h</strong></div>
-                </div>
+                <div class="m-day-footer">Total samedi : <strong>4 h</strong></div>
             </article>
 
-            <!-- DIMANCHE -->
-            <article class="card-day">
-                <div class="card-day-header">
-                    <div class="card-day-title">
-                        <div class="card-day-icon">☀</div>
+            <!-- Dimanche -->
+            <article class="m-day">
+                <div class="m-day-header">
+                    <div class="m-day-left">
+                        <div class="m-day-icon">☀</div>
                         <div>
-                            <h3>Dimanche</h3>
-                            <div class="card-day-sub">2 cours · Après-midi</div>
+                            <div class="m-day-name">Dimanche</div>
+                            <div class="m-day-sub">2 cours · Après-midi</div>
                         </div>
                     </div>
-                    <div class="card-day-hours-tag">4 h</div>
+                    <div class="m-day-tag">4 h</div>
                 </div>
-                <div class="card-day-body">
+                <div class="m-day-body">
 
-                    <div class="card-course">
-                        <div class="card-course-accent accent-maths"></div>
-                        <div class="card-course-content">
-                            <div class="card-course-left">
-                                <div class="card-course-name">Mathématiques</div>
-                                <div class="card-course-time-row">
+                    <div class="m-course">
+                        <div class="m-course-bar bar-maths"></div>
+                        <div class="m-course-body">
+                            <div class="m-course-info">
+                                <div class="m-course-name">Mathématiques</div>
+                                <div class="m-course-time-row">
                                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                                    <span class="card-course-time">14h00 — 16h00</span>
+                                    <span class="m-course-time">14h00 — 16h00</span>
                                 </div>
                             </div>
-                            <div class="card-course-badge card-badge-maths">
+                            <div class="m-course-badge mbadge-maths">
                                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
                                 2h
                             </div>
                         </div>
                     </div>
 
-                    <div class="card-course">
-                        <div class="card-course-accent accent-francais"></div>
-                        <div class="card-course-content">
-                            <div class="card-course-left">
-                                <div class="card-course-name">Français</div>
-                                <div class="card-course-time-row">
+                    <div class="m-course">
+                        <div class="m-course-bar bar-francais"></div>
+                        <div class="m-course-body">
+                            <div class="m-course-info">
+                                <div class="m-course-name">Français</div>
+                                <div class="m-course-time-row">
                                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
-                                    <span class="card-course-time">16h00 — 18h00</span>
+                                    <span class="m-course-time">16h00 — 18h00</span>
                                 </div>
                             </div>
-                            <div class="card-course-badge card-badge-francais">
+                            <div class="m-course-badge mbadge-francais">
                                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
                                 2h
                             </div>
@@ -1007,20 +1037,18 @@
                     </div>
 
                 </div>
-                <div class="card-day-footer">
-                    <div class="card-day-footer-total">Total dimanche : <strong>4 h</strong></div>
-                </div>
+                <div class="m-day-footer">Total dimanche : <strong>4 h</strong></div>
             </article>
 
-            <!-- Résumé global mobile -->
-            <div class="table-footer" style="border-radius: 12px; border: 1px solid #d1d5e4;">
-                <div class="legend">
-                    <div class="legend-item"><span class="legend-bar lb-maths"></span>Maths</div>
-                    <div class="legend-item"><span class="legend-bar lb-svt"></span>SVT</div>
-                    <div class="legend-item"><span class="legend-bar lb-francais"></span>Français</div>
-                    <div class="legend-item"><span class="legend-bar lb-physique"></span>Physique</div>
+            <!-- Légende mobile -->
+            <div class="m-legend">
+                <div class="m-legend-items">
+                    <div class="m-legend-item"><span class="m-legend-dot lb-maths"></span>Maths</div>
+                    <div class="m-legend-item"><span class="m-legend-dot lb-svt"></span>SVT</div>
+                    <div class="m-legend-item"><span class="m-legend-dot lb-francais"></span>Français</div>
+                    <div class="m-legend-item"><span class="m-legend-dot lb-physique"></span>Physique</div>
                 </div>
-                <div class="total-label">Total : <strong>8 h / sem.</strong></div>
+                <div class="m-total">Total : <strong>8 h / sem.</strong></div>
             </div>
 
         </section>
@@ -1043,3 +1071,4 @@
 
 </body>
 </html>
+```
