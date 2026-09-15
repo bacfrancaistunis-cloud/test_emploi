@@ -647,7 +647,7 @@
             .planning { box-shadow: none; border: 1px solid #aaa; }
             .table-scroll { overflow: visible !important; }
             .schedule { min-width: 100% !important; width: 100% !important; }
-            @page { size: landscape; margin: 4mm; }
+            @page { size: landscape; margin: 5mm; }
         }
     </style>
 </head>
@@ -671,7 +671,7 @@
         <div class="hero-row">
             <section class="hero">
                 <div class="eyebrow">Planning des cours</div>
-                <h2>Première <span>Générale</span></h2>
+                2<h2>Première <span>Générale</span></h2>
                 <p>Retrouvez votre emploi du temps du week-end et les horaires de chaque cours.</p>
             </section>
 
@@ -861,40 +861,53 @@
             btn.classList.remove('is-success');
 
             try {
-                // Capture uniquement la section planning (plus rapide)
-                const section = document.getElementById('planningSection');
-                const tableEl = document.getElementById('timetable');
-                const scrollContainer = section.querySelector('.table-scroll');
+                // 1. Éléments à capturer
+                const target = document.getElementById('planningSection');
 
-                // Forcer l'affichage complet du tableau
-                const savedOverflow = scrollContainer.style.overflow;
-                const savedWidth = scrollContainer.style.width;
-                scrollContainer.style.overflow = 'visible';
-                scrollContainer.style.width = tableEl.scrollWidth + 'px';
-                scrollContainer.scrollLeft = 0;
+                // 2. Clone hors-écran pour éviter le problème de page blanche
+                const clone = target.cloneNode(true);
+                const hint = clone.querySelector('.scroll-hint');
+                if (hint) hint.remove();
 
-                // Masquer le hint de scroll
-                const hint = section.querySelector('.scroll-hint');
-                if (hint) hint.style.display = 'none';
+                const wrapper = document.createElement('div');
+                wrapper.style.position = 'absolute';
+                wrapper.style.left = '-9999px';
+                wrapper.style.top = '0';
+                wrapper.style.width = '1100px';
+                wrapper.style.background = '#ffffff';
+                wrapper.style.padding = '0';
 
-                // Capture rapide (scale 1.5 = bon équilibre vitesse/qualité)
-                const canvas = await html2canvas(section, {
+                // Neutraliser toutes les animations / opacités
+                const styleFix = document.createElement('style');
+                styleFix.innerHTML = `
+                    * {
+                        animation: none !important;
+                        transition: none !important;
+                        transform: none !important;
+                        box-shadow: none !important;
+                        opacity: 1 !important;
+                    }
+                    .table-scroll { overflow: visible !important; width: 100% !important; }
+                    .schedule { width: 100% !important; min-width: 100% !important; }
+                    .planning { border: 1px solid #d1d1d1 !important; border-radius: 12px !important; }
+                `;
+
+                wrapper.appendChild(styleFix);
+                wrapper.appendChild(clone);
+                document.body.appendChild(wrapper);
+
+                // 3. Rendu Canvas rapide
+                const canvas = await html2canvas(wrapper, {
                     scale: 1.5,
-                    useCORS: true,
-                    allowTaint: true,
                     backgroundColor: '#ffffff',
-                    logging: false,
-                    // Désactiver les éléments hors cadre pour accélérer
-                    ignoreElements: (el) => el.classList && el.classList.contains('scroll-hint')
+                    useCORS: true,
+                    logging: false
                 });
 
-                // Restaurer
-                scrollContainer.style.overflow = savedOverflow;
-                scrollContainer.style.width = savedWidth;
-                if (hint) hint.style.display = '';
+                document.body.removeChild(wrapper);
 
-                // PDF paysage A4 — marges réduites (4 mm)
-                const imgData = canvas.toDataURL('image/jpeg', 0.92);
+                // 4. Génération PDF A4 Paysage
+                const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({
                     orientation: 'landscape',
@@ -905,13 +918,12 @@
 
                 const pdfW = pdf.internal.pageSize.getWidth();   // 297 mm
                 const pdfH = pdf.internal.pageSize.getHeight();  // 210 mm
-                const margin = 4; // marges très réduites
+                const margin = 5; // Marges très réduites (5 mm)
 
-                const usableW = pdfW - margin * 2;
-                const usableH = pdfH - margin * 2;
+                const usableW = pdfW - (margin * 2); // 287 mm
+                const usableH = pdfH - (margin * 2); // 200 mm
                 const imgRatio = canvas.width / canvas.height;
 
-                // Remplir au maximum la page (priorité largeur)
                 let finalW = usableW;
                 let finalH = usableW / imgRatio;
 
@@ -920,11 +932,11 @@
                     finalW = usableH * imgRatio;
                 }
 
-                // Centrage horizontal + vertical
+                // Centrage parfait sur la page A4
                 const xPos = (pdfW - finalW) / 2;
                 const yPos = (pdfH - finalH) / 2;
 
-                pdf.addImage(imgData, 'JPEG', xPos, yPos, finalW, finalH);
+                pdf.addImage(imgData, 'PNG', xPos, yPos, finalW, finalH);
                 pdf.save('Emploi-du-temps-Premiere-Generale.pdf');
 
                 btn.classList.remove('is-loading');
@@ -934,7 +946,7 @@
             } catch (err) {
                 console.error('Erreur PDF :', err);
                 btn.classList.remove('is-loading');
-                alert('Erreur lors de la génération. Essayez Ctrl+P pour imprimer.');
+                alert('Erreur lors de la génération PDF. Utilisez Ctrl+P pour imprimer.');
             }
         }
     </script>
