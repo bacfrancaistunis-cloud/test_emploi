@@ -668,7 +668,7 @@
             }
         }
 
-        /* STYLE IMPRESSION NATIVE */
+        /* IMPRESSION NATIVE */
         @media print {
             header { position: static; box-shadow: none; border-bottom: 2px solid #ccc; }
             .download-btn, .scroll-hint { display: none !important; }
@@ -685,7 +685,7 @@
     <header>
         <div class="header-inner">
             <div class="brand">
-                <img class="logo" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT Education Group">
+                <img class="logo" id="mainLogo" crossorigin="anonymous" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT Education Group">
                 <div class="brand-text">
                     <h1>BFT Education Group</h1>
                     <p>Emploi du temps</p>
@@ -892,14 +892,48 @@
             }
         });
 
-        // Génération PDF via clone DOM déconnecté (Résout 100% le problème de page blanche)
+        // Convertir l'image en Base64
+        async function getLogoBase64() {
+            const img = document.getElementById('mainLogo');
+            if (!img) return null;
+
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || 120;
+                canvas.height = img.naturalHeight || 120;
+                const ctx = canvas.getContext('2d');
+
+                try {
+                    ctx.drawImage(img, 0, 0);
+                    const dataURL = canvas.toDataURL('image/png');
+                    resolve(dataURL);
+                } catch (e) {
+                    // Si le canvas est bloqué par le navigateur, charger via Image
+                    const tempImg = new Image();
+                    tempImg.crossOrigin = 'anonymous';
+                    tempImg.onload = function() {
+                        canvas.width = tempImg.width;
+                        canvas.height = tempImg.height;
+                        ctx.drawImage(tempImg, 0, 0);
+                        resolve(canvas.toDataURL('image/png'));
+                    };
+                    tempImg.onerror = function() { resolve(img.src); };
+                    tempImg.src = img.src;
+                }
+            });
+        }
+
+        // Génération PDF
         async function downloadPDF() {
             const btn = document.getElementById('downloadBtn');
             btn.classList.add('is-loading');
             btn.classList.remove('is-success');
 
             try {
-                // 1. Création d'un container temporaire fixé en 1150px
+                // Convertir le logo en Base64 pour garantir son affichage dans html2canvas
+                const logoBase64 = await getLogoBase64();
+
+                // 1. Création du container temporaire
                 const exportContainer = document.createElement('div');
                 exportContainer.style.position = 'fixed';
                 exportContainer.style.top = '-10000px';
@@ -914,19 +948,25 @@
                 const mainClone = document.querySelector('main').cloneNode(true);
                 const footerClone = document.querySelector('footer').cloneNode(true);
 
-                // Nettoyer les éléments inutiles dans le clone
+                // Injecter l'image Base64 dans le clone pour contourner le problème CORS
+                const clonedLogo = headerClone.querySelector('.logo');
+                if (clonedLogo && logoBase64) {
+                    clonedLogo.src = logoBase64;
+                }
+
+                // Supprimer les éléments inutiles pour le PDF
                 const btnInClone = mainClone.querySelector('#downloadBtn');
                 if (btnInClone) btnInClone.remove();
 
                 const hintInClone = mainClone.querySelector('.scroll-hint');
                 if (hintInClone) hintInClone.remove();
 
-                // Assembler le document virtuel
+                // Assembler le document
                 exportContainer.appendChild(headerClone);
                 exportContainer.appendChild(mainClone);
                 exportContainer.appendChild(footerClone);
 
-                // Désactiver toutes les animations et overflows gênants pour html2canvas
+                // Styles spécifiques pour l'exportation
                 const overrideStyle = document.createElement('style');
                 overrideStyle.innerHTML = `
                     * {
@@ -937,6 +977,7 @@
                     }
                     body { background: #ffffff !important; }
                     header { position: static !important; border-bottom: 2px solid #e8eaf1 !important; }
+                    .logo { display: block !important; width: 58px !important; height: 58px !important; }
                     main { padding: 20px 0 !important; max-width: 100% !important; }
                     .planning { border: 1px solid #d1d1d1 !important; border-radius: 12px !important; }
                     .table-scroll { overflow: visible !important; width: 100% !important; }
@@ -945,10 +986,10 @@
                 exportContainer.appendChild(overrideStyle);
                 document.body.appendChild(exportContainer);
 
-                // Attendre la stabilisation du DOM
-                await new Promise(r => setTimeout(r, 250));
+                // Attente du rendu complet des éléments
+                await new Promise(r => setTimeout(r, 300));
 
-                // Capture Canvas haute définition
+                // Capture Canvas
                 const canvas = await html2canvas(exportContainer, {
                     scale: 2,
                     useCORS: true,
@@ -960,7 +1001,7 @@
                 // Supprimer le container temporaire
                 document.body.removeChild(exportContainer);
 
-                // Export PDF Paysage (A4)
+                // Export PDF Paysage
                 const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({
@@ -990,7 +1031,7 @@
                 pdf.addImage(imgData, 'PNG', xPos, yPos, finalW, finalH);
                 pdf.save('Emploi-du-temps-Premiere-Generale.pdf');
 
-                // Succès
+                // État Succès
                 btn.classList.remove('is-loading');
                 btn.classList.add('is-success');
 
