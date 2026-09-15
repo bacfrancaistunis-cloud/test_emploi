@@ -1,6 +1,3 @@
-
-
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,99 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emploi du temps — Première Générale</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
-            --blue: #2736d8;
-            --blue-light: #eef0ff;
-            --yellow: #f59e0b;
-            --yellow-light: #fff8e7;
-            --text: #171b2d;
-            --muted: #73798c;
-            --border: #e2e4ed;
-            --background: #f6f7fb;
+            --ink: #0f1729;
+            --ink-secondary: #3d4663;
+            --ink-muted: #8891a8;
+            --surface: #f4f5f9;
             --white: #ffffff;
+            --border: #d8dbe6;
+            --border-light: #eceef5;
+            --blue: #1e3a8a;
+            --blue-surface: #eff2fa;
+            --accent: #c9920e;
+            --accent-surface: #fdf8ee;
+            --accent-border: #e8d7a5;
 
-            --svt: #fef3e2;
-            --svt-accent: #f59e0b;
-            --svt-text: #92400e;
-
-            --physique: #ede4df;
-            --physique-accent: #a0766a;
-            --physique-text: #5c3d31;
-
-            --francais: #fde8d8;
-            --francais-accent: #f4845f;
-            --francais-text: #9a3412;
-
-            --maths: #dcf5ea;
-            --maths-accent: #34d399;
-            --maths-text: #065f46;
+            --svt: #f1e4c9;
+            --svt-bar: #c9920e;
+            --physique: #d6c5ba;
+            --physique-bar: #8c6a58;
+            --francais: #f0cdb5;
+            --francais-bar: #c96830;
+            --maths: #bde3d2;
+            --maths-bar: #2b7a5a;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', Arial, sans-serif;
-            background: var(--background);
-            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--surface);
+            color: var(--ink);
             min-height: 100vh;
-            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.35); }
-            70% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(12px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
+        /* ===================== HEADER ===================== */
 
         header {
-            background: rgba(255, 255, 255, 0.96);
-            border-bottom: 1px solid #e8eaf1;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            z-index: 10;
-            backdrop-filter: blur(12px);
-            animation: fadeDown 0.7s ease both;
+            z-index: 50;
         }
 
         .header-inner {
-            max-width: 1150px;
-            margin: auto;
-            padding: 15px 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
         }
 
         .brand {
@@ -110,488 +68,493 @@
         }
 
         .logo {
-            width: 58px;
-            height: 58px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
-            flex-shrink: 0;
-            animation: logoFloat 4s ease-in-out infinite;
         }
 
         .brand-text h1 {
-            font-size: 17px;
-            font-weight: 800;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
         }
 
         .brand-text p {
-            color: var(--muted);
-            font-size: 12px;
-            margin-top: 4px;
+            font-size: 11px;
+            color: var(--ink-muted);
+            margin-top: 1px;
+            font-weight: 500;
         }
 
-        .level-badge {
-            background: var(--blue-light);
-            color: var(--blue);
-            border: 1px solid #dfe2ff;
-            padding: 9px 15px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 700;
-            white-space: nowrap;
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
+
+        .level-tag {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            background: var(--blue-surface);
+            color: var(--blue);
+            border: 1px solid #d6ddf2;
+        }
+
+        .year-tag {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--surface);
+            color: var(--ink-secondary);
+            border: 1px solid var(--border);
+        }
+
+        /* ===================== MAIN ===================== */
 
         main {
-            max-width: 1150px;
-            margin: auto;
-            padding: 45px 25px 65px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 32px 72px;
         }
 
-        .hero {
+        /* Titre */
+        .page-header {
             margin-bottom: 28px;
-            animation: fadeUp 0.7s ease 0.1s both;
         }
 
-        .eyebrow {
-            color: var(--blue);
-            font-size: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.4px;
-            margin-bottom: 10px;
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1.2px;
+            color: var(--ink);
         }
 
-        .hero h2 {
-            font-size: clamp(30px, 5vw, 42px);
-            line-height: 1.1;
-            letter-spacing: -1.8px;
-            font-weight: 800;
-        }
-
-        .hero h2 span {
-            color: var(--blue);
-        }
-
-        .hero p {
-            margin-top: 12px;
-            color: var(--muted);
+        .page-header .subtitle {
+            margin-top: 6px;
             font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .notice {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            background: var(--yellow-light);
-            border: 1px solid #f7dfaa;
-            border-radius: 14px;
-            padding: 14px 17px;
-            margin-bottom: 25px;
-            animation: fadeUp 0.7s ease 0.25s both;
-        }
-
-        .notice-icon {
-            width: 34px;
-            height: 34px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fef3c7;
-            color: #d97706;
-            border-radius: 50%;
-            font-size: 16px;
-            font-weight: 800;
-            animation: pulse 2.5s infinite;
-        }
-
-        .notice-text { flex: 1; }
-
-        .notice-title {
-            color: #92400e;
-            font-size: 13px;
-            font-weight: 800;
-            margin-bottom: 3px;
-        }
-
-        .notice-description {
-            color: #a16207;
-            font-size: 11px;
+            color: var(--ink-muted);
+            font-weight: 400;
             line-height: 1.5;
         }
 
-        /* =========================================
-           GRILLE EMPLOI DU TEMPS
-        ========================================= */
-
-        .planning {
-            animation: fadeUp 0.7s ease 0.35s both;
-        }
-
-        .grid-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            background: var(--white);
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            box-shadow: 0 8px 32px rgba(24, 35, 80, 0.06), 0 1px 3px rgba(0,0,0,0.04);
-        }
-
-        .timetable-grid {
-            display: grid;
-            grid-template-columns: 110px repeat(7, 1fr);
-            grid-template-rows: auto;
-            min-width: 880px;
-        }
-
-        /* En-têtes jours */
-        .day-header {
-            padding: 18px 10px;
-            text-align: center;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--muted);
-            background: #fafbfe;
-            border-bottom: 2px solid var(--border);
-            position: relative;
-        }
-
-        .day-header:first-child {
-            border-radius: 17px 0 0 0;
-        }
-
-        .day-header:last-child {
-            border-radius: 0 17px 0 0;
-        }
-
-        .day-header .day-name {
-            display: block;
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: 0.3px;
-            text-transform: none;
-            margin-bottom: 2px;
-        }
-
-        .day-header.active-day {
-            background: var(--blue-light);
-            border-bottom-color: var(--blue);
-        }
-
-        .day-header.active-day .day-name {
-            color: var(--blue);
-        }
-
-        /* Cellules horaires */
-        .time-slot {
-            padding: 0 14px;
+        /* Barre d'infos */
+        .info-bar {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .info-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 12px;
-            font-weight: 700;
-            color: #4a5072;
-            background: #fafbfe;
-            border-right: 2px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-            min-height: 72px;
-            position: relative;
-        }
-
-        .time-slot .time-display {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .time-slot .time-start {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        .time-slot .time-end {
-            font-size: 10px;
             font-weight: 600;
-            color: var(--muted);
+            color: var(--ink-secondary);
         }
 
-        .time-slot .time-sep {
-            width: 12px;
-            height: 1.5px;
-            background: var(--border);
-            border-radius: 2px;
-        }
-
-        /* Cellules vides */
-        .cell {
-            min-height: 72px;
-            border-bottom: 1px solid var(--border);
-            border-right: 1px solid #eef0f6;
-            position: relative;
-            transition: background 0.2s ease;
-        }
-
-        .cell:hover {
-            background: #f8f9ff;
-        }
-
-        .cell::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: #e2e4ed;
-        }
-
-        /* Cellules de cours */
-        .course-cell {
-            border-bottom: 1px solid var(--border);
-            border-right: 1px solid #eef0f6;
-            padding: 6px;
-            position: relative;
-        }
-
-        .course-card {
-            height: 100%;
-            border-radius: 12px;
-            padding: 12px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            cursor: default;
-            transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s ease;
-        }
-
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .course-card:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-            z-index: 2;
-        }
-
-        .course-card .course-emoji {
-            font-size: 22px;
-            margin-bottom: 5px;
-            line-height: 1;
-        }
-
-        .course-card .course-name {
-            font-size: 12px;
-            font-weight: 800;
-            line-height: 1.25;
-            margin-bottom: 4px;
-        }
-
-        .course-card .course-duration {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 3px 9px;
-            border-radius: 999px;
-            font-size: 10px;
-            font-weight: 700;
-            backdrop-filter: blur(4px);
-        }
-
-        .course-card .course-duration svg {
-            width: 10px;
-            height: 10px;
+        .info-chip svg {
+            width: 15px;
+            height: 15px;
+            color: var(--ink-muted);
             flex-shrink: 0;
         }
 
-        /* Span 2 rangées */
-        .span-2 {
-            grid-row: span 2;
+        .info-separator {
+            width: 1px;
+            height: 16px;
+            background: var(--border);
+        }
+
+        /* Avertissement */
+        .notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: var(--accent-surface);
+            border: 1px solid var(--accent-border);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 28px;
+        }
+
+        .notice svg {
+            width: 16px;
+            height: 16px;
+            color: var(--accent);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .notice-body {
+            flex: 1;
+        }
+
+        .notice-body strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #78580a;
+            margin-bottom: 2px;
+        }
+
+        .notice-body p {
+            font-size: 11px;
+            color: #92750e;
+            line-height: 1.55;
+            font-weight: 450;
+        }
+
+        /* ===================== TABLEAU ===================== */
+
+        .table-container {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 16px rgba(0,0,0,0.03);
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.schedule {
+            width: 100%;
+            min-width: 920px;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        /* En-têtes */
+        table.schedule thead th {
+            height: 48px;
+            background: #f7f8fc;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 2px solid var(--border);
+            border-right: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        table.schedule thead th:first-child {
+            width: 108px;
+            background: #f0f1f6;
+            border-right: 2px solid var(--border);
+            font-size: 10px;
+            color: var(--ink-muted);
+        }
+
+        table.schedule thead th:last-child {
+            border-right: none;
+        }
+
+        table.schedule thead th.today {
+            color: var(--blue);
+            background: var(--blue-surface);
+        }
+
+        table.schedule thead th.today::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--blue);
+        }
+
+        /* Lignes horaires */
+        table.schedule tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        table.schedule tbody tr:hover {
+            background: #fafbfe;
+        }
+
+        table.schedule tbody th {
+            width: 108px;
+            height: 76px;
+            background: #fafbfd;
+            border-right: 2px solid var(--border);
+            border-bottom: 1px solid var(--border-light);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink-secondary);
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            padding: 0 8px;
+        }
+
+        table.schedule tbody th .t-range {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+        }
+
+        table.schedule tbody th .t-from {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        table.schedule tbody th .t-to {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--ink-muted);
+        }
+
+        /* Cellules */
+        table.schedule tbody td {
+            height: 76px;
+            border-right: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+            vertical-align: middle;
+            padding: 5px;
+            position: relative;
+        }
+
+        table.schedule tbody td:last-child {
+            border-right: none;
+        }
+
+        table.schedule tbody tr:last-child th,
+        table.schedule tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        table.schedule tbody td.today-col {
+            background: rgba(30, 58, 138, 0.018);
+        }
+
+        /* ===================== BLOCS COURS ===================== */
+
+        .block {
+            height: 100%;
+            border-radius: 6px;
+            padding: 10px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .block::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            bottom: 6px;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .block:hover {
+            transform: scale(1.015);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            z-index: 2;
+        }
+
+        .block .b-subject {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-left: 10px;
+            color: var(--ink);
+        }
+
+        .block .b-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+
+        .block .b-duration {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--ink-muted);
+            padding: 2px 7px;
+            background: rgba(255,255,255,0.65);
+            border-radius: 4px;
+        }
+
+        .block .b-room {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--ink-muted);
         }
 
         /* Couleurs */
-        .card-maths {
+        .block-maths {
             background: var(--maths);
-            border: 1.5px solid var(--maths-accent);
+            border-color: rgba(43,122,90,0.15);
         }
-        .card-maths::before { background: var(--maths-accent); }
-        .card-maths .course-name { color: var(--maths-text); }
-        .card-maths .course-duration {
-            background: rgba(52, 211, 153, 0.2);
-            color: var(--maths-text);
-        }
+        .block-maths::before { background: var(--maths-bar); }
+        .block-maths .b-subject { color: #1a5e3f; }
 
-        .card-svt {
+        .block-svt {
             background: var(--svt);
-            border: 1.5px solid var(--svt-accent);
+            border-color: rgba(201,146,14,0.15);
         }
-        .card-svt::before { background: var(--svt-accent); }
-        .card-svt .course-name { color: var(--svt-text); }
-        .card-svt .course-duration {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--svt-text);
-        }
+        .block-svt::before { background: var(--svt-bar); }
+        .block-svt .b-subject { color: #7a5a0a; }
 
-        .card-francais {
+        .block-francais {
             background: var(--francais);
-            border: 1.5px solid var(--francais-accent);
+            border-color: rgba(201,104,48,0.15);
         }
-        .card-francais::before { background: var(--francais-accent); }
-        .card-francais .course-name { color: var(--francais-text); }
-        .card-francais .course-duration {
-            background: rgba(244, 132, 95, 0.18);
-            color: var(--francais-text);
-        }
+        .block-francais::before { background: var(--francais-bar); }
+        .block-francais .b-subject { color: #8a3e14; }
 
-        .card-physique {
+        .block-physique {
             background: var(--physique);
-            border: 1.5px solid var(--physique-accent);
+            border-color: rgba(140,106,88,0.15);
         }
-        .card-physique::before { background: var(--physique-accent); }
-        .card-physique .course-name { color: var(--physique-text); }
-        .card-physique .course-duration {
-            background: rgba(160, 118, 106, 0.2);
-            color: var(--physique-text);
+        .block-physique::before { background: var(--physique-bar); }
+        .block-physique .b-subject { color: #4d3526; }
+
+        /* ===================== LÉGENDE ===================== */
+
+        .table-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 14px 20px;
+            border-top: 1px solid var(--border-light);
+            background: #fafbfd;
         }
 
-        /* Animation des cartes */
-        .course-cell:nth-child(1) .course-card { animation: slideIn 0.5s ease 0.4s both; }
-        .course-cell:nth-child(2) .course-card { animation: slideIn 0.5s ease 0.5s both; }
-        .course-cell:nth-child(3) .course-card { animation: slideIn 0.5s ease 0.6s both; }
-        .course-cell:nth-child(4) .course-card { animation: slideIn 0.5s ease 0.7s both; }
-
-        .grid-row-1 .course-card { animation: slideIn 0.5s ease 0.45s both; }
-        .grid-row-2 .course-card { animation: slideIn 0.5s ease 0.55s both; }
-        .grid-row-3 .course-card { animation: slideIn 0.5s ease 0.65s both; }
-        .grid-row-4 .course-card { animation: slideIn 0.5s ease 0.75s both; }
-
-        /* Légende */
         .legend {
             display: flex;
+            align-items: center;
+            gap: 16px;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 18px;
-            padding: 0 4px;
-            animation: fadeUp 0.7s ease 0.5s both;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 7px;
-            padding: 7px 14px;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 999px;
+            gap: 6px;
             font-size: 11px;
             font-weight: 600;
-            color: var(--text);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: var(--ink-secondary);
         }
 
-        .legend-item:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        .legend-bar {
+            width: 3px;
+            height: 14px;
+            border-radius: 2px;
         }
 
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
+        .bar-maths { background: var(--maths-bar); }
+        .bar-svt { background: var(--svt-bar); }
+        .bar-francais { background: var(--francais-bar); }
+        .bar-physique { background: var(--physique-bar); }
+
+        .total-hours {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink-muted);
         }
 
-        .dot-maths { background: var(--maths-accent); }
-        .dot-svt { background: var(--svt-accent); }
-        .dot-francais { background: var(--francais-accent); }
-        .dot-physique { background: var(--physique-accent); }
+        .total-hours strong {
+            color: var(--ink-secondary);
+        }
 
         /* Scroll hint */
         .scroll-hint {
             display: none;
-            padding: 12px 15px;
-            color: var(--muted);
             text-align: center;
-            font-size: 11px;
-            font-weight: 600;
+            padding: 10px;
+            font-size: 10px;
+            color: var(--ink-muted);
+            font-weight: 500;
         }
+
+        /* ===================== FOOTER ===================== */
 
         footer {
             text-align: center;
-            padding: 0 20px 30px;
-            color: #9aa0b1;
+            padding: 0 24px 36px;
             font-size: 11px;
-            animation: fadeUp 0.7s ease 0.7s both;
+            color: var(--ink-muted);
+            font-weight: 400;
         }
 
         footer strong {
-            color: #777d8f;
+            font-weight: 600;
+            color: var(--ink-secondary);
         }
 
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
+        /* ===================== RESPONSIVE ===================== */
 
         @media (max-width: 800px) {
-            main { padding-top: 38px; }
-            .timetable-grid { min-width: 850px; }
+            .header-inner { padding: 0 20px; }
+            main { padding: 32px 16px 56px; }
+            .page-header h2 { font-size: 24px; }
+            table.schedule { min-width: 860px; }
+            .info-bar { gap: 14px; }
         }
 
         @media (max-width: 520px) {
-            .header-inner { padding: 12px 16px; }
-            .logo { width: 48px; height: 48px; }
-            .brand-text h1 { font-size: 14px; }
+            .header-inner { height: 56px; padding: 0 16px; }
+            .logo { width: 34px; height: 34px; }
+            .brand-text h1 { font-size: 13px; }
             .brand-text p { font-size: 10px; }
-            .level-badge { display: none; }
-            main { padding: 30px 12px 50px; }
-            .hero { margin-bottom: 23px; }
-            .hero h2 { font-size: 29px; letter-spacing: -1px; }
-            .hero p { font-size: 13px; }
-            .notice { padding: 12px; }
-            .notice-description { font-size: 10px; }
-            .grid-wrapper { border-radius: 14px; }
-            .timetable-grid { min-width: 820px; }
-            .day-header { padding: 14px 8px; }
-            .day-header .day-name { font-size: 11px; }
-            .time-slot .time-start { font-size: 11px; }
-            .cell, .course-cell { min-height: 64px; }
-            .course-card .course-emoji { font-size: 18px; }
-            .course-card .course-name { font-size: 11px; }
+            .year-tag { display: none; }
+            .level-tag { font-size: 10px; padding: 5px 10px; }
+            main { padding: 24px 10px 48px; }
+            .page-header h2 { font-size: 22px; letter-spacing: -0.8px; }
+            .page-header .subtitle { font-size: 12px; }
+            .info-bar { gap: 10px; }
+            .info-chip { font-size: 11px; }
+            .notice { padding: 12px 14px; }
+            .table-container { border-radius: 8px; }
+            table.schedule { min-width: 840px; }
+            table.schedule thead th { height: 40px; font-size: 10px; }
+            table.schedule tbody th { height: 68px; font-size: 11px; }
+            table.schedule tbody th .t-from { font-size: 12px; }
+            table.schedule tbody td { height: 68px; padding: 4px; }
+            .block .b-subject { font-size: 11px; }
             .scroll-hint { display: block; }
-            .legend { gap: 7px; }
-            .legend-item { padding: 5px 10px; font-size: 10px; }
+            .table-footer { padding: 12px 14px; }
+            .legend { gap: 10px; }
+            .legend-item { font-size: 10px; }
         }
 
         @media (max-width: 360px) {
             .brand-text { display: none; }
-            .brand { margin: auto; }
-            .hero h2 { font-size: 26px; }
-            .timetable-grid { min-width: 800px; }
+            .page-header h2 { font-size: 20px; }
+            table.schedule { min-width: 800px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
     </style>
 </head>
@@ -603,211 +566,209 @@
                 <img class="logo" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT Education Group">
                 <div class="brand-text">
                     <h1>BFT Education Group</h1>
-                    <p>Emploi du temps</p>
+                    <p>Espace pédagogique</p>
                 </div>
             </div>
-            <div class="level-badge">Première Générale</div>
+            <div class="header-right">
+                <span class="level-tag">Première Générale</span>
+                <span class="year-tag">2026 – 2027</span>
+            </div>
         </div>
     </header>
 
     <main>
 
-        <section class="hero">
-            <div class="eyebrow">Planning des cours</div>
-            <h2>Première <span>Générale</span></h2>
-            <p>Retrouvez votre emploi du temps du week-end et les horaires de chaque cours.</p>
-        </section>
+        <div class="page-header">
+            <h2>Emploi du temps</h2>
+            <p class="subtitle">Planning hebdomadaire des séances — week-end uniquement.</p>
+        </div>
 
-        <div class="notice">
-            <div class="notice-icon">!</div>
-            <div class="notice-text">
-                <div class="notice-title">À noter</div>
-                <div class="notice-description">L'emploi du temps est susceptible d'être modifié. Pensez à consulter régulièrement cette page afin de prendre connaissance des éventuelles mises à jour.</div>
+        <div class="info-bar">
+            <div class="info-chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                Samedi & Dimanche
+            </div>
+            <div class="info-separator"></div>
+            <div class="info-chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                14h00 – 19h00
+            </div>
+            <div class="info-separator"></div>
+            <div class="info-chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                4 matières · 8h / semaine
             </div>
         </div>
 
-        <section class="planning">
-            <div class="grid-wrapper">
-                <div class="timetable-grid">
+        <div class="notice">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div class="notice-body">
+                <strong>Modifications possibles</strong>
+                <p>Cet emploi du temps est susceptible d'évoluer en cours d'année. Consultez cette page régulièrement pour rester informé des mises à jour.</p>
+            </div>
+        </div>
 
-                    <!-- En-têtes -->
-                    <div class="day-header"><span class="day-name">Horaire</span></div>
-                    <div class="day-header"><span class="day-name">Lundi</span></div>
-                    <div class="day-header"><span class="day-name">Mardi</span></div>
-                    <div class="day-header"><span class="day-name">Mercredi</span></div>
-                    <div class="day-header"><span class="day-name">Jeudi</span></div>
-                    <div class="day-header"><span class="day-name">Vendredi</span></div>
-                    <div class="day-header"><span class="day-name">Samedi</span></div>
-                    <div class="day-header"><span class="day-name">Dimanche</span></div>
+        <section class="table-container">
+            <div class="table-scroll">
+                <table class="schedule" id="timetable">
+                    <thead>
+                        <tr>
+                            <th>Horaire</th>
+                            <th data-day="1">Lundi</th>
+                            <th data-day="2">Mardi</th>
+                            <th data-day="3">Mercredi</th>
+                            <th data-day="4">Jeudi</th>
+                            <th data-day="5">Vendredi</th>
+                            <th data-day="6">Samedi</th>
+                            <th data-day="0">Dimanche</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                    <!-- LIGNE 1 : 14h – 15h -->
-                    <div class="time-slot">
-                        <div class="time-display">
-                            <span class="time-start">14h00</span>
-                            <span class="time-sep"></span>
-                            <span class="time-end">15h00</span>
-                        </div>
-                    </div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <!-- Dimanche : Maths 14h–16h (span 2) -->
-                    <div class="course-cell span-2 grid-row-1" style="grid-column: 8; grid-row: 2 / 4;">
-                        <div class="course-card card-maths">
-                            <div class="course-emoji">📐</div>
-                            <div class="course-name">Mathématiques</div>
-                            <div class="course-duration">
-                                <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4v4.5l3 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-                                2 heures
-                            </div>
-                        </div>
-                    </div>
+                        <!-- 14h – 15h -->
+                        <tr>
+                            <th>
+                                <div class="t-range">
+                                    <span class="t-from">14h00</span>
+                                    <span class="t-to">15h00</span>
+                                </div>
+                            </th>
+                            <td data-day="1"></td>
+                            <td data-day="2"></td>
+                            <td data-day="3"></td>
+                            <td data-day="4"></td>
+                            <td data-day="5"></td>
+                            <td data-day="6"></td>
+                            <td data-day="0" rowspan="2">
+                                <div class="block block-maths">
+                                    <span class="b-subject">Mathématiques</span>
+                                    <div class="b-meta">
+                                        <span class="b-duration">2 h</span>
+                                        <span class="b-room">14h00 – 16h00</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <!-- LIGNE 2 : 15h – 16h -->
-                    <div class="time-slot">
-                        <div class="time-display">
-                            <span class="time-start">15h00</span>
-                            <span class="time-sep"></span>
-                            <span class="time-end">16h00</span>
-                        </div>
-                    </div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <!-- Samedi : SVT 15h–17h (span 2) -->
-                    <div class="course-cell span-2 grid-row-2" style="grid-column: 7; grid-row: 3 / 5;">
-                        <div class="course-card card-svt">
-                            <div class="course-emoji">🧬</div>
-                            <div class="course-name">SVT</div>
-                            <div class="course-duration">
-                                <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4v4.5l3 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-                                2 heures
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Dimanche déjà occupé par span -->
+                        <!-- 15h – 16h -->
+                        <tr>
+                            <th>
+                                <div class="t-range">
+                                    <span class="t-from">15h00</span>
+                                    <span class="t-to">16h00</span>
+                                </div>
+                            </th>
+                            <td data-day="1"></td>
+                            <td data-day="2"></td>
+                            <td data-day="3"></td>
+                            <td data-day="4"></td>
+                            <td data-day="5"></td>
+                            <td data-day="6" rowspan="2">
+                                <div class="block block-svt">
+                                    <span class="b-subject">SVT</span>
+                                    <div class="b-meta">
+                                        <span class="b-duration">2 h</span>
+                                        <span class="b-room">15h00 – 17h00</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <!-- LIGNE 3 : 16h – 17h -->
-                    <div class="time-slot">
-                        <div class="time-display">
-                            <span class="time-start">16h00</span>
-                            <span class="time-sep"></span>
-                            <span class="time-end">17h00</span>
-                        </div>
-                    </div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <!-- Samedi déjà occupé par SVT span -->
-                    <!-- Dimanche : Français 16h–18h (span 2) -->
-                    <div class="course-cell span-2 grid-row-3" style="grid-column: 8; grid-row: 4 / 6;">
-                        <div class="course-card card-francais">
-                            <div class="course-emoji">📖</div>
-                            <div class="course-name">Français</div>
-                            <div class="course-duration">
-                                <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4v4.5l3 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-                                2 heures
-                            </div>
-                        </div>
-                    </div>
+                        <!-- 16h – 17h -->
+                        <tr>
+                            <th>
+                                <div class="t-range">
+                                    <span class="t-from">16h00</span>
+                                    <span class="t-to">17h00</span>
+                                </div>
+                            </th>
+                            <td data-day="1"></td>
+                            <td data-day="2"></td>
+                            <td data-day="3"></td>
+                            <td data-day="4"></td>
+                            <td data-day="5"></td>
+                            <td data-day="0" rowspan="2">
+                                <div class="block block-francais">
+                                    <span class="b-subject">Français</span>
+                                    <div class="b-meta">
+                                        <span class="b-duration">2 h</span>
+                                        <span class="b-room">16h00 – 18h00</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <!-- LIGNE 4 : 17h – 18h -->
-                    <div class="time-slot">
-                        <div class="time-display">
-                            <span class="time-start">17h00</span>
-                            <span class="time-sep"></span>
-                            <span class="time-end">18h00</span>
-                        </div>
-                    </div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <!-- Samedi : Physique 17h–19h (span 2) -->
-                    <div class="course-cell span-2 grid-row-4" style="grid-column: 7; grid-row: 5 / 7;">
-                        <div class="course-card card-physique">
-                            <div class="course-emoji">⚗️</div>
-                            <div class="course-name">Physique-Chimie</div>
-                            <div class="course-duration">
-                                <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4v4.5l3 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-                                2 heures
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Dimanche déjà occupé par Français span -->
+                        <!-- 17h – 18h -->
+                        <tr>
+                            <th>
+                                <div class="t-range">
+                                    <span class="t-from">17h00</span>
+                                    <span class="t-to">18h00</span>
+                                </div>
+                            </th>
+                            <td data-day="1"></td>
+                            <td data-day="2"></td>
+                            <td data-day="3"></td>
+                            <td data-day="4"></td>
+                            <td data-day="5"></td>
+                            <td data-day="6" rowspan="2">
+                                <div class="block block-physique">
+                                    <span class="b-subject">Physique-Chimie</span>
+                                    <div class="b-meta">
+                                        <span class="b-duration">2 h</span>
+                                        <span class="b-room">17h00 – 19h00</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <!-- LIGNE 5 : 18h – 19h -->
-                    <div class="time-slot">
-                        <div class="time-display">
-                            <span class="time-start">18h00</span>
-                            <span class="time-sep"></span>
-                            <span class="time-end">19h00</span>
-                        </div>
-                    </div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <!-- Samedi occupé par Physique -->
-                    <div class="cell"></div>
+                        <!-- 18h – 19h -->
+                        <tr>
+                            <th>
+                                <div class="t-range">
+                                    <span class="t-from">18h00</span>
+                                    <span class="t-to">19h00</span>
+                                </div>
+                            </th>
+                            <td data-day="1"></td>
+                            <td data-day="2"></td>
+                            <td data-day="3"></td>
+                            <td data-day="4"></td>
+                            <td data-day="5"></td>
+                            <td data-day="0"></td>
+                        </tr>
 
-                    <!-- LIGNE 6 : 19h – 21h -->
-                    <div class="time-slot">
-                        <div class="time-display">
-                            <span class="time-start">19h00</span>
-                            <span class="time-sep"></span>
-                            <span class="time-end">21h00</span>
-                        </div>
-                    </div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <!-- Samedi occupé par Physique -->
-                    <div class="cell"></div>
+                    </tbody>
+                </table>
+            </div>
 
+            <div class="table-footer">
+                <div class="legend">
+                    <div class="legend-item"><span class="legend-bar bar-maths"></span> Mathématiques</div>
+                    <div class="legend-item"><span class="legend-bar bar-svt"></span> SVT</div>
+                    <div class="legend-item"><span class="legend-bar bar-francais"></span> Français</div>
+                    <div class="legend-item"><span class="legend-bar bar-physique"></span> Physique-Chimie</div>
                 </div>
+                <div class="total-hours">Total : <strong>8 h / semaine</strong></div>
             </div>
 
-            <div class="scroll-hint">← Glissez pour voir tout le planning →</div>
-
-            <div class="legend">
-                <div class="legend-item"><span class="legend-dot dot-maths"></span> Mathématiques</div>
-                <div class="legend-item"><span class="legend-dot dot-svt"></span> SVT</div>
-                <div class="legend-item"><span class="legend-dot dot-francais"></span> Français</div>
-                <div class="legend-item"><span class="legend-dot dot-physique"></span> Physique-Chimie</div>
-            </div>
-
+            <div class="scroll-hint">← Faites défiler horizontalement →</div>
         </section>
 
     </main>
 
     <footer>
-        <strong>BFT Education Group</strong> · Première Générale · Emploi du temps 2026-2027
+        <strong>BFT Education Group</strong> · Première Générale · Année scolaire 2026 – 2027
     </footer>
 
     <script>
-        // Mettre en surbrillance le jour actuel
-        const dayIndex = new Date().getDay(); // 0=dim, 1=lun...
-        const headers = document.querySelectorAll('.day-header');
-        // headers[0] = "Horaire", headers[1] = Lundi (index 1), ..., headers[7] = Dimanche
-        const mapping = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 0: 7 };
-        const todayHeader = headers[mapping[dayIndex]];
-        if (todayHeader) {
-            todayHeader.classList.add('active-day');
-        }
+        // Surbrillance du jour actuel
+        const today = new Date().getDay();
+        document.querySelectorAll(`th[data-day="${today}"], td[data-day="${today}"]`).forEach(el => {
+            if (el.tagName === 'TH') el.classList.add('today');
+            else el.classList.add('today-col');
+        });
     </script>
 
 </body>
 </html>
-```
