@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emploi du temps — Première Générale</title>
+    <title>Emploi du temps — Première STMG</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -19,13 +19,7 @@
             --primary-dark: #4338ca;
             --surface: #ffffff;
             --border: #e2e8f0;
-            --radius: 20px;
             --shadow: 0 10px 40px -10px rgba(15, 23, 42, 0.08);
-
-            --svt: #fff0dc;
-            --physique: #d4b4a6;
-            --francais: #f4a56f;
-            --maths: #7bc9aa;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,6 +39,7 @@
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* HEADER */
         header {
@@ -177,7 +172,6 @@
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
         .download-btn.is-loading .btn-spinner { display: block; }
 
         .btn-check {
@@ -259,7 +253,6 @@
             table-layout: fixed;
         }
 
-        /* En-têtes jours */
         .schedule thead th {
             padding: 8px 4px 12px;
             text-align: center;
@@ -284,7 +277,6 @@
 
         .schedule thead th.today-header .day-full { color: var(--primary); }
 
-        /* Colonne horaires — créneaux de 1h */
         .schedule tbody th {
             width: 90px;
             text-align: right;
@@ -308,7 +300,6 @@
             margin-top: 1px;
         }
 
-        /* Cases individuelles de 1h */
         .schedule tbody td {
             height: 62px;
             background: #f8fafc;
@@ -330,7 +321,7 @@
 
         .schedule tbody td:hover:empty { background: #f1f5f9; }
 
-        /* BLOCS COURS (2h = 2 cases fusionnées via rowspan) */
+        /* BLOCS COURS */
         .course-block {
             height: 100%;
             width: 100%;
@@ -383,19 +374,15 @@
             opacity: 0.85;
         }
 
-        /* Couleurs matières */
+        /* Couleurs */
         .cb-maths { background: #d1fae5; color: #065f46; }
         .cb-maths .cb-badge { color: #047857; }
-
-        .cb-svt { background: #fef3c7; color: #92400e; }
-        .cb-svt .cb-badge { color: #b45309; }
 
         .cb-francais { background: #fee2e2; color: #991b1b; }
         .cb-francais .cb-badge { color: #b91c1c; }
 
+        .cb-svt { background: #fef3c7; color: #92400e; }
         .cb-physique { background: #e0e7ff; color: #3730a3; }
-        .cb-physique .cb-badge { color: #4338ca; }
-
         .cb-histoire { background: #f3e8ff; color: #581c87; }
         .cb-philo { background: #fce7f3; color: #831843; }
         .cb-ens-sci { background: #e0f2fe; color: #075985; }
@@ -404,7 +391,6 @@
         .cb-eco-droit { background: #d1fae5; color: #064e3b; }
         .cb-techno { background: #fae8ff; color: #4c1d95; }
 
-        /* Badges statut */
         .status-badge {
             display: none;
             width: fit-content;
@@ -430,7 +416,6 @@
             color: #1e293b;
         }
 
-        /* Annulé */
         .course-block.is-cancelled {
             background: #f1f5f9 !important;
             color: #94a3b8 !important;
@@ -442,7 +427,6 @@
             color: #dc2626;
         }
 
-        /* Reporté */
         .course-block.is-postponed {
             background: #fffbeb !important;
             color: #b45309 !important;
@@ -454,7 +438,6 @@
             color: #d97706;
         }
 
-        /* Rattrapage */
         .course-block.is-rattrapage {
             border-color: var(--primary) !important;
             box-shadow: 0 4px 18px rgba(79,70,229,0.2);
@@ -465,7 +448,6 @@
             color: #fff;
         }
 
-        /* Légende */
         .legend-area {
             display: flex;
             align-items: center;
@@ -493,9 +475,7 @@
 
         .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
         .ld-maths { background: #10b981; }
-        .ld-svt { background: #f59e0b; }
         .ld-francais { background: #ef4444; }
-        .ld-physique { background: #6366f1; }
 
         .total-hours { font-size: 13px; font-weight: 800; }
         .total-hours span { color: var(--primary); }
@@ -508,7 +488,6 @@
             font-weight: 500;
         }
 
-        /* Responsive */
         @media (max-width: 800px) {
             .scroll-hint { display: flex; }
             .hero-row { flex-direction: column; align-items: flex-start; }
@@ -550,7 +529,7 @@
                 <p>Emploi du temps</p>
             </div>
         </div>
-        <div class="level-badge">Première Générale</div>
+        <div class="level-badge">Première STMG</div>
     </div>
 </header>
 
@@ -558,7 +537,7 @@
     <div class="hero-row">
         <section class="hero">
             <div class="eyebrow">Année 2026-2027</div>
-            <h2>Première <span>Générale</span></h2>
+            <h2>Première <span>STMG</span></h2>
             <p>Retrouvez votre emploi du temps et l'état de chaque cours en temps réel.</p>
         </section>
 
@@ -605,69 +584,45 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Ligne 1: 09h-10h -->
+                    <!-- 09h -->
                     <tr>
                         <th><span class="time-main">09h00</span><span class="time-end">10h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- Ligne 2: 10h-11h -->
+                    <!-- 10h -->
                     <tr>
                         <th><span class="time-main">10h00</span><span class="time-end">11h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- Ligne 3: 11h-12h -->
+                    <!-- 11h -->
                     <tr>
                         <th><span class="time-main">11h00</span><span class="time-end">12h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- Ligne 4: 12h-13h -->
+                    <!-- 12h -->
                     <tr>
                         <th><span class="time-main">12h00</span><span class="time-end">13h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- Ligne 5: 13h-14h -->
+                    <!-- 13h -->
                     <tr>
                         <th><span class="time-main">13h00</span><span class="time-end">14h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- Ligne 6: 14h-15h -->
+                    <!-- 14h -->
                     <tr>
                         <th><span class="time-main">14h00</span><span class="time-end">15h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
-                        <td data-day="0" rowspan="2">
-                            <div class="course-block cb-maths" data-course-id="maths">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-name">Mathématiques</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">14h – 16h</span>
-                                </div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- Ligne 7: 15h-16h -->
+                    <!-- 15h -->
                     <tr>
                         <th><span class="time-main">15h00</span><span class="time-end">16h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td>
-                        <td data-day="6" rowspan="2">
-                            <div class="course-block cb-svt" data-course-id="svt">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-name">SVT</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">15h – 17h</span>
-                                </div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- Ligne 8: 16h-17h -->
+                    <!-- 16h — Français Dimanche 16h-18h -->
                     <tr>
                         <th><span class="time-main">16h00</span><span class="time-end">17h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
                         <td data-day="0" rowspan="2">
                             <div class="course-block cb-francais" data-course-id="francais">
                                 <span class="status-badge badge-cancelled">Annulé</span>
@@ -681,37 +636,38 @@
                             </div>
                         </td>
                     </tr>
-                    <!-- Ligne 9: 17h-18h -->
+                    <!-- 17h -->
                     <tr>
                         <th><span class="time-main">17h00</span><span class="time-end">18h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td>
-                        <td data-day="6" rowspan="2">
-                            <div class="course-block cb-physique" data-course-id="physique">
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
+                    </tr>
+                    <!-- 18h -->
+                    <tr>
+                        <th><span class="time-main">18h00</span><span class="time-end">19h00</span></th>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
+                    </tr>
+                    <!-- 19h — Maths Jeudi 19h-21h -->
+                    <tr>
+                        <th><span class="time-main">19h00</span><span class="time-end">20h00</span></th>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td>
+                        <td data-day="4" rowspan="2">
+                            <div class="course-block cb-maths" data-course-id="maths">
                                 <span class="status-badge badge-cancelled">Annulé</span>
                                 <span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-name">Physique-Chimie</span>
+                                <span class="cb-name">Mathématiques</span>
                                 <div class="cb-details">
                                     <span class="cb-badge">2h</span>
-                                    <span class="cb-time">17h – 19h</span>
+                                    <span class="cb-time">19h – 21h</span>
                                 </div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
+                        <td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- Ligne 10: 18h-19h -->
-                    <tr>
-                        <th><span class="time-main">18h00</span><span class="time-end">19h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="0"></td>
-                    </tr>
-                    <!-- Ligne 11: 19h-20h -->
-                    <tr>
-                        <th><span class="time-main">19h00</span><span class="time-end">20h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
-                    </tr>
-                    <!-- Ligne 12: 20h-21h -->
+                    <!-- 20h -->
                     <tr>
                         <th><span class="time-main">20h00</span><span class="time-end">21h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
                 </tbody>
             </table>
@@ -720,29 +676,26 @@
         <div class="legend-area">
             <div class="legend-list">
                 <div class="legend-tag"><span class="legend-dot ld-maths"></span>Mathématiques</div>
-                <div class="legend-tag"><span class="legend-dot ld-svt"></span>SVT</div>
                 <div class="legend-tag"><span class="legend-dot ld-francais"></span>Français</div>
-                <div class="legend-tag"><span class="legend-dot ld-physique"></span>Physique-Chimie</div>
             </div>
-            <div class="total-hours">Volume : <span>8 h / semaine</span></div>
+            <div class="total-hours">Volume : <span>4 h / semaine</span></div>
         </div>
     </section>
 </main>
 
 <footer>
-    BFT Education Group · Première Générale · 2026-2027
+    BFT Education Group · Première STMG · 2026-2027
 </footer>
 
 <script>
     // =========================================================
-    // GOOGLE SHEETS
+    // GOOGLE SHEETS — Première STMG
     // =========================================================
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlhZH8-HZduOPsbbmHVYtbeVaJwPVmijJkxRWsjhix5I7UwBH4-lWOTuJn3VvBQVIN4yEOIPqDCPDJ/pub?gid=1961795058&single=true&output=csv";
-    const CURRENT_LEVEL = "premiere_generale";
+    const CURRENT_LEVEL = "premiere_stmg";
 
     const DAY_MAP = { lundi: 1, mardi: 2, mercredi: 3, jeudi: 4, vendredi: 5, samedi: 6, dimanche: 0 };
 
-    // Cartographie des heures exactes de début vers la ligne exacte du tableau (1 à 12)
     const HOUR_ROW_MAP = {
         '9h': 1, '09h': 1, '9h00': 1, '09h00': 1, '9': 1, '09': 1,
         '10h': 2, '10h00': 2, '10': 2,
@@ -758,20 +711,18 @@
         '20h': 12, '20h00': 12, '20': 12
     };
 
-    // Jour actuel
     const today = new Date().getDay();
     document.querySelectorAll('#timetable th[data-day]').forEach(el => {
         if (parseInt(el.dataset.day) === today) el.classList.add('today-header');
     });
 
-    // Place un cours de rattrapage (2h) à l'heure exacte demandée
     function placeRattrapageCourse(courseId, subjectName, dayName, hourStart, noteText) {
         const dayNum = DAY_MAP[dayName.toLowerCase().trim()];
         let h = hourStart.toLowerCase().trim().replace(/\s/g, '');
         const rowIndex = HOUR_ROW_MAP[h];
 
         if (dayNum === undefined || !rowIndex) {
-            console.warn('Créneau horaire non reconnu:', dayName, hourStart);
+            console.warn('Créneau non reconnu:', dayName, hourStart);
             return;
         }
 
@@ -783,7 +734,7 @@
         const targetCell = targetRow.querySelector(`td[data-day="${dayNum}"]`);
         if (!targetCell) return;
 
-        // Le cours dure 2h -> masque la cellule de l'heure suivante et applique rowspan=2
+        // 2h → rowspan 2 + masque la ligne suivante
         if (rowIndex < rows.length) {
             const nextRow = rows[rowIndex];
             if (nextRow) {
@@ -796,7 +747,6 @@
             targetCell.setAttribute('rowspan', '2');
         }
 
-        // Récupère la couleur de la matière
         const orig = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
         let cbClass = 'cb-' + courseId;
         if (orig) {
@@ -820,7 +770,6 @@
         `;
     }
 
-    // Lecture Google Sheets
     async function fetchGoogleSheetsStatuses() {
         if (!GOOGLE_SHEET_CSV_URL) return;
 
@@ -848,7 +797,7 @@
 
                 if (level !== CURRENT_LEVEL.toLowerCase()) return;
 
-                // --- RATTRAPAGE / SUPPLÉMENTAIRE : insère dans le créneau exact ---
+                // Rattrapage / Supplémentaire → nouvelle case à l'heure exacte
                 if (status.includes('rattrap') || status.includes('suppl')) {
                     if (day && hour) {
                         const extra = [date, note].filter(Boolean).join(' · ');
@@ -857,7 +806,7 @@
                     return;
                 }
 
-                // --- NORMAL / ANNULÉ / REPORTÉ : agit sur la case de base ---
+                // Normal / Annulé / Reporté → case d'origine
                 const block = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
                 if (!block) return;
 
@@ -888,7 +837,6 @@
                         }
                     }
                 } else {
-                    // Normal
                     if (noteEl) {
                         if (note) {
                             noteEl.textContent = '📌 ' + note;
@@ -906,7 +854,6 @@
 
     fetchGoogleSheetsStatuses();
 
-    // ========== PDF ==========
     async function downloadPDF() {
         const btn = document.getElementById('downloadBtn');
         btn.classList.add('is-loading');
@@ -927,7 +874,7 @@
                             <div style="font-size:11px;color:#64748b;font-weight:600;margin-top:2px">Emploi du temps · 2026-2027</div>
                         </div>
                     </div>
-                    <div style="background:#eef2ff;color:#4f46e5;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:800">Première Générale</div>
+                    <div style="background:#eef2ff;color:#4f46e5;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:800">Première STMG</div>
                 </div>
             `;
 
@@ -966,7 +913,7 @@
             }
 
             pdf.addImage(canvas.toDataURL('image/jpeg', 0.93), 'JPEG', (pw - w) / 2, (ph - h) / 2, w, h);
-            pdf.save('Emploi-du-temps-Premiere-Generale.pdf');
+            pdf.save('Emploi-du-temps-Premiere-STMG.pdf');
 
             btn.classList.remove('is-loading');
             btn.classList.add('is-success');
