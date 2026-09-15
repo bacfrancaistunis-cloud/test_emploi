@@ -243,7 +243,7 @@
             background: #4a55e0;
         }
 
-        .download-btn.is-loading .btn-text { opacity: 0; }
+        .download-btn.is-loading .btn-text,
         .download-btn.is-loading .btn-icon { opacity: 0; }
 
         .download-btn.is-loading .btn-spinner {
@@ -255,7 +255,7 @@
             animation: downloadSuccess 0.4s ease;
         }
 
-        .download-btn.is-success .btn-text { opacity: 0; }
+        .download-btn.is-success .btn-text,
         .download-btn.is-success .btn-icon { opacity: 0; }
         .download-btn.is-success .btn-check { display: block; }
 
@@ -317,10 +317,7 @@
         .notice-title { color: #92400e; font-size: 13px; font-weight: 800; margin-bottom: 3px; }
         .notice-description { color: #a16207; font-size: 11px; line-height: 1.5; }
 
-        /* =====================================================
-           TABLEAU
-        ====================================================== */
-
+        /* TABLEAU */
         .planning {
             background: var(--white);
             border: 1px solid #d1d1d1;
@@ -671,9 +668,15 @@
             }
         }
 
-        /* Masquer pendant l'export */
-        .planning.is-exporting .scroll-hint {
-            display: none !important;
+        /* STYLE IMPRESSION NATIVE */
+        @media print {
+            header { position: static; box-shadow: none; border-bottom: 2px solid #ccc; }
+            .download-btn, .scroll-hint { display: none !important; }
+            main { padding: 10px 0; }
+            .planning { box-shadow: none; border: 1px solid #aaa; }
+            .table-scroll { overflow: visible !important; }
+            .schedule { min-width: 100% !important; width: 100% !important; }
+            @page { size: landscape; margin: 8mm; }
         }
     </style>
 </head>
@@ -889,79 +892,105 @@
             }
         });
 
-        // Export PDF
+        // Génération PDF via clone DOM déconnecté (Résout 100% le problème de page blanche)
         async function downloadPDF() {
             const btn = document.getElementById('downloadBtn');
-            const section = document.getElementById('planningSection');
-            const tableEl = document.getElementById('timetable');
-            const scrollContainer = section.querySelector('.table-scroll');
-
-            // État loading
             btn.classList.add('is-loading');
             btn.classList.remove('is-success');
-            section.classList.add('is-exporting');
-
-            // Sauvegarder le scroll et forcer le scroll à 0
-            const savedScroll = scrollContainer.scrollLeft;
-            scrollContainer.scrollLeft = 0;
-
-            // Forcer le conteneur à afficher le tableau entier sans scroll
-            const savedOverflow = scrollContainer.style.overflow;
-            const savedWidth = scrollContainer.style.width;
-            scrollContainer.style.overflow = 'visible';
-            scrollContainer.style.width = tableEl.scrollWidth + 'px';
-
-            // Petit délai pour le rendu
-            await new Promise(r => setTimeout(r, 200));
 
             try {
-                const canvas = await html2canvas(section, {
+                // 1. Création d'un container temporaire fixé en 1150px
+                const exportContainer = document.createElement('div');
+                exportContainer.style.position = 'fixed';
+                exportContainer.style.top = '-10000px';
+                exportContainer.style.left = '0';
+                exportContainer.style.width = '1150px';
+                exportContainer.style.backgroundColor = '#ffffff';
+                exportContainer.style.padding = '30px';
+                exportContainer.style.zIndex = '-9999';
+
+                // Cloner le Header, le Main et le Footer
+                const headerClone = document.querySelector('header').cloneNode(true);
+                const mainClone = document.querySelector('main').cloneNode(true);
+                const footerClone = document.querySelector('footer').cloneNode(true);
+
+                // Nettoyer les éléments inutiles dans le clone
+                const btnInClone = mainClone.querySelector('#downloadBtn');
+                if (btnInClone) btnInClone.remove();
+
+                const hintInClone = mainClone.querySelector('.scroll-hint');
+                if (hintInClone) hintInClone.remove();
+
+                // Assembler le document virtuel
+                exportContainer.appendChild(headerClone);
+                exportContainer.appendChild(mainClone);
+                exportContainer.appendChild(footerClone);
+
+                // Désactiver toutes les animations et overflows gênants pour html2canvas
+                const overrideStyle = document.createElement('style');
+                overrideStyle.innerHTML = `
+                    * {
+                        animation: none !important;
+                        transition: none !important;
+                        transform: none !important;
+                        box-shadow: none !important;
+                    }
+                    body { background: #ffffff !important; }
+                    header { position: static !important; border-bottom: 2px solid #e8eaf1 !important; }
+                    main { padding: 20px 0 !important; max-width: 100% !important; }
+                    .planning { border: 1px solid #d1d1d1 !important; border-radius: 12px !important; }
+                    .table-scroll { overflow: visible !important; width: 100% !important; }
+                    .schedule { width: 100% !important; min-width: 100% !important; }
+                `;
+                exportContainer.appendChild(overrideStyle);
+                document.body.appendChild(exportContainer);
+
+                // Attendre la stabilisation du DOM
+                await new Promise(r => setTimeout(r, 250));
+
+                // Capture Canvas haute définition
+                const canvas = await html2canvas(exportContainer, {
                     scale: 2,
                     useCORS: true,
+                    allowTaint: true,
                     backgroundColor: '#ffffff',
-                    logging: false,
-                    windowWidth: tableEl.scrollWidth + 60,
+                    logging: false
                 });
 
+                // Supprimer le container temporaire
+                document.body.removeChild(exportContainer);
+
+                // Export PDF Paysage (A4)
                 const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
-
-                // Calculer les dimensions pour le PDF (paysage A4)
                 const pdf = new jsPDF({
                     orientation: 'landscape',
                     unit: 'mm',
-                    format: 'a4',
+                    format: 'a4'
                 });
 
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = pdf.internal.pageSize.getHeight();
-                const margin = 10;
-                const usableW = pdfWidth - margin * 2;
-                const usableH = pdfHeight - margin * 2;
+                const pdfW = pdf.internal.pageSize.getWidth();
+                const pdfH = pdf.internal.pageSize.getHeight();
+                const margin = 8;
 
+                const usableW = pdfW - (margin * 2);
                 const imgRatio = canvas.width / canvas.height;
+
                 let finalW = usableW;
                 let finalH = usableW / imgRatio;
 
-                if (finalH > usableH) {
-                    finalH = usableH;
-                    finalW = usableH * imgRatio;
+                if (finalH > (pdfH - margin * 2)) {
+                    finalH = pdfH - (margin * 2);
+                    finalW = finalH * imgRatio;
                 }
 
-                const x = (pdfWidth - finalW) / 2;
-                const y = margin;
+                const xPos = (pdfW - finalW) / 2;
+                const yPos = (pdfH - finalH) / 2;
 
-                // Titre
-                pdf.setFont('helvetica', 'bold');
-                pdf.setFontSize(9);
-                pdf.setTextColor(115, 121, 140);
-                pdf.text('BFT Education Group · Première Générale · Emploi du temps 2026-2027', pdfWidth / 2, 7, { align: 'center' });
-
-                pdf.addImage(imgData, 'PNG', x, y + 2, finalW, finalH);
-
+                pdf.addImage(imgData, 'PNG', xPos, yPos, finalW, finalH);
                 pdf.save('Emploi-du-temps-Premiere-Generale.pdf');
 
-                // État succès
+                // Succès
                 btn.classList.remove('is-loading');
                 btn.classList.add('is-success');
 
@@ -972,13 +1001,7 @@
             } catch (err) {
                 console.error('Erreur PDF :', err);
                 btn.classList.remove('is-loading');
-                alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
-            } finally {
-                // Restaurer l'état du scroll
-                scrollContainer.style.overflow = savedOverflow;
-                scrollContainer.style.width = savedWidth;
-                scrollContainer.scrollLeft = savedScroll;
-                section.classList.remove('is-exporting');
+                alert('Erreur lors du téléchargement. Vous pouvez aussi imprimer la page (Ctrl+P).');
             }
         }
     </script>
