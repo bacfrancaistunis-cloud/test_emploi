@@ -11,22 +11,19 @@
 
         :root {
             --blue: #2736d8;
-            --blue-dark: #18239b;
             --blue-light: #eef0ff;
-
             --yellow: #f59e0b;
             --yellow-light: #fff8e7;
-
             --text: #171b2d;
             --muted: #73798c;
-            --border: #e8eaf1;
+            --border: #8b8b8b;
             --background: #f6f7fb;
             --white: #ffffff;
 
-            --svt: #2563eb;
-            --physique: #7c3aed;
-            --francais: #ea580c;
-            --maths: #16a34a;
+            --svt: #fff0dc;
+            --physique: #d4b4a6;
+            --francais: #f4a56f;
+            --maths: #7bc9aa;
         }
 
         * {
@@ -95,23 +92,13 @@
             }
         }
 
-        @keyframes subtleNotice {
-            0%, 100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-2px);
-            }
-        }
-
         /* =========================================
            HEADER
         ========================================= */
 
         header {
             background: rgba(255, 255, 255, 0.96);
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #e8eaf1;
 
             position: sticky;
             top: 0;
@@ -180,14 +167,14 @@
         ========================================= */
 
         main {
-            max-width: 1050px;
+            max-width: 1150px;
             margin: auto;
 
-            padding: 50px 25px 70px;
+            padding: 45px 25px 65px;
         }
 
         .hero {
-            margin-bottom: 30px;
+            margin-bottom: 28px;
 
             animation: fadeUp 0.7s ease 0.1s both;
         }
@@ -236,7 +223,6 @@
             background: var(--yellow-light);
 
             border: 1px solid #f7dfaa;
-
             border-radius: 14px;
 
             padding: 14px 17px;
@@ -245,7 +231,17 @@
 
             animation:
                 fadeUp 0.7s ease 0.25s both,
-                subtleNotice 3s ease-in-out 1.5s infinite;
+                pulseNotice 3s ease-in-out 1.5s infinite;
+        }
+
+        @keyframes pulseNotice {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-2px);
+            }
         }
 
         .notice-icon {
@@ -289,198 +285,208 @@
         }
 
         /* =========================================
-           TABLEAU
+           TABLEAU EMPLOI DU TEMPS
         ========================================= */
 
         .planning {
             background: var(--white);
 
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
 
             box-shadow:
-                0 8px 25px rgba(24, 35, 80, 0.045);
+                0 8px 25px rgba(24, 35, 80, 0.06);
 
             overflow: hidden;
 
             animation: fadeUp 0.7s ease 0.35s both;
         }
 
-        .table-wrapper {
+        .table-scroll {
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
 
-        .schedule-table {
+        .schedule {
             width: 100%;
-            min-width: 650px;
+            min-width: 900px;
 
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
+
             table-layout: fixed;
         }
 
-        .schedule-table thead {
-            background: var(--blue);
-            color: var(--white);
-        }
+        /* =========================================
+           EN-TÊTE DU TABLEAU
+        ========================================= */
 
-        .schedule-table th {
-            padding: 17px 20px;
+        .schedule thead th {
+            height: 38px;
 
-            text-align: left;
+            background: #eeeeee;
+
+            color: #17265c;
+
+            border-right: 1px solid #999;
+            border-bottom: 1px solid #777;
 
             font-size: 12px;
             font-weight: 800;
 
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
+            text-align: center;
+            vertical-align: middle;
 
             white-space: nowrap;
         }
 
-        .schedule-table th:nth-child(1) {
-            width: 25%;
+        .schedule thead th:first-child {
+            width: 115px;
         }
 
-        .schedule-table th:nth-child(2) {
-            width: 42%;
-        }
-
-        .schedule-table th:nth-child(3) {
-            width: 33%;
-        }
-
-        .schedule-table tbody tr {
-            border-bottom: 1px solid var(--border);
-
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .schedule-table tbody tr:last-child {
-            border-bottom: none;
-        }
-
-        .schedule-table tbody tr:hover {
-            background: #fafbff;
-        }
-
-        .schedule-table td {
-            padding: 17px 20px;
-
-            font-size: 13px;
-
-            vertical-align: middle;
+        .schedule thead th:last-child {
+            border-right: none;
         }
 
         /* =========================================
-           JOUR
+           COLONNE HORAIRES
         ========================================= */
 
-        .day-cell {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .schedule tbody th {
+            width: 115px;
+
+            background: #fafafa;
+
+            color: #17265c;
+
+            border-right: 1px solid #777;
+            border-bottom: 1px solid #777;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-align: center;
+            vertical-align: middle;
+
+            white-space: nowrap;
         }
 
-        .day-icon {
-            width: 40px;
-            height: 40px;
+        /* =========================================
+           CELLULES
+        ========================================= */
+
+        .schedule tbody td {
+            height: 80px;
+
+            background: #ffffff;
+
+            border-right: 1px solid #777;
+            border-bottom: 1px solid #777;
+
+            text-align: center;
+            vertical-align: middle;
+
+            padding: 8px;
+
+            font-size: 11px;
+            font-weight: 500;
+
+            line-height: 1.35;
+
+            transition:
+                filter 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .schedule tbody tr:last-child th,
+        .schedule tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .schedule tbody td:last-child {
+            border-right: none;
+        }
+
+        .schedule tbody td:hover {
+            filter: brightness(0.97);
+        }
+
+        /* =========================================
+           COURS
+        ========================================= */
+
+        .course {
+            height: 100%;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: var(--blue-light);
-            color: var(--blue);
+            padding: 8px;
 
-            border-radius: 12px;
+            border-radius: 0;
 
-            font-size: 17px;
+            font-size: 11px;
+            font-weight: 600;
 
-            flex-shrink: 0;
+            line-height: 1.35;
+
+            animation: fadeUp 0.6s ease both;
         }
 
-        .day-info strong {
+        .course strong {
             display: block;
 
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 800;
         }
 
-        .day-info span {
+        .course small {
             display: block;
 
             margin-top: 3px;
 
-            color: var(--muted);
-
             font-size: 10px;
+            font-weight: 500;
         }
 
-        /* =========================================
-           MATIÈRE
-        ========================================= */
+        /* Couleurs des matières */
 
-        .subject-cell {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .subject-line {
-            width: 5px;
-            height: 38px;
-
-            border-radius: 20px;
-
-            flex-shrink: 0;
-        }
-
-        .subject-name {
-            font-size: 14px;
-            font-weight: 750;
-        }
-
-        .subject-svt {
+        .course-svt {
             background: var(--svt);
         }
 
-        .subject-physique {
+        .course-physique {
             background: var(--physique);
         }
 
-        .subject-francais {
+        .course-francais {
             background: var(--francais);
         }
 
-        .subject-maths {
+        .course-maths {
             background: var(--maths);
         }
 
         /* =========================================
-           HORAIRE
+           INDICATION MOBILE
         ========================================= */
 
-        .time-cell {
+        .scroll-hint {
+            display: none;
+
+            padding: 10px 15px;
+
             color: var(--muted);
 
-            font-size: 12px;
-            font-weight: 600;
+            background: #fafbfe;
 
-            white-space: nowrap;
-        }
+            border-top: 1px solid #e8eaf1;
 
-        .time-cell::before {
-            content: "◷";
+            text-align: center;
 
-            color: var(--blue);
-
-            margin-right: 7px;
-
-            font-size: 14px;
+            font-size: 10px;
         }
 
         /* =========================================
@@ -510,11 +516,16 @@
         @media (max-width: 800px) {
 
             main {
-                padding-top: 40px;
+                padding-top: 38px;
             }
 
-            .schedule-table {
-                min-width: 600px;
+            .schedule {
+                min-width: 850px;
+            }
+
+            .schedule thead th,
+            .schedule tbody th {
+                font-size: 11px;
             }
         }
 
@@ -546,11 +557,11 @@
             }
 
             main {
-                padding: 32px 15px 50px;
+                padding: 30px 12px 50px;
             }
 
             .hero {
-                margin-bottom: 25px;
+                margin-bottom: 23px;
             }
 
             .hero h2 {
@@ -563,7 +574,7 @@
             }
 
             .notice {
-                padding: 13px;
+                padding: 12px;
             }
 
             .notice-description {
@@ -571,50 +582,50 @@
             }
 
             .planning {
-                border-radius: 17px;
+                border-radius: 7px;
             }
 
-            .schedule-table {
-                min-width: 560px;
+            .schedule {
+                min-width: 820px;
             }
 
-            .schedule-table th {
-                padding: 14px 15px;
+            .schedule thead th {
+                height: 34px;
+
                 font-size: 10px;
             }
 
-            .schedule-table td {
-                padding: 15px;
+            .schedule tbody th {
+                font-size: 10px;
             }
 
-            .day-icon {
-                width: 36px;
-                height: 36px;
+            .schedule tbody td {
+                height: 78px;
 
-                border-radius: 10px;
+                padding: 5px;
 
-                font-size: 15px;
+                font-size: 10px;
             }
 
-            .day-info strong {
-                font-size: 13px;
+            .course {
+                font-size: 10px;
             }
 
-            .day-info span {
+            .course strong {
+                font-size: 11px;
+            }
+
+            .course small {
                 font-size: 9px;
             }
 
-            .subject-name {
-                font-size: 13px;
-            }
-
-            .time-cell {
-                font-size: 11px;
+            .scroll-hint {
+                display: block;
             }
         }
 
         /* =========================================
-           PETITS TELEPHONES
+           PETITS TÉLÉPHONES
         ========================================= */
 
         @media (max-width: 360px) {
@@ -631,8 +642,8 @@
                 font-size: 26px;
             }
 
-            .schedule-table {
-                min-width: 520px;
+            .schedule {
+                min-width: 800px;
             }
         }
 
@@ -733,7 +744,9 @@
                 </div>
 
                 <div class="notice-description">
-                    L’emploi du temps est susceptible d’être modifié. Pensez à consulter régulièrement cette page afin de prendre connaissance des éventuelles mises à jour.
+                    L’emploi du temps est susceptible d’être modifié.
+                    Pensez à consulter régulièrement cette page afin de
+                    prendre connaissance des éventuelles mises à jour.
                 </div>
 
             </div>
@@ -747,210 +760,163 @@
 
         <section class="planning">
 
-            <div class="table-wrapper">
+            <div class="table-scroll">
 
-                <table class="schedule-table">
+                <table class="schedule">
 
                     <thead>
 
                         <tr>
-                            <th>Jour</th>
-                            <th>Matière</th>
                             <th>Horaire</th>
+                            <th>Lundi</th>
+                            <th>Mardi</th>
+                            <th>Mercredi</th>
+                            <th>Jeudi</th>
+                            <th>Vendredi</th>
+                            <th>Samedi</th>
+                            <th>Dimanche</th>
                         </tr>
 
                     </thead>
 
                     <tbody>
 
-                        <!-- SAMEDI -->
+                        <!-- 14h00 — 15h00 -->
 
                         <tr>
 
-                            <td>
+                            <th>
+                                14h00 – 15h00
+                            </th>
 
-                                <div class="day-cell">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
 
-                                    <div class="day-icon">
-                                        ☀
-                                    </div>
-
-                                    <div class="day-info">
-
-                                        <strong>
-                                            Samedi
-                                        </strong>
-
-                                        <span>
-                                            2 cours
-                                        </span>
-
-                                    </div>
-
+                            <td rowspan="2" class="course course-maths">
+                                <div>
+                                    <strong>Mathématiques</strong>
+                                    <small>2h</small>
                                 </div>
-
-                            </td>
-
-                            <td>
-
-                                <div class="subject-cell">
-
-                                    <div class="subject-line subject-svt"></div>
-
-                                    <div class="subject-name">
-                                        SVT
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-                            <td class="time-cell">
-                                15h00 — 17h00
                             </td>
 
                         </tr>
 
 
+                        <!-- 15h00 — 16h00 -->
+
                         <tr>
 
-                            <td>
+                            <th>
+                                15h00 – 16h00
+                            </th>
 
-                                <div class="day-cell">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
 
-                                    <div class="day-icon">
-                                        ☀
-                                    </div>
-
-                                    <div class="day-info">
-
-                                        <strong>
-                                            Samedi
-                                        </strong>
-
-                                        <span>
-                                            2 cours
-                                        </span>
-
-                                    </div>
-
+                            <td rowspan="2" class="course course-svt">
+                                <div>
+                                    <strong>SVT</strong>
+                                    <small>2h</small>
                                 </div>
-
-                            </td>
-
-                            <td>
-
-                                <div class="subject-cell">
-
-                                    <div class="subject-line subject-physique"></div>
-
-                                    <div class="subject-name">
-                                        Physique-Chimie
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-                            <td class="time-cell">
-                                17h00 — 19h00
                             </td>
 
                         </tr>
 
 
-                        <!-- DIMANCHE -->
+                        <!-- 16h00 — 17h00 -->
 
                         <tr>
 
-                            <td>
+                            <th>
+                                16h00 – 17h00
+                            </th>
 
-                                <div class="day-cell">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
 
-                                    <div class="day-icon">
-                                        ☀
-                                    </div>
+                            <td></td>
 
-                                    <div class="day-info">
-
-                                        <strong>
-                                            Dimanche
-                                        </strong>
-
-                                        <span>
-                                            2 cours
-                                        </span>
-
-                                    </div>
-
+                            <td rowspan="2" class="course course-francais">
+                                <div>
+                                    <strong>Français</strong>
+                                    <small>2h</small>
                                 </div>
-
-                            </td>
-
-                            <td>
-
-                                <div class="subject-cell">
-
-                                    <div class="subject-line subject-francais"></div>
-
-                                    <div class="subject-name">
-                                        Français
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-                            <td class="time-cell">
-                                14h00 — 16h00
                             </td>
 
                         </tr>
 
 
+                        <!-- 17h00 — 18h00 -->
+
                         <tr>
 
-                            <td>
+                            <th>
+                                17h00 – 18h00
+                            </th>
 
-                                <div class="day-cell">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
 
-                                    <div class="day-icon">
-                                        ☀
-                                    </div>
-
-                                    <div class="day-info">
-
-                                        <strong>
-                                            Dimanche
-                                        </strong>
-
-                                        <span>
-                                            2 cours
-                                        </span>
-
-                                    </div>
-
+                            <td rowspan="2" class="course course-physique">
+                                <div>
+                                    <strong>Physique-Chimie</strong>
+                                    <small>2h</small>
                                 </div>
-
                             </td>
 
-                            <td>
+                            <td></td>
 
-                                <div class="subject-cell">
+                        </tr>
 
-                                    <div class="subject-line subject-maths"></div>
 
-                                    <div class="subject-name">
-                                        Mathématiques
-                                    </div>
+                        <!-- 18h00 — 19h00 -->
 
-                                </div>
+                        <tr>
 
-                            </td>
+                            <th>
+                                18h00 – 19h00
+                            </th>
 
-                            <td class="time-cell">
-                                16h00 — 18h00
-                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+
+
+                        <!-- 19h00 — 21h00 -->
+
+                        <tr>
+
+                            <th>
+                                19h00 – 21h00
+                            </th>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
 
                         </tr>
 
@@ -958,6 +924,10 @@
 
                 </table>
 
+            </div>
+
+            <div class="scroll-hint">
+                ← Faites glisser horizontalement pour voir tout le tableau →
             </div>
 
         </section>
@@ -979,4 +949,3 @@
 
 </body>
 </html>
-
