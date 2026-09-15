@@ -502,7 +502,7 @@
             white-space: nowrap;
         }
 
-        /* BADGES SPÉCIAUX (Annulé, Reporté, Rattrapage) */
+        /* BADGES SPÉCIAUX */
         .status-badge {
             display: none;
             padding: 2px 6px;
@@ -514,7 +514,6 @@
             margin-bottom: 3px;
         }
 
-        /* NOTE / NOUVEL HORAIRE DYNAMIQUE */
         .cb-custom-note {
             display: none;
             margin-top: 4px;
@@ -558,14 +557,17 @@
         }
 
         /* ÉTAT RATTRAPAGE */
+        .course-block.is-rattrapage {
+            box-shadow: 0 4px 14px rgba(39, 54, 216, 0.15);
+        }
         .course-block.is-rattrapage .status-badge.badge-rattrapage {
             display: inline-block;
-            background: #e0e7ff;
-            color: #3730a3;
-            border: 1px solid #a5b4fc;
+            background: #2736d8;
+            color: #ffffff;
+            border: 1px solid #1e2bc0;
         }
 
-        /* Couleurs Matières de base + Nouvelles */
+        /* Couleurs Matières */
         .cb-maths { background: var(--maths); border-color: rgba(43, 122, 90, 0.2); }
         .cb-maths::before { background: #2b7a5a; }
         .cb-maths .cb-name { color: #0f5132; }
@@ -954,9 +956,21 @@
     </footer>
 
     <script>
-        // Votre URL Google Sheet publiée
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlhZH8-HZduOPsbbmHVYtbeVaJwPVmijJkxRWsjhix5I7UwBH4-lWOTuJn3VvBQVIN4yEOIPqDCPDJ/pub?gid=1961795058&single=true&output=csv";
         const CURRENT_LEVEL = "premiere_generale"; 
+
+        // Mapping des jours
+        const DAY_MAP = { 'lundi': 1, 'mardi': 2, 'mercredi': 3, 'jeudi': 4, 'vendredi': 5, 'samedi': 6, 'dimanche': 0 };
+
+        // Mapping des heures de début vers l'index de la ligne
+        const HOUR_ROW_MAP = {
+            '14h': 1, '14h00': 1, '14': 1,
+            '15h': 2, '15h00': 2, '15': 2,
+            '16h': 3, '16h00': 3, '16': 3,
+            '17h': 4, '17h00': 4, '17': 4,
+            '18h': 5, '18h00': 5, '18': 5,
+            '19h': 6, '19h00': 6, '19': 6
+        };
 
         // Surbrillance du jour actuel
         const today = new Date().getDay();
@@ -967,7 +981,58 @@
             }
         });
 
-        // Lecture filtrée du Google Sheet
+        // Placer dynamiquement un bloc de rattrapage dans une nouvelle case du tableau
+        function placeRattrapageCourse(courseId, subjectName, dayName, hourStart, noteText) {
+            const dayNum = DAY_MAP[dayName.toLowerCase()];
+            const rowIndex = HOUR_ROW_MAP[hourStart.toLowerCase()];
+
+            if (dayNum === undefined || !rowIndex) return;
+
+            const tbody = document.querySelector('#timetable tbody');
+            const targetRow = tbody.querySelectorAll('tr')[rowIndex - 1];
+            if (!targetRow) return;
+
+            const targetCell = targetRow.querySelector(`td[data-day="${dayNum}"]`);
+            if (!targetCell) return;
+
+            // Si c'est un cours de 2h démarrant entre 14h et 17h, fusionner avec la ligne du bas
+            if (rowIndex <= 4) {
+                const nextRow = tbody.querySelectorAll('tr')[rowIndex];
+                if (nextRow) {
+                    const nextCell = nextRow.querySelector(`td[data-day="${dayNum}"]`);
+                    if (nextCell) nextCell.style.display = 'none';
+                }
+                targetCell.setAttribute('rowspan', '2');
+            }
+
+            // Récupérer la classe de couleur de la matière
+            const origBlock = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
+            let cbClass = 'cb-' + courseId;
+            if (origBlock) {
+                cbClass = Array.from(origBlock.classList).find(c => c.startsWith('cb-')) || ('cb-' + courseId);
+            }
+
+            let startHInt = parseInt(hourStart);
+            let endHInt = startHInt + (rowIndex <= 4 ? 2 : 1);
+            let timeDisplay = `${startHInt}h – ${endHInt}h`;
+
+            targetCell.innerHTML = `
+                <div class="course-block ${cbClass} is-rattrapage" data-course-id="${courseId}-rattrapage">
+                    <span class="status-badge badge-rattrapage" style="display:inline-block;">★ RATTRAPAGE</span>
+                    <span class="cb-name">${subjectName}</span>
+                    <div class="cb-details">
+                        <span class="cb-badge">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 1.5"/></svg>
+                            2h
+                        </span>
+                        <span class="cb-time">${timeDisplay}</span>
+                    </div>
+                    ${noteText ? `<div class="cb-custom-note" style="display:block;">📅 ${noteText}</div>` : ''}
+                </div>
+            `;
+        }
+
+        // Synchro Google Sheets
         async function fetchGoogleSheetsStatuses() {
             if (!GOOGLE_SHEET_CSV_URL) return;
 
@@ -983,29 +1048,40 @@
                     if (columns.length >= 4) {
                         const level = columns[0].replace(/"/g, '').trim().toLowerCase();
                         const courseId = columns[1].replace(/"/g, '').trim().toLowerCase();
+                        const subjectName = columns[2] ? columns[2].replace(/"/g, '').trim() : "";
                         const status = columns[3].replace(/"/g, '').trim().toLowerCase();
-                        const noteText = columns[4] ? columns[4].replace(/"/g, '').trim() : "";
+                        
+                        const rattrapageDay = columns[4] ? columns[4].replace(/"/g, '').trim() : "";
+                        const rattrapageHour = columns[5] ? columns[5].replace(/"/g, '').trim() : "";
+                        const noteText = columns[6] ? columns[6].replace(/"/g, '').trim() : "";
 
                         if (level === CURRENT_LEVEL.toLowerCase()) {
-                            const block = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
-                            if (block) {
-                                block.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
+                            const origBlock = document.querySelector(`.course-block[data-course-id="${courseId}"]`);
+                            
+                            if (origBlock) {
+                                origBlock.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
 
                                 if (status.includes('annul') || status.includes('cancel')) {
-                                    block.classList.add('is-cancelled');
+                                    origBlock.classList.add('is-cancelled');
                                 } else if (status.includes('report') || status.includes('postpon')) {
-                                    block.classList.add('is-postponed');
-                                } else if (status.includes('rattrap') || status.includes('makeup')) {
-                                    block.classList.add('is-rattrapage');
-                                }
-
-                                const noteDiv = block.querySelector('.cb-custom-note');
-                                if (noteDiv) {
-                                    if (noteText) {
-                                        noteDiv.textContent = '📅 ' + noteText;
+                                    origBlock.classList.add('is-postponed');
+                                    const noteDiv = origBlock.querySelector('.cb-custom-note');
+                                    if (noteDiv && (rattrapageDay || noteText)) {
+                                        noteDiv.textContent = '📅 ' + (rattrapageDay ? `Déplacé au ${rattrapageDay} ${rattrapageHour}` : noteText);
                                         noteDiv.style.display = 'block';
-                                    } else {
-                                        noteDiv.style.display = 'none';
+                                    }
+                                } else if (status.includes('rattrap') || status.includes('makeup')) {
+                                    // Le créneau d'origine passe en "Reporté"
+                                    origBlock.classList.add('is-postponed');
+                                    const noteDiv = origBlock.querySelector('.cb-custom-note');
+                                    if (noteDiv) {
+                                        noteDiv.textContent = '📅 ' + (rattrapageDay ? `Rattrapage ${rattrapageDay} à ${rattrapageHour}` : 'Séance décalée');
+                                        noteDiv.style.display = 'block';
+                                    }
+
+                                    // Si un nouveau jour et heure de rattrapage sont renseignés, PLACER LE COURS dans le nouveau créneau !
+                                    if (rattrapageDay && rattrapageHour) {
+                                        placeRattrapageCourse(courseId, subjectName, rattrapageDay, rattrapageHour, noteText);
                                     }
                                 }
                             }
@@ -1013,7 +1089,7 @@
                     }
                 });
             } catch (error) {
-                console.warn("Liaison Google Sheets en cours d'actualisation...");
+                console.warn("Liaison Google Sheets...");
             }
         }
 
