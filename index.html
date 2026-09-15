@@ -112,8 +112,8 @@
         }
 
         .logo {
-            width: 58px;
-            height: 58px;
+            width: 54px;
+            height: 54px;
             object-fit: contain;
             flex-shrink: 0;
             border-radius: 12px;
@@ -679,7 +679,8 @@
     <header>
         <div class="header-inner">
             <div class="brand">
-                <img class="logo" id="mainLogo" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT Education Group" onerror="this.onerror=null; this.src=fallbackSvgLogo;">
+                <!-- Logo auto-hébergé en Data URI Base64 (100% compatible Web + PDF sans erreur CORS) -->
+                <img class="logo" id="mainLogo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzI3MzZkOCIvPjxwYXRoIGQ9Ik0yNTYgMTIwIEwzOTAgMTkwIEwyNTYgMjYwIEwxMjIgMTkwIFoiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTY1IDIzMCBWMzEwIEMxNjUgMzUwIDM0NyAzNTAgMzQ3IDMxMCBWMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0zOTAgMjAwIFYyOTAiIHN0cm9rZT0iI2Y1OWUwYiIgc3Ryb2tlLXdpZHRoPSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMzkwIiBjeT0iMzAwIiByPSIxNCIgZmlsbD0iI2Y1OWUwYiIvPjx0ZXh0IHg9IjI1NiIgeT0iNDQwIiBmb250LWZhbWlseT0iJ0ludGVyJywgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEwIiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iNCI+QkZUPC90ZXh0Pjwvc3ZnPg==" alt="BFT Education Group">
                 <div class="brand-text">
                     <h1>BFT Education Group</h1>
                     <p>Emploi du temps</p>
@@ -877,9 +878,6 @@
     </footer>
 
     <script>
-        // Logo Vectoriel de secours universel (garantit 0 erreur)
-        const fallbackSvgLogo = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%232736d8"/><text x="50" y="62" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="%23ffffff" text-anchor="middle">BFT</text></svg>';
-
         // Surbrillance du jour actuel
         const today = new Date().getDay();
         document.querySelectorAll('#timetable th[data-day], #timetable td[data-day]').forEach(el => {
@@ -889,14 +887,14 @@
             }
         });
 
-        // Génération PDF sécurisée
+        // Génération PDF instantanée & 100% fiable
         async function downloadPDF() {
             const btn = document.getElementById('downloadBtn');
             btn.classList.add('is-loading');
             btn.classList.remove('is-success');
 
             try {
-                // 1. Container temporaire d'exportation
+                // 1. Création d'un container temporaire fixe pour le rendu PDF
                 const exportContainer = document.createElement('div');
                 exportContainer.style.position = 'fixed';
                 exportContainer.style.top = '-10000px';
@@ -911,25 +909,19 @@
                 const mainClone = document.querySelector('main').cloneNode(true);
                 const footerClone = document.querySelector('footer').cloneNode(true);
 
-                // Remplacer le logo dans le PDF par la version SVG garantie
-                const clonedLogo = headerClone.querySelector('.logo');
-                if (clonedLogo) {
-                    clonedLogo.src = fallbackSvgLogo;
-                }
-
-                // Nettoyage des boutons et éléments inutiles pour l'exportation
+                // Supprimer les éléments interactifs inutiles dans l'export
                 const btnInClone = mainClone.querySelector('#downloadBtn');
                 if (btnInClone) btnInClone.remove();
 
                 const hintInClone = mainClone.querySelector('.scroll-hint');
                 if (hintInClone) hintInClone.remove();
 
-                // Assembler le document virtuel
+                // Assemblage
                 exportContainer.appendChild(headerClone);
                 exportContainer.appendChild(mainClone);
                 exportContainer.appendChild(footerClone);
 
-                // Styles sur-mesure pour l'exportation PDF
+                // Forcer les styles d'impression dans le clone
                 const overrideStyle = document.createElement('style');
                 overrideStyle.innerHTML = `
                     * {
@@ -940,7 +932,7 @@
                     }
                     body { background: #ffffff !important; }
                     header { position: static !important; border-bottom: 2px solid #e8eaf1 !important; }
-                    .logo { display: block !important; width: 58px !important; height: 58px !important; }
+                    .logo { display: block !important; width: 54px !important; height: 54px !important; }
                     main { padding: 20px 0 !important; max-width: 100% !important; }
                     .planning { border: 1px solid #d1d1d1 !important; border-radius: 12px !important; }
                     .table-scroll { overflow: visible !important; width: 100% !important; }
@@ -949,8 +941,8 @@
                 exportContainer.appendChild(overrideStyle);
                 document.body.appendChild(exportContainer);
 
-                // Pause pour stabiliser le rendu
-                await new Promise(r => setTimeout(r, 200));
+                // Courte pause pour assurer le rendu complet
+                await new Promise(r => setTimeout(r, 150));
 
                 // Capture Canvas HD
                 const canvas = await html2canvas(exportContainer, {
@@ -961,10 +953,10 @@
                     logging: false
                 });
 
-                // Supprimer le container temporaire
+                // Nettoyage du DOM virtuel
                 document.body.removeChild(exportContainer);
 
-                // Export PDF Paysage
+                // Génération du document PDF Paysage A4
                 const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({
@@ -994,7 +986,7 @@
                 pdf.addImage(imgData, 'PNG', xPos, yPos, finalW, finalH);
                 pdf.save('Emploi-du-temps-Premiere-Generale.pdf');
 
-                // Succès
+                // Notification succès
                 btn.classList.remove('is-loading');
                 btn.classList.add('is-success');
 
@@ -1005,7 +997,7 @@
             } catch (err) {
                 console.error('Erreur PDF :', err);
                 btn.classList.remove('is-loading');
-                alert('Erreur lors du téléchargement. Vous pouvez aussi imprimer la page (Ctrl+P).');
+                alert('Erreur lors de la génération du PDF. Vous pouvez également imprimer avec Ctrl+P.');
             }
         }
     </script>
