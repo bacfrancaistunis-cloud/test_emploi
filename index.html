@@ -112,11 +112,10 @@
         }
 
         .logo {
-            width: 54px;
-            height: 54px;
+            width: 58px;
+            height: 58px;
             object-fit: contain;
             flex-shrink: 0;
-            border-radius: 12px;
             animation: logoFloat 4s ease-in-out infinite;
         }
 
@@ -679,8 +678,8 @@
     <header>
         <div class="header-inner">
             <div class="brand">
-                <!-- Logo auto-hébergé en Data URI Base64 (100% compatible Web + PDF sans erreur CORS) -->
-                <img class="logo" id="mainLogo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzI3MzZkOCIvPjxwYXRoIGQ9Ik0yNTYgMTIwIEwzOTAgMTkwIEwyNTYgMjYwIEwxMjIgMTkwIFoiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTY1IDIzMCBWMzEwIEMxNjUgMzUwIDM0NyAzNTAgMzQ3IDMxMCBWMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0zOTAgMjAwIFYyOTAiIHN0cm9rZT0iI2Y1OWUwYiIgc3Ryb2tlLXdpZHRoPSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMzkwIiBjeT0iMzAwIiByPSIxNCIgZmlsbD0iI2Y1OWUwYiIvPjx0ZXh0IHg9IjI1NiIgeT0iNDQwIiBmb250LWZhbWlseT0iJ0ludGVyJywgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEwIiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iNCI+QkZUPC90ZXh0Pjwvc3ZnPg==" alt="BFT Education Group">
+                <!-- Logo BFT original -->
+                <img class="logo" id="mainLogo" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT Education Group">
                 <div class="brand-text">
                     <h1>BFT Education Group</h1>
                     <p>Emploi du temps</p>
@@ -887,14 +886,48 @@
             }
         });
 
-        // Génération PDF instantanée & 100% fiable
+        // Convertit n'importe quelle URL d'image externe en Base64 sans bloquer sur CORS
+        async function fetchImageAsBase64(url) {
+            const blobToDataURL = blob => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+
+            try {
+                // Essai direct
+                const res = await fetch(url);
+                if (res.ok) {
+                    const blob = await res.blob();
+                    return await blobToDataURL(blob);
+                }
+            } catch (e) {}
+
+            try {
+                // Essai via serveur proxy CORS
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+                const res = await fetch(proxyUrl);
+                if (res.ok) {
+                    const blob = await res.blob();
+                    return await blobToDataURL(blob);
+                }
+            } catch (e) {}
+
+            return url;
+        }
+
+        // Génération PDF sécurisée
         async function downloadPDF() {
             const btn = document.getElementById('downloadBtn');
             btn.classList.add('is-loading');
             btn.classList.remove('is-success');
 
             try {
-                // 1. Création d'un container temporaire fixe pour le rendu PDF
+                const logoImg = document.getElementById('mainLogo');
+                const base64Logo = await fetchImageAsBase64(logoImg.src);
+
+                // 1. Créer un container temporaire d'exportation
                 const exportContainer = document.createElement('div');
                 exportContainer.style.position = 'fixed';
                 exportContainer.style.top = '-10000px';
@@ -909,6 +942,12 @@
                 const mainClone = document.querySelector('main').cloneNode(true);
                 const footerClone = document.querySelector('footer').cloneNode(true);
 
+                // Appliquer l'image Base64 sur le clone pour le PDF
+                const clonedLogo = headerClone.querySelector('.logo');
+                if (clonedLogo && base64Logo) {
+                    clonedLogo.src = base64Logo;
+                }
+
                 // Supprimer les éléments interactifs inutiles dans l'export
                 const btnInClone = mainClone.querySelector('#downloadBtn');
                 if (btnInClone) btnInClone.remove();
@@ -916,7 +955,7 @@
                 const hintInClone = mainClone.querySelector('.scroll-hint');
                 if (hintInClone) hintInClone.remove();
 
-                // Assemblage
+                // Assembler le document virtuel
                 exportContainer.appendChild(headerClone);
                 exportContainer.appendChild(mainClone);
                 exportContainer.appendChild(footerClone);
@@ -932,7 +971,7 @@
                     }
                     body { background: #ffffff !important; }
                     header { position: static !important; border-bottom: 2px solid #e8eaf1 !important; }
-                    .logo { display: block !important; width: 54px !important; height: 54px !important; }
+                    .logo { display: block !important; width: 58px !important; height: 58px !important; }
                     main { padding: 20px 0 !important; max-width: 100% !important; }
                     .planning { border: 1px solid #d1d1d1 !important; border-radius: 12px !important; }
                     .table-scroll { overflow: visible !important; width: 100% !important; }
@@ -941,8 +980,8 @@
                 exportContainer.appendChild(overrideStyle);
                 document.body.appendChild(exportContainer);
 
-                // Courte pause pour assurer le rendu complet
-                await new Promise(r => setTimeout(r, 150));
+                // Attente courte pour s'assurer du rendu complet
+                await new Promise(r => setTimeout(r, 200));
 
                 // Capture Canvas HD
                 const canvas = await html2canvas(exportContainer, {
@@ -997,7 +1036,7 @@
             } catch (err) {
                 console.error('Erreur PDF :', err);
                 btn.classList.remove('is-loading');
-                alert('Erreur lors de la génération du PDF. Vous pouvez également imprimer avec Ctrl+P.');
+                alert('Erreur lors de la génération du PDF. Vous pouvez également imprimer la page (Ctrl+P).');
             }
         }
     </script>
