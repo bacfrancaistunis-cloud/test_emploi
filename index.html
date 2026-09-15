@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emploi du temps — Première Générale</title>
 
-    <!-- html2canvas + jsPDF pour l'export PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -29,11 +28,7 @@
             --maths: #7bc9aa;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Inter', Arial, sans-serif;
@@ -74,9 +69,7 @@
             50% { opacity: 1; transform: translateX(3px); }
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         @keyframes downloadSuccess {
             0% { transform: scale(1); }
@@ -105,11 +98,7 @@
             gap: 20px;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+        .brand { display: flex; align-items: center; gap: 14px; }
 
         .logo {
             width: 58px;
@@ -140,7 +129,6 @@
             padding: 45px 25px 65px;
         }
 
-        /* HERO + BOUTON */
         .hero-row {
             display: flex;
             align-items: flex-end;
@@ -151,10 +139,7 @@
             animation: fadeUp 0.7s ease 0.1s both;
         }
 
-        .hero {
-            flex: 1;
-            min-width: 0;
-        }
+        .hero { flex: 1; min-width: 0; }
 
         .eyebrow {
             color: var(--blue);
@@ -181,7 +166,7 @@
             line-height: 1.6;
         }
 
-        /* BOUTON TÉLÉCHARGER */
+        /* BOUTON */
         .download-btn {
             display: inline-flex;
             align-items: center;
@@ -229,13 +214,9 @@
             transition: transform 0.2s ease;
         }
 
-        .download-btn:hover svg {
-            transform: translateY(2px);
-        }
-
+        .download-btn:hover svg { transform: translateY(2px); }
         .download-btn .btn-text { transition: opacity 0.2s ease; }
 
-        /* États du bouton */
         .download-btn.is-loading {
             pointer-events: none;
             background: #4a55e0;
@@ -279,7 +260,7 @@
 
         .btn-check svg { width: 22px; height: 22px; }
 
-        /* AVERTISSEMENT */
+        /* NOTICE */
         .notice {
             display: flex;
             align-items: center;
@@ -431,7 +412,6 @@
         }
 
         .schedule tbody td.today-col { background: rgba(39, 54, 216, 0.015); }
-
         .schedule tbody tr:hover td:not([rowspan]) { background: #f8f9fe; }
 
         .schedule tbody td:empty::after {
@@ -606,7 +586,6 @@
             animation: hintPulse 1.5s ease-in-out infinite;
         }
 
-        /* FOOTER */
         footer {
             text-align: center;
             padding: 0 20px 30px;
@@ -661,7 +640,6 @@
             }
         }
 
-        /* IMPRESSION NATIVE */
         @media print {
             header { position: static; box-shadow: none; border-bottom: 2px solid #ccc; }
             .download-btn, .scroll-hint { display: none !important; }
@@ -669,7 +647,7 @@
             .planning { box-shadow: none; border: 1px solid #aaa; }
             .table-scroll { overflow: visible !important; }
             .schedule { min-width: 100% !important; width: 100% !important; }
-            @page { size: landscape; margin: 8mm; }
+            @page { size: landscape; margin: 4mm; }
         }
     </style>
 </head>
@@ -678,7 +656,6 @@
     <header>
         <div class="header-inner">
             <div class="brand">
-                <!-- Logo BFT original -->
                 <img class="logo" id="mainLogo" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT Education Group">
                 <div class="brand-text">
                     <h1>BFT Education Group</h1>
@@ -747,7 +724,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr>
                             <th><span class="time-main">14h00</span><span class="time-end">15h00</span></th>
                             <td data-day="1"></td>
@@ -769,7 +745,6 @@
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
                             <th><span class="time-main">15h00</span><span class="time-end">16h00</span></th>
                             <td data-day="1"></td>
@@ -790,7 +765,6 @@
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
                             <th><span class="time-main">16h00</span><span class="time-end">17h00</span></th>
                             <td data-day="1"></td>
@@ -811,7 +785,6 @@
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
                             <th><span class="time-main">17h00</span><span class="time-end">18h00</span></th>
                             <td data-day="1"></td>
@@ -832,7 +805,6 @@
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
                             <th><span class="time-main">18h00</span><span class="time-end">19h00</span></th>
                             <td data-day="1"></td>
@@ -842,7 +814,6 @@
                             <td data-day="5"></td>
                             <td data-day="0"></td>
                         </tr>
-
                         <tr>
                             <th><span class="time-main">19h00</span><span class="time-end">21h00</span></th>
                             <td data-day="1"></td>
@@ -853,7 +824,6 @@
                             <td data-day="6"></td>
                             <td data-day="0"></td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -877,7 +847,6 @@
     </footer>
 
     <script>
-        // Surbrillance du jour actuel
         const today = new Date().getDay();
         document.querySelectorAll('#timetable th[data-day], #timetable td[data-day]').forEach(el => {
             if (parseInt(el.dataset.day) === today) {
@@ -886,157 +855,86 @@
             }
         });
 
-        // Convertit n'importe quelle URL d'image externe en Base64 sans bloquer sur CORS
-        async function fetchImageAsBase64(url) {
-            const blobToDataURL = blob => new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-            });
-
-            try {
-                // Essai direct
-                const res = await fetch(url);
-                if (res.ok) {
-                    const blob = await res.blob();
-                    return await blobToDataURL(blob);
-                }
-            } catch (e) {}
-
-            try {
-                // Essai via serveur proxy CORS
-                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-                const res = await fetch(proxyUrl);
-                if (res.ok) {
-                    const blob = await res.blob();
-                    return await blobToDataURL(blob);
-                }
-            } catch (e) {}
-
-            return url;
-        }
-
-        // Génération PDF sécurisée
         async function downloadPDF() {
             const btn = document.getElementById('downloadBtn');
             btn.classList.add('is-loading');
             btn.classList.remove('is-success');
 
             try {
-                const logoImg = document.getElementById('mainLogo');
-                const base64Logo = await fetchImageAsBase64(logoImg.src);
+                // Capture uniquement la section planning (plus rapide)
+                const section = document.getElementById('planningSection');
+                const tableEl = document.getElementById('timetable');
+                const scrollContainer = section.querySelector('.table-scroll');
 
-                // 1. Créer un container temporaire d'exportation
-                const exportContainer = document.createElement('div');
-                exportContainer.style.position = 'fixed';
-                exportContainer.style.top = '-10000px';
-                exportContainer.style.left = '0';
-                exportContainer.style.width = '1150px';
-                exportContainer.style.backgroundColor = '#ffffff';
-                exportContainer.style.padding = '30px';
-                exportContainer.style.zIndex = '-9999';
+                // Forcer l'affichage complet du tableau
+                const savedOverflow = scrollContainer.style.overflow;
+                const savedWidth = scrollContainer.style.width;
+                scrollContainer.style.overflow = 'visible';
+                scrollContainer.style.width = tableEl.scrollWidth + 'px';
+                scrollContainer.scrollLeft = 0;
 
-                // Cloner le Header, le Main et le Footer
-                const headerClone = document.querySelector('header').cloneNode(true);
-                const mainClone = document.querySelector('main').cloneNode(true);
-                const footerClone = document.querySelector('footer').cloneNode(true);
+                // Masquer le hint de scroll
+                const hint = section.querySelector('.scroll-hint');
+                if (hint) hint.style.display = 'none';
 
-                // Appliquer l'image Base64 sur le clone pour le PDF
-                const clonedLogo = headerClone.querySelector('.logo');
-                if (clonedLogo && base64Logo) {
-                    clonedLogo.src = base64Logo;
-                }
-
-                // Supprimer les éléments interactifs inutiles dans l'export
-                const btnInClone = mainClone.querySelector('#downloadBtn');
-                if (btnInClone) btnInClone.remove();
-
-                const hintInClone = mainClone.querySelector('.scroll-hint');
-                if (hintInClone) hintInClone.remove();
-
-                // Assembler le document virtuel
-                exportContainer.appendChild(headerClone);
-                exportContainer.appendChild(mainClone);
-                exportContainer.appendChild(footerClone);
-
-                // Forcer les styles d'impression dans le clone
-                const overrideStyle = document.createElement('style');
-                overrideStyle.innerHTML = `
-                    * {
-                        animation: none !important;
-                        transition: none !important;
-                        transform: none !important;
-                        box-shadow: none !important;
-                    }
-                    body { background: #ffffff !important; }
-                    header { position: static !important; border-bottom: 2px solid #e8eaf1 !important; }
-                    .logo { display: block !important; width: 58px !important; height: 58px !important; }
-                    main { padding: 20px 0 !important; max-width: 100% !important; }
-                    .planning { border: 1px solid #d1d1d1 !important; border-radius: 12px !important; }
-                    .table-scroll { overflow: visible !important; width: 100% !important; }
-                    .schedule { width: 100% !important; min-width: 100% !important; }
-                `;
-                exportContainer.appendChild(overrideStyle);
-                document.body.appendChild(exportContainer);
-
-                // Attente courte pour s'assurer du rendu complet
-                await new Promise(r => setTimeout(r, 200));
-
-                // Capture Canvas HD
-                const canvas = await html2canvas(exportContainer, {
-                    scale: 2,
+                // Capture rapide (scale 1.5 = bon équilibre vitesse/qualité)
+                const canvas = await html2canvas(section, {
+                    scale: 1.5,
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: '#ffffff',
-                    logging: false
+                    logging: false,
+                    // Désactiver les éléments hors cadre pour accélérer
+                    ignoreElements: (el) => el.classList && el.classList.contains('scroll-hint')
                 });
 
-                // Nettoyage du DOM virtuel
-                document.body.removeChild(exportContainer);
+                // Restaurer
+                scrollContainer.style.overflow = savedOverflow;
+                scrollContainer.style.width = savedWidth;
+                if (hint) hint.style.display = '';
 
-                // Génération du document PDF Paysage A4
-                const imgData = canvas.toDataURL('image/png');
+                // PDF paysage A4 — marges réduites (4 mm)
+                const imgData = canvas.toDataURL('image/jpeg', 0.92);
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({
                     orientation: 'landscape',
                     unit: 'mm',
-                    format: 'a4'
+                    format: 'a4',
+                    compress: true
                 });
 
-                const pdfW = pdf.internal.pageSize.getWidth();
-                const pdfH = pdf.internal.pageSize.getHeight();
-                const margin = 8;
+                const pdfW = pdf.internal.pageSize.getWidth();   // 297 mm
+                const pdfH = pdf.internal.pageSize.getHeight();  // 210 mm
+                const margin = 4; // marges très réduites
 
-                const usableW = pdfW - (margin * 2);
+                const usableW = pdfW - margin * 2;
+                const usableH = pdfH - margin * 2;
                 const imgRatio = canvas.width / canvas.height;
 
+                // Remplir au maximum la page (priorité largeur)
                 let finalW = usableW;
                 let finalH = usableW / imgRatio;
 
-                if (finalH > (pdfH - margin * 2)) {
-                    finalH = pdfH - (margin * 2);
-                    finalW = finalH * imgRatio;
+                if (finalH > usableH) {
+                    finalH = usableH;
+                    finalW = usableH * imgRatio;
                 }
 
+                // Centrage horizontal + vertical
                 const xPos = (pdfW - finalW) / 2;
                 const yPos = (pdfH - finalH) / 2;
 
-                pdf.addImage(imgData, 'PNG', xPos, yPos, finalW, finalH);
+                pdf.addImage(imgData, 'JPEG', xPos, yPos, finalW, finalH);
                 pdf.save('Emploi-du-temps-Premiere-Generale.pdf');
 
-                // Notification succès
                 btn.classList.remove('is-loading');
                 btn.classList.add('is-success');
-
-                setTimeout(() => {
-                    btn.classList.remove('is-success');
-                }, 2500);
+                setTimeout(() => btn.classList.remove('is-success'), 2000);
 
             } catch (err) {
                 console.error('Erreur PDF :', err);
                 btn.classList.remove('is-loading');
-                alert('Erreur lors de la génération du PDF. Vous pouvez également imprimer la page (Ctrl+P).');
+                alert('Erreur lors de la génération. Essayez Ctrl+P pour imprimer.');
             }
         }
     </script>
