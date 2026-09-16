@@ -41,6 +41,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* HEADER */
         header {
             position: sticky;
             top: 16px;
@@ -78,6 +79,7 @@
             font-weight: 700;
         }
 
+        /* MAIN */
         main {
             max-width: 1180px;
             margin: 0 auto;
@@ -93,6 +95,8 @@
             margin-bottom: 28px;
             animation: fadeUp 0.5s ease 0.08s both;
         }
+
+        .hero { flex: 1; min-width: 0; }
 
         .eyebrow {
             display: inline-block;
@@ -181,6 +185,7 @@
         }
         .download-btn.is-success .btn-check { display: block; }
 
+        /* NOTICE */
         .notice {
             display: flex;
             align-items: center;
@@ -208,6 +213,7 @@
         .notice-title { font-size: 13px; font-weight: 800; color: #92400e; }
         .notice-description { font-size: 12px; color: #b45309; margin-top: 2px; line-height: 1.4; }
 
+        /* PLANNING */
         .planning-wrapper {
             background: var(--surface);
             border-radius: 28px;
@@ -259,7 +265,6 @@
             font-size: 13px;
             font-weight: 800;
             color: var(--text);
-            display: block;
         }
 
         .schedule thead th .day-sub {
@@ -318,6 +323,7 @@
 
         .schedule tbody td:hover:empty { background: #f1f5f9; }
 
+        /* BLOCS COURS */
         .course-block {
             height: 100%;
             width: 100%;
@@ -370,6 +376,7 @@
             opacity: 0.85;
         }
 
+        /* Couleurs matières */
         .cb-maths { background: #d1fae5; color: #065f46; }
         .cb-maths .cb-badge { color: #047857; }
 
@@ -397,6 +404,7 @@
         .cb-ens-sci { background: #e0f2fe; color: #075985; }
         .cb-techno { background: #fae8ff; color: #4c1d95; }
 
+        /* Badges statut */
         .status-badge {
             display: none;
             width: fit-content;
@@ -802,13 +810,14 @@
         if (parseInt(el.dataset.day) === today) el.classList.add('today-header');
     });
 
-    function placeRattrapageCourse(courseId, subjectName, dayName, hourStart, noteText) {
+    // Création dynamique d'un bloc de cours (Placé selon Jour + Heure)
+    function placeDynamicCourseBlock(courseId, subjectName, dayName, hourStart, status, noteText) {
         const dayNum = DAY_MAP[dayName.toLowerCase().trim()];
         let h = hourStart.toLowerCase().trim().replace(/\s/g, '');
         const rowIndex = HOUR_ROW_MAP[h];
 
         if (dayNum === undefined || !rowIndex) {
-            console.warn('Créneau non reconnu:', dayName, hourStart);
+            console.warn('Créneau non trouvé:', dayName, hourStart);
             return;
         }
 
@@ -820,6 +829,7 @@
         const targetCell = targetRow.querySelector(`td[data-day="${dayNum}"]`);
         if (!targetCell) return;
 
+        // Fusion sur 2h
         if (rowIndex < rows.length) {
             const nextRow = rows[rowIndex];
             if (nextRow) {
@@ -832,30 +842,40 @@
             targetCell.setAttribute('rowspan', '2');
         }
 
-        const orig = document.querySelector(`.course-block[data-course-id="${courseId}"]`)
-            || document.querySelector(`.course-block[data-course-id="${courseId}-ven"]`);
         let cbClass = 'cb-' + courseId.replace(/-ven$/, '');
-        if (orig) {
-            const found = Array.from(orig.classList).find(c => c.startsWith('cb-') && c !== 'cb-custom-note');
-            if (found) cbClass = found;
-        }
-
         let startHInt = parseInt(hourStart);
         let endHInt = startHInt + 2;
 
+        let badgeHtml = '';
+        let statusClass = '';
+
+        if (status.includes('rattrap') || status.includes('suppl')) {
+            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block">★ RATTRAPAGE</span>';
+            statusClass = 'is-rattrapage';
+        } else if (status.includes('annul') || status.includes('cancel')) {
+            badgeHtml = '<span class="status-badge badge-cancelled" style="display:block">ANNULÉ</span>';
+            statusClass = 'is-cancelled';
+        } else if (status.includes('report') || status.includes('postpon')) {
+            badgeHtml = '<span class="status-badge badge-postponed" style="display:block">REPORTÉ</span>';
+            statusClass = 'is-postponed';
+        } else if (noteText.toLowerCase().includes('exceptionn')) {
+            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#f59e0b; color:#fff;">★ EXCEPTIONNEL</span>';
+        }
+
         targetCell.innerHTML = `
-            <div class="course-block ${cbClass} is-rattrapage">
-                <span class="status-badge badge-rattrapage" style="display:block">★ RATTRAPAGE</span>
+            <div class="course-block ${cbClass} ${statusClass}" data-course-id="${courseId}-dynamic">
+                ${badgeHtml}
                 <span class="cb-name">${subjectName}</span>
                 <div class="cb-details">
                     <span class="cb-badge">2h</span>
                     <span class="cb-time">${startHInt}h – ${endHInt}h</span>
                 </div>
-                ${noteText ? `<div class="cb-custom-note" style="display:block">📅 ${noteText}</div>` : ''}
+                ${noteText ? `<div class="cb-custom-note" style="display:block">📌 ${noteText}</div>` : ''}
             </div>
         `;
     }
 
+    // Synchro Google Sheets
     async function fetchGoogleSheetsStatuses() {
         if (!GOOGLE_SHEET_CSV_URL) return;
 
@@ -883,60 +903,68 @@
 
                 if (level !== CURRENT_LEVEL.toLowerCase()) return;
 
-                if (status.includes('rattrap') || status.includes('suppl')) {
-                    if (day && hour) {
-                        const extra = [date, note].filter(Boolean).join(' · ');
-                        placeRattrapageCourse(courseId, subject, day, hour, extra);
+                const combinedNote = [note, date].filter(Boolean).join(' · ');
+
+                // A) Si un jour ET une heure sont spécifiés dans Sheets
+                if (day && hour) {
+                    const blocks = document.querySelectorAll(`.course-block[data-course-id="${courseId}"], .course-block[data-course-id="${courseId}-ven"]`);
+
+                    // A.1) Si c'est un rattrapage / supplémentaire -> Crée la nouvelle case
+                    if (status.includes('rattrap') || status.includes('suppl')) {
+                        placeDynamicCourseBlock(courseId, subject, day, hour, status, combinedNote);
+                    } 
+                    // A.2) Si ce n'est PAS un rattrapage mais qu'aucun bloc HTML fixe n'existait (ex: Anglais) -> Crée la case !
+                    else if (blocks.length === 0) {
+                        placeDynamicCourseBlock(courseId, subject, day, hour, status, combinedNote);
                     }
-                    return;
+                    // A.3) Si un bloc fixe existait et que c'est un report -> Modifie le bloc fixe
+                    else if (status.includes('report') || status.includes('postpon')) {
+                        blocks.forEach(block => {
+                            block.classList.add('is-postponed');
+                            const noteEl = block.querySelector('.cb-custom-note');
+                            if (noteEl) {
+                                noteEl.textContent = '⏳ ' + (combinedNote || `Reporté au ${day} ${hour}`);
+                                noteEl.style.display = 'block';
+                            }
+                        });
+                    }
+                } 
+                // B) Si pas de jour/heure spécifiés -> Modifie le/les bloc(s) fixe(s) existant(s)
+                else {
+                    const blocks = document.querySelectorAll(`.course-block[data-course-id="${courseId}"], .course-block[data-course-id="${courseId}-ven"]`);
+                    blocks.forEach(block => {
+                        block.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
+                        const noteEl = block.querySelector('.cb-custom-note');
+
+                        if (status.includes('annul') || status.includes('cancel')) {
+                            block.classList.add('is-cancelled');
+                            if (noteEl && combinedNote) {
+                                noteEl.textContent = '❌ ' + combinedNote;
+                                noteEl.style.display = 'block';
+                            }
+                        } else if (status.includes('report') || status.includes('postpon')) {
+                            block.classList.add('is-postponed');
+                            if (noteEl && combinedNote) {
+                                noteEl.textContent = '⏳ ' + combinedNote;
+                                noteEl.style.display = 'block';
+                            }
+                        } else {
+                            if (noteEl && combinedNote) {
+                                noteEl.textContent = '📌 ' + combinedNote;
+                                noteEl.style.display = 'block';
+                            }
+                        }
+                    });
                 }
-
-                // Match primary id or vendredi variants
-                const blocks = document.querySelectorAll(
-                    `.course-block[data-course-id="${courseId}"], .course-block[data-course-id="${courseId}-ven"]`
-                );
-                if (!blocks.length) return;
-
-                blocks.forEach(block => {
-                    block.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
-                    const noteEl = block.querySelector('.cb-custom-note');
-
-                    if (status.includes('annul') || status.includes('cancel')) {
-                        block.classList.add('is-cancelled');
-                        if (noteEl) {
-                            if (note || date) {
-                                noteEl.textContent = '❌ ' + (note || date);
-                                noteEl.style.display = 'block';
-                            } else noteEl.style.display = 'none';
-                        }
-                    } else if (status.includes('report') || status.includes('postpon')) {
-                        block.classList.add('is-postponed');
-                        if (noteEl) {
-                            const parts = [];
-                            if (note) parts.push(note);
-                            if (day) parts.push('Reporté au ' + day + (hour ? ' ' + hour : ''));
-                            if (parts.length) {
-                                noteEl.textContent = '⏳ ' + parts.join(' · ');
-                                noteEl.style.display = 'block';
-                            } else noteEl.style.display = 'none';
-                        }
-                    } else {
-                        if (noteEl) {
-                            if (note) {
-                                noteEl.textContent = '📌 ' + note;
-                                noteEl.style.display = 'block';
-                            } else noteEl.style.display = 'none';
-                        }
-                    }
-                });
             });
         } catch (e) {
-            console.warn('Sheets sync:', e);
+            console.warn('Sheets sync error:', e);
         }
     }
 
     fetchGoogleSheetsStatuses();
 
+    // Export PDF
     async function downloadPDF() {
         const btn = document.getElementById('downloadBtn');
         btn.classList.add('is-loading');
