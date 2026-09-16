@@ -409,6 +409,9 @@
         .cb-francais { background: #ffedd5; color: #9a3412; border-color: rgba(249, 115, 22, 0.2); }
         .cb-francais .cb-badge { color: #c2410c; }
 
+        .cb-anglais { background: #ffedd5; color: #9a3412; border-color: rgba(249, 115, 22, 0.2); }
+        .cb-anglais .cb-badge { color: #c2410c; }
+
         .cb-msgn { background: #f1f5f9; color: #0f172a; border-color: rgba(100, 116, 139, 0.2); }
         .cb-mercatique { background: #fce7f3; color: #9d174d; border-color: rgba(236, 72, 153, 0.2); }
         .cb-eco-droit { background: #ccfbf1; color: #164e63; border-color: rgba(14, 116, 144, 0.2); }
@@ -505,6 +508,7 @@
         .ld-physique { background: #c026d3; }
         .ld-maths { background: #10b981; }
         .ld-histoire { background: #ef4444; }
+        .ld-anglais { background: #ea580c; }
 
         .total-hours { font-size: 13px; font-weight: 800; }
         .total-hours span { color: var(--primary); }
@@ -758,6 +762,7 @@
                 <div class="legend-tag"><span class="legend-dot ld-physique"></span>Physique Chimie</div>
                 <div class="legend-tag"><span class="legend-dot ld-maths"></span>Mathématiques</div>
                 <div class="legend-tag"><span class="legend-dot ld-histoire"></span>Histoire Géographie</div>
+                <div class="legend-tag"><span class="legend-dot ld-anglais"></span>Anglais</div>
             </div>
             <div class="total-hours">Volume : <span>12 h / semaine</span></div>
         </div>
@@ -797,7 +802,7 @@
         if (parseInt(el.dataset.day) === today) el.classList.add('today-header');
     });
 
-    // Placement dynamique d'une carte (Rattrapage / Cours supplémentaire)
+    // Placement dynamique d'une carte (Rattrapage / Cours supplémentaire / Anglais)
     function placeDynamicCourseBlock(courseId, subjectName, dayName, hourStart, status, noteText) {
         const dayNum = DAY_MAP[dayName.toLowerCase().trim()];
         let h = hourStart.toLowerCase().trim().replace(/\s/g, '');
@@ -816,7 +821,7 @@
         const targetCell = targetRow.querySelector(`td[data-day="${dayNum}"]`);
         if (!targetCell) return;
 
-        // Fusion automatique sur 2h
+        // Fusion automatique sur 2h (rowspan=2)
         if (rowIndex < rows.length) {
             const nextRow = rows[rowIndex];
             if (nextRow) {
@@ -846,7 +851,7 @@
             badgeHtml = '<span class="status-badge badge-postponed" style="display:block">REPORTÉ</span>';
             statusClass = 'is-postponed';
         } else if (noteText && noteText.toLowerCase().includes('exceptionn')) {
-            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#f59e0b; color:#fff;">★ EXCEPTIONNEL</span>';
+            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#ea580c; color:#fff;">★ EXCEPTIONNEL</span>';
         }
 
         targetCell.innerHTML = `
@@ -896,7 +901,7 @@
                 if (day && hour) {
                     const blocks = document.querySelectorAll(`.course-block[data-course-id="${courseId}"]`);
 
-                    // Rattrapage/Supplémentaire OU Nouveaux cours absents du HTML
+                    // Rattrapage/Supplémentaire OU Matière absente du HTML fixe (ex: Anglais)
                     if (status.includes('rattrap') || status.includes('suppl') || blocks.length === 0) {
                         placeDynamicCourseBlock(courseId, subject, day, hour, status, combinedNote);
                     } 
