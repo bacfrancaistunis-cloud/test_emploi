@@ -379,28 +379,20 @@
         /* Couleurs matières */
         .cb-maths { background: #d1fae5; color: #065f46; }
         .cb-maths .cb-badge { color: #047857; }
-
         .cb-mercatique { background: #fce7f3; color: #9d174d; }
         .cb-mercatique .cb-badge { color: #be185d; }
-
         .cb-philo { background: #f3e8ff; color: #6b21a8; }
         .cb-philo .cb-badge { color: #7e22ce; }
-
         .cb-histoire { background: #fee2e2; color: #991b1b; }
         .cb-histoire .cb-badge { color: #b91c1c; }
-
         .cb-msgn { background: #dbeafe; color: #1e40af; }
         .cb-msgn .cb-badge { color: #1d4ed8; }
-
         .cb-eco-droit { background: #fef3c7; color: #92400e; }
         .cb-eco-droit .cb-badge { color: #b45309; }
-
         .cb-anglais { background: #ffedd5; color: #9a3412; }
         .cb-anglais .cb-badge { color: #c2410c; }
-
         .cb-francais { background: #ccfbf1; color: #115e59; }
         .cb-francais .cb-badge { color: #0f766e; }
-
         .cb-svt { background: #fef3c7; color: #92400e; }
         .cb-physique { background: #e0e7ff; color: #3730a3; }
         .cb-ens-sci { background: #e0f2fe; color: #075985; }
@@ -476,19 +468,7 @@
         }
 
         .legend-list { display: flex; flex-wrap: wrap; gap: 10px; }
-
-        .legend-tag {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: #f8fafc;
-            padding: 5px 11px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--muted);
-        }
-
+        .legend-tag { display: flex; align-items: center; gap: 6px; background: #f8fafc; padding: 5px 11px; border-radius: 8px; font-size: 11px; font-weight: 700; color: var(--muted); }
         .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
         .ld-maths { background: #10b981; }
         .ld-mercatique { background: #db2777; }
@@ -496,19 +476,12 @@
         .ld-histoire { background: #dc2626; }
         .ld-msgn { background: #2563eb; }
         .ld-eco-droit { background: #f59e0b; }
-        .ld-anglais { background: #ea580c; }
         .ld-francais { background: #14b8a6; }
-
+        .ld-anglais { background: #ea580c; }
         .total-hours { font-size: 13px; font-weight: 800; }
         .total-hours span { color: var(--primary); }
 
-        footer {
-            text-align: center;
-            padding: 10px 20px 36px;
-            color: var(--muted);
-            font-size: 12px;
-            font-weight: 500;
-        }
+        footer { text-align: center; padding: 10px 20px 36px; color: var(--muted); font-size: 12px; font-weight: 500; }
 
         @media (max-width: 800px) {
             .scroll-hint { display: flex; }
@@ -612,13 +585,8 @@
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
                         <td data-day="0" rowspan="2">
                             <div class="course-block cb-msgn" data-course-id="msgn">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">MSGN</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">09h – 11h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">09h – 11h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
@@ -634,13 +602,8 @@
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
                         <td data-day="0" rowspan="2">
                             <div class="course-block cb-eco-droit" data-course-id="eco-droit">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">Droit &amp; Économie</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">11h – 13h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">11h – 13h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
@@ -666,13 +629,8 @@
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td>
                         <td data-day="5" rowspan="2">
                             <div class="course-block cb-msgn" data-course-id="msgn-ven">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">MSGN</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">15h – 17h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">15h – 17h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
@@ -689,26 +647,16 @@
                         <td data-day="1"></td><td data-day="2"></td>
                         <td data-day="3" rowspan="2">
                             <div class="course-block cb-francais" data-course-id="francais">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">Français</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">17h – 19h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">17h – 19h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
                         <td data-day="4"></td>
                         <td data-day="5" rowspan="2">
                             <div class="course-block cb-eco-droit" data-course-id="eco-droit-ven">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">Droit &amp; Économie</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">17h – 19h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">17h – 19h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
@@ -724,49 +672,29 @@
                         <th><span class="time-main">19h00</span><span class="time-end">20h00</span></th>
                         <td data-day="1" rowspan="2">
                             <div class="course-block cb-maths" data-course-id="maths">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">Mathématiques</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">19h – 21h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">19h – 21h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
                         <td data-day="2" rowspan="2">
                             <div class="course-block cb-mercatique" data-course-id="mercatique">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">Marketing</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">19h – 21h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">19h – 21h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
                         <td data-day="3" rowspan="2">
                             <div class="course-block cb-philo" data-course-id="philo">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">Philosophie</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">19h – 21h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">19h – 21h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
                         <td data-day="4" rowspan="2">
                             <div class="course-block cb-histoire" data-course-id="histoire">
-                                <span class="status-badge badge-cancelled">Annulé</span>
-                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">Histoire Géographie</span>
-                                <div class="cb-details">
-                                    <span class="cb-badge">2h</span>
-                                    <span class="cb-time">19h – 21h</span>
-                                </div>
+                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">19h – 21h</span></div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
@@ -797,13 +725,11 @@
     </section>
 </main>
 
-<footer>
-    BFT Education Group · Terminale STMG · 2026-2027
-</footer>
+<footer>BFT Education Group · Terminale STMG · 2026-2027</footer>
 
 <script>
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlhZH8-HZduOPsbbmHVYtbeVaJwPVmijJkxRWsjhix5I7UwBH4-lWOTuJn3VvBQVIN4yEOIPqDCPDJ/pub?gid=1961795058&single=true&output=csv";
-    const CURRENT_LEVELS = ["terminale_stmg", "premiere_generale"]; // Tolère les 2 noms de classe
+    const CURRENT_LEVELS = ["terminale_stmg", "premiere_generale"]; // Tolère les 2 noms
 
     const DAY_MAP = { lundi: 1, mardi: 2, mercredi: 3, jeudi: 4, vendredi: 5, samedi: 6, dimanche: 0 };
 
@@ -813,9 +739,7 @@
         const match = hourStr.match(/(\d{1,2})/);
         if (!match) return null;
         const h = parseInt(match[1], 10);
-        if (h >= 9 && h <= 20) {
-            return h - 8; // 9h -> Ligne 1, 10h -> Ligne 2, etc.
-        }
+        if (h >= 9 && h <= 20) return h - 8;
         return null;
     }
 
@@ -824,15 +748,12 @@
         if (parseInt(el.dataset.day) === today) el.classList.add('today-header');
     });
 
-    // Création dynamique d'un bloc de cours (Placé selon Jour + Heure)
+    // Création dynamique d'un bloc de cours 
     function placeDynamicCourseBlock(courseId, subjectName, dayName, hourStart, status, noteText) {
         const dayNum = DAY_MAP[dayName.toLowerCase().trim()];
         const rowIndex = parseRowIndex(hourStart);
 
-        if (dayNum === undefined || !rowIndex) {
-            console.warn('Créneau non trouvé:', dayName, hourStart);
-            return;
-        }
+        if (dayNum === undefined || !rowIndex) return;
 
         const tbody = document.querySelector('#timetable tbody');
         const rows = tbody.querySelectorAll('tr');
@@ -860,17 +781,14 @@
         let endHInt = startHInt + 2;
 
         let badgeHtml = '';
-        let statusClass = '';
+        let statusClass = 'is-rattrapage'; // Par défaut, bordure stylisée
 
-        if (status.includes('rattrap') || status.includes('suppl')) {
-            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block">★ RATTRAPAGE</span>';
-            statusClass = 'is-rattrapage';
-        } else if (status.includes('annul') || status.includes('cancel')) {
-            badgeHtml = '<span class="status-badge badge-cancelled" style="display:block">ANNULÉ</span>';
-            statusClass = 'is-cancelled';
+        if (status.includes('deplac') || status.includes('déplac')) {
+            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#0284c7; color:#fff;">🔀 DÉPLACÉ</span>';
         } else if (status.includes('report') || status.includes('postpon')) {
             badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#f59e0b; color:#fff;">⏳ REPORTÉ</span>';
-            statusClass = 'is-rattrapage';
+        } else if (status.includes('rattrap') || status.includes('suppl')) {
+            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#4f46e5; color:#fff;">★ RATTRAPAGE</span>';
         }
 
         targetCell.innerHTML = `
@@ -889,7 +807,6 @@
     // Synchro Google Sheets
     async function fetchGoogleSheetsStatuses() {
         if (!GOOGLE_SHEET_CSV_URL) return;
-
         try {
             const res = await fetch(GOOGLE_SHEET_CSV_URL + (GOOGLE_SHEET_CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now());
             if (!res.ok) return;
@@ -917,29 +834,35 @@
                 const combinedNote = [note, date].filter(Boolean).join(' · ');
                 const blocks = document.querySelectorAll(`.course-block[data-course-id="${courseId}"], .course-block[data-course-id="${courseId}-ven"]`);
 
-                // 1) Si le cours est REPORTÉ
-                if (status.includes('report') || status.includes('postpon')) {
-                    // Colore en jaune le bloc initial s'il existe
+                // 1) Si le cours est DÉPLACÉ
+                if (status.includes('deplac') || status.includes('déplac')) {
                     blocks.forEach(block => {
-                        block.classList.add('is-postponed');
+                        block.classList.add('is-cancelled'); // Ancien cours grisé
                         const noteEl = block.querySelector('.cb-custom-note');
                         if (noteEl) {
-                            noteEl.textContent = '⏳ ' + (combinedNote || `Reporté au ${day} ${hour}`);
+                            noteEl.textContent = '🔀 Déplacé au ' + (day || '') + ' ' + (hour || '');
                             noteEl.style.display = 'block';
                         }
                     });
-                    // Si un nouveau Jour et une Heure sont renseignés, CRÉE la nouvelle case !
-                    if (day && hour) {
-                        placeDynamicCourseBlock(courseId, subject, day, hour, 'report', combinedNote);
-                    }
+                    if (day && hour) placeDynamicCourseBlock(courseId, subject, day, hour, 'deplace', combinedNote);
                 }
-                // 2) Si c'est un RATTRAPAGE
+                // 2) Si le cours est REPORTÉ
+                else if (status.includes('report') || status.includes('postpon')) {
+                    blocks.forEach(block => {
+                        block.classList.add('is-postponed'); // Ancien cours jauni
+                        const noteEl = block.querySelector('.cb-custom-note');
+                        if (noteEl) {
+                            noteEl.textContent = '⏳ Reporté au ' + (day || '') + ' ' + (hour || '');
+                            noteEl.style.display = 'block';
+                        }
+                    });
+                    if (day && hour) placeDynamicCourseBlock(courseId, subject, day, hour, 'report', combinedNote);
+                }
+                // 3) Si c'est un RATTRAPAGE
                 else if (status.includes('rattrap') || status.includes('suppl')) {
-                    if (day && hour) {
-                        placeDynamicCourseBlock(courseId, subject, day, hour, status, combinedNote);
-                    }
+                    if (day && hour) placeDynamicCourseBlock(courseId, subject, day, hour, 'rattrap', combinedNote);
                 }
-                // 3) Autre statut (Annulé, etc.)
+                // 4) Si ANNULÉ
                 else if (status.includes('annul') || status.includes('cancel')) {
                     blocks.forEach(block => {
                         block.classList.add('is-cancelled');
@@ -962,8 +885,6 @@
     async function downloadPDF() {
         const btn = document.getElementById('downloadBtn');
         btn.classList.add('is-loading');
-        btn.classList.remove('is-success');
-
         try {
             const clone = document.getElementById('planningSection').cloneNode(true);
             const hint = clone.querySelector('.scroll-hint');
@@ -996,12 +917,7 @@
             wrap.appendChild(clone);
             document.body.appendChild(wrap);
 
-            const canvas = await html2canvas(wrap, {
-                scale: 1.5,
-                backgroundColor: '#ffffff',
-                logging: false,
-                useCORS: true
-            });
+            const canvas = await html2canvas(wrap, { scale: 1.5, backgroundColor: '#ffffff', logging: false, useCORS: true });
             document.body.removeChild(wrap);
 
             const { jsPDF } = window.jspdf;
