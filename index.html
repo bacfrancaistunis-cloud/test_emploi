@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planning Général — BFT Education Group</title>
+    <title>Emploi du temps — Terminale STMG</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -39,18 +39,14 @@
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* HEADER FLOTTANT */
+        /* HEADER */
         header {
             position: sticky;
             top: 16px;
             z-index: 50;
-            max-width: 1400px;
+            max-width: 1180px;
             margin: 0 auto 36px;
             padding: 0 20px;
             animation: fadeUp 0.5s ease both;
@@ -80,14 +76,12 @@
             padding: 8px 16px;
             border-radius: 999px;
             font-size: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 700;
         }
 
-        /* MAIN CONTAINER */
+        /* MAIN */
         main {
-            max-width: 1400px;
+            max-width: 1180px;
             margin: 0 auto;
             padding: 0 20px 70px;
         }
@@ -103,6 +97,7 @@
         }
 
         .hero { flex: 1; min-width: 0; }
+
         .eyebrow {
             display: inline-block;
             background: #e0e7ff;
@@ -115,18 +110,53 @@
             letter-spacing: 0.8px;
             margin-bottom: 12px;
         }
-        .hero h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 900; letter-spacing: -1.8px; line-height: 1.1; }
-        .hero p { margin-top: 10px; color: var(--muted); font-size: 14px; max-width: 500px; line-height: 1.5; }
 
-        /* BOUTON MODERN */
+        .hero h2 {
+            font-size: clamp(28px, 5vw, 44px);
+            font-weight: 900;
+            letter-spacing: -1.8px;
+            line-height: 1.1;
+        }
+
+        .hero h2 span {
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 14px;
+            max-width: 420px;
+            line-height: 1.5;
+        }
+
         .download-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 14px 26px; border: none; border-radius: 999px;
-            background: var(--primary); color: #fff; font-family: inherit; font-size: 13px; font-weight: 700;
-            cursor: pointer; position: relative; box-shadow: 0 12px 28px -8px rgba(79,70,229,0.45);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 26px;
+            border: none;
+            border-radius: 999px;
+            background: var(--primary);
+            color: #fff;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 12px 28px -8px rgba(79,70,229,0.45);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
-        .download-btn:hover { transform: translateY(-2px); background: var(--primary-dark); box-shadow: 0 18px 36px -10px rgba(79,70,229,0.5); }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            background: var(--primary-dark);
+            box-shadow: 0 18px 36px -10px rgba(79,70,229,0.5);
+        }
+
         .download-btn svg { width: 17px; height: 17px; }
         .download-btn.is-loading { pointer-events: none; }
         .download-btn.is-loading .btn-text { opacity: 0; }
@@ -134,27 +164,77 @@
         .download-btn.is-success .btn-text { opacity: 0; }
 
         .btn-spinner {
-            display: none; position: absolute; inset: 0; margin: auto; width: 18px; height: 18px;
-            border: 2.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite;
+            display: none;
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 18px; height: 18px;
+            border: 2.5px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
         }
         .download-btn.is-loading .btn-spinner { display: block; }
-        .btn-check { display: none; position: absolute; inset: 0; margin: auto; width: 20px; height: 20px; }
+
+        .btn-check {
+            display: none;
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 20px; height: 20px;
+        }
         .download-btn.is-success .btn-check { display: block; }
 
-        /* PLANNING WRAPPER */
+        /* NOTICE */
+        .notice {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-bottom: 28px;
+            animation: fadeUp 0.5s ease 0.15s both;
+        }
+
+        .notice-icon {
+            width: 38px; height: 38px;
+            background: #fef3c7;
+            color: #d97706;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .notice-title { font-size: 13px; font-weight: 800; color: #92400e; }
+        .notice-description { font-size: 12px; color: #b45309; margin-top: 2px; line-height: 1.4; }
+
+        /* PLANNING */
         .planning-wrapper {
             background: var(--surface);
             border-radius: 28px;
             padding: 20px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(255,255,255,0.9);
-            animation: scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+            animation: fadeUp 0.55s ease 0.22s both;
         }
 
         .scroll-hint {
-            display: none; align-items: center; justify-content: center; gap: 8px;
-            padding: 10px; margin-bottom: 14px; background: #eef2ff; color: var(--primary);
-            border-radius: 12px; font-size: 12px; font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            margin-bottom: 14px;
+            background: #eef2ff;
+            color: var(--primary);
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
         }
 
         .table-scroll {
@@ -163,156 +243,300 @@
             scrollbar-width: thin;
             scrollbar-color: #cbd5e1 transparent;
         }
+
         .table-scroll::-webkit-scrollbar { height: 6px; }
         .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 
         .schedule {
             width: 100%;
-            min-width: 1250px;
+            min-width: 980px;
             border-collapse: separate;
             border-spacing: 6px;
             table-layout: fixed;
         }
 
-        .schedule thead th { padding: 8px 4px 12px; text-align: center; vertical-align: bottom; }
-        .schedule thead th .day-full { font-size: 13px; font-weight: 800; color: var(--text); display: block; }
+        .schedule thead th {
+            padding: 8px 4px 12px;
+            text-align: center;
+            vertical-align: bottom;
+        }
+
+        .schedule thead th .day-full {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .schedule thead th .day-sub {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 2px;
+            display: block;
+        }
+
         .schedule thead th.today-header .day-full { color: var(--primary); }
 
-        .schedule tbody th { width: 85px; text-align: right; padding: 0 14px 0 0; vertical-align: middle; }
-        .schedule tbody th .time-main { display: block; font-size: 13px; font-weight: 800; color: var(--text); letter-spacing: -0.4px; }
-        .schedule tbody th .time-end { display: block; font-size: 10px; font-weight: 500; color: var(--muted); margin-top: 1px; }
+        .schedule tbody th {
+            width: 90px;
+            text-align: right;
+            padding: 0 14px 0 0;
+            vertical-align: middle;
+        }
 
-        /* CELLULES MULTI-COURS (Flexbox) */
+        .schedule tbody th .time-main {
+            display: block;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.4px;
+        }
+
+        .schedule tbody th .time-end {
+            display: block;
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
         .schedule tbody td {
-            height: 65px;
+            height: 62px;
             background: #f8fafc;
-            border-radius: 12px;
-            padding: 4px;
-            vertical-align: stretch;
+            border-radius: 10px;
+            padding: 3px;
+            vertical-align: middle;
             transition: background 0.15s ease;
         }
 
-        .schedule tbody td.multi-course {
-            display: flex;
-            flex-direction: row;
-            gap: 4px;
-            height: 100%;
+        .schedule tbody td:empty::after {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            margin: 0 auto;
         }
 
-        .schedule tbody td:empty::after {
-            content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: #e2e8f0; margin: auto; position: relative; top: 50%; transform: translateY(-50%);
-        }
         .schedule tbody td:hover:empty { background: #f1f5f9; }
 
         /* BLOCS COURS */
         .course-block {
-            flex: 1;
-            min-width: 0;
-            border-radius: 8px;
-            padding: 8px;
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 10px 10px 12px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             position: relative;
             overflow: hidden;
             border: 2px solid transparent;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
         }
-        .course-block:hover { transform: scale(1.03); box-shadow: 0 12px 28px -8px rgba(0,0,0,0.12); z-index: 5; }
-        .course-block::before { content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px; border-radius: 0 4px 4px 0; }
-        
-        .cb-level { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .cb-name { font-size: 11px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.1; margin-bottom: 4px; }
-        
-        .cb-details { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-top: auto;}
-        .cb-badge { display: inline-flex; align-items: center; padding: 2px 4px; border-radius: 4px; font-size: 9px; font-weight: 800; background: rgba(255,255,255,0.7); }
 
-        /* COULEURS MATIÈRES */
-        .cb-maths { background: #d1fae5; color: #065f46; border-color: rgba(16, 185, 129, 0.2); }
-        .cb-maths::before { background: #10b981; }
-        
-        .cb-svt { background: #fef3c7; color: #92400e; border-color: rgba(245, 158, 11, 0.2); }
-        .cb-svt::before { background: #f59e0b; }
-
-        .cb-francais { background: #fee2e2; color: #991b1b; border-color: rgba(239, 68, 68, 0.2); }
-        .cb-francais::before { background: #ef4444; }
-
-        .cb-physique { background: #e0e7ff; color: #3730a3; border-color: rgba(99, 102, 241, 0.2); }
-        .cb-physique::before { background: #6366f1; }
-
-        .cb-histoire { background: #fef08a; color: #854d0e; border-color: rgba(234, 179, 8, 0.2); }
-        .cb-histoire::before { background: #eab308; }
-
-        .cb-philo { background: #fce7f3; color: #831843; border-color: rgba(236, 72, 153, 0.2); }
-        .cb-philo::before { background: #ec4899; }
-
-        .cb-ens-sci { background: #e0f2fe; color: #075985; border-color: rgba(14, 165, 233, 0.2); }
-        .cb-ens-sci::before { background: #0ea5e9; }
-
-        .cb-msgn { background: #ffedd5; color: #9a3412; border-color: rgba(249, 115, 22, 0.2); }
-        .cb-msgn::before { background: #f97316; }
-
-        .cb-mercatique { background: #f1f5f9; color: #334155; border-color: rgba(100, 116, 139, 0.2); }
-        .cb-mercatique::before { background: #64748b; }
-
-        .cb-eco-droit { background: #f3e8ff; color: #6b21a8; border-color: rgba(168, 85, 247, 0.2); }
-        .cb-eco-droit::before { background: #a855f7; }
-
-        .cb-anglais { background: #ffe4e6; color: #881337; border-color: rgba(225, 29, 72, 0.2); }
-        .cb-anglais::before { background: #e11d48; }
-
-        /* STATUTS & NOTES */
-        .status-badge { display: none; padding: 2px 4px; border-radius: 4px; font-size: 8px; font-weight: 900; text-transform: uppercase; margin-bottom: 2px; width: fit-content; }
-        .cb-custom-note { display: none; margin-top: 4px; padding: 2px 4px; border-radius: 4px; font-size: 8.5px; font-weight: 700; background: rgba(255,255,255,0.9); border: 1px dashed rgba(0,0,0,0.15); line-height: 1.2; color: #1e293b; }
-
-        .course-block.is-cancelled { background: #f1f5f9 !important; color: #94a3b8 !important; border-color:#e2e8f0!important;}
-        .course-block.is-cancelled .cb-name { text-decoration: line-through; }
-        .course-block.is-cancelled .badge-cancelled { display: block; background: #fee2e2; color: #dc2626; }
-
-        .course-block.is-postponed { background: #fffbeb !important; color: #b45309 !important; border-color: #fde68a !important; }
-        .course-block.is-postponed .badge-postponed { display: block; background: #fef3c7; color: #d97706; }
-
-        .course-block.is-rattrapage { border-color: var(--primary) !important; box-shadow: 0 4px 18px rgba(79,70,229,0.2); }
-        .course-block.is-rattrapage .badge-rattrapage { display: block; background: var(--primary); color: #fff; }
-
-        /* LÉGENDE */
-        .legend-area { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border-light); }
-        .legend-list { display: flex; flex-wrap: wrap; gap: 10px; }
-        .legend-tag { display: flex; align-items: center; gap: 6px; background: #f8fafc; padding: 5px 11px; border-radius: 8px; font-size: 11px; font-weight: 700; color: var(--text-muted); }
-        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-        
-        .ld-maths { background: #10b981; } .ld-svt { background: #f59e0b; } .ld-francais { background: #ef4444; } .ld-physique { background: #6366f1; }
-        .ld-histoire { background: #eab308; } .ld-philo { background: #ec4899; } .ld-ens-sci { background: #0ea5e9; } .ld-msgn { background: #f97316; }
-        .ld-mercatique { background: #64748b; } .ld-eco-droit { background: #a855f7; } .ld-anglais { background: #e11d48; }
-
-        footer { text-align: center; padding: 10px 20px 36px; color: var(--muted); font-size: 12px; font-weight: 500; }
-
-        /* RESPONSIVE & IMPRESSION */
-        @media (max-width: 1000px) {
-            .scroll-hint { display: flex; }
+        .course-block:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.12);
+            z-index: 5;
         }
+
+        .cb-name {
+            font-size: 12.5px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .cb-details {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .cb-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 800;
+            background: rgba(255,255,255,0.72);
+        }
+
+        .cb-time {
+            font-size: 10px;
+            font-weight: 600;
+            opacity: 0.85;
+        }
+
+        /* Couleurs matières */
+        .cb-maths { background: #d1fae5; color: #065f46; }
+        .cb-maths .cb-badge { color: #047857; }
+
+        .cb-mercatique { background: #fce7f3; color: #9d174d; }
+        .cb-mercatique .cb-badge { color: #be185d; }
+
+        .cb-philo { background: #f3e8ff; color: #6b21a8; }
+        .cb-philo .cb-badge { color: #7e22ce; }
+
+        .cb-histoire { background: #fee2e2; color: #991b1b; }
+        .cb-histoire .cb-badge { color: #b91c1c; }
+
+        .cb-msgn { background: #dbeafe; color: #1e40af; }
+        .cb-msgn .cb-badge { color: #1d4ed8; }
+
+        .cb-eco-droit { background: #fef3c7; color: #92400e; }
+        .cb-eco-droit .cb-badge { color: #b45309; }
+
+        .cb-anglais { background: #ffedd5; color: #9a3412; }
+        .cb-anglais .cb-badge { color: #c2410c; }
+
+        .cb-francais { background: #ccfbf1; color: #115e59; }
+        .cb-francais .cb-badge { color: #0f766e; }
+
+        .cb-svt { background: #fef3c7; color: #92400e; }
+        .cb-physique { background: #e0e7ff; color: #3730a3; }
+        .cb-ens-sci { background: #e0f2fe; color: #075985; }
+        .cb-techno { background: #fae8ff; color: #4c1d95; }
+
+        /* Badges statut */
+        .status-badge {
+            display: none;
+            width: fit-content;
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 8.5px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 4px;
+        }
+
+        .cb-custom-note {
+            display: none;
+            margin-top: 5px;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-size: 9.5px;
+            font-weight: 700;
+            background: rgba(255,255,255,0.92);
+            border: 1px dashed rgba(0,0,0,0.12);
+            line-height: 1.25;
+            color: #1e293b;
+        }
+
+        .course-block.is-cancelled {
+            background: #f1f5f9 !important;
+            color: #94a3b8 !important;
+        }
+        .course-block.is-cancelled .cb-name { text-decoration: line-through; }
+        .course-block.is-cancelled .badge-cancelled {
+            display: block;
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .course-block.is-postponed {
+            background: #fffbeb !important;
+            color: #b45309 !important;
+            border-color: #fde68a !important;
+        }
+        .course-block.is-postponed .badge-postponed {
+            display: block;
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .course-block.is-rattrapage {
+            border-color: var(--primary) !important;
+            box-shadow: 0 4px 18px rgba(79,70,229,0.2);
+        }
+        .course-block.is-rattrapage .badge-rattrapage {
+            display: block;
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .legend-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        .legend-list { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        .legend-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f8fafc;
+            padding: 5px 11px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .ld-maths { background: #10b981; }
+        .ld-mercatique { background: #db2777; }
+        .ld-philo { background: #9333ea; }
+        .ld-histoire { background: #dc2626; }
+        .ld-msgn { background: #2563eb; }
+        .ld-eco-droit { background: #f59e0b; }
+        .ld-anglais { background: #ea580c; }
+        .ld-francais { background: #14b8a6; }
+
+        .total-hours { font-size: 13px; font-weight: 800; }
+        .total-hours span { color: var(--primary); }
+
+        footer {
+            text-align: center;
+            padding: 10px 20px 36px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
         @media (max-width: 800px) {
+            .scroll-hint { display: flex; }
             .hero-row { flex-direction: column; align-items: flex-start; }
             .download-btn { width: 100%; justify-content: center; }
             header { top: 10px; margin-bottom: 24px; }
             .planning-wrapper { padding: 14px; border-radius: 22px; }
+            .schedule tbody td { height: 58px; }
         }
+
         @media (max-width: 520px) {
             .level-badge { display: none; }
             .logo { width: 40px; height: 40px; }
+            .brand-text h1 { font-size: 13px; }
             main { padding: 0 12px 50px; }
-            .hero h2 { font-size: 26px; }
+            .hero h2 { font-size: 26px; letter-spacing: -1px; }
+            .schedule { min-width: 900px; }
         }
+
         @media print {
             body { background: #fff !important; }
             header { position: static; margin-bottom: 16px; }
-            .header-inner { box-shadow: none; border: none; padding:0;}
-            .download-btn, .scroll-hint { display: none !important; }
+            .header-inner { box-shadow: none; border: none; }
+            .download-btn, .scroll-hint, .notice { display: none !important; }
             .planning-wrapper { box-shadow: none; border: none; padding: 0; }
             .table-scroll { overflow: visible !important; }
-            .schedule { min-width: 100% !important; border-spacing: 4px!important; }
-            @page { size: landscape; margin: 4mm; }
+            .schedule { min-width: 100% !important; }
+            @page { size: landscape; margin: 5mm; }
         }
     </style>
 </head>
@@ -324,10 +548,10 @@
             <img class="logo" src="https://bftunis.com/wp-content/uploads/2026/06/icon-512.png" alt="BFT">
             <div class="brand-text">
                 <h1>BFT Education Group</h1>
-                <p>Emploi du temps Global</p>
+                <p>Emploi du temps</p>
             </div>
         </div>
-        <div class="level-badge">PLANNING GÉNÉRAL DU CENTRE</div>
+        <div class="level-badge">Terminale STMG</div>
     </div>
 </header>
 
@@ -335,8 +559,8 @@
     <div class="hero-row">
         <section class="hero">
             <div class="eyebrow">Année 2026-2027</div>
-            <h2>Toutes les <span>Classes</span></h2>
-            <p>Vue d'ensemble de tous les cours programmés. Connecté en temps réel avec la scolarité.</p>
+            <h2>Terminale <span>STMG</span></h2>
+            <p>Retrouvez votre emploi du temps et l'état de chaque cours en temps réel.</p>
         </section>
 
         <button class="download-btn" id="downloadBtn" onclick="downloadPDF()">
@@ -351,6 +575,14 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
         </button>
+    </div>
+
+    <div class="notice">
+        <div class="notice-icon">🔔</div>
+        <div class="notice-text">
+            <div class="notice-title">Mises à jour en direct</div>
+            <div class="notice-description">Les absences, reports et rattrapages s'affichent automatiquement. Vérifiez avant de vous déplacer.</div>
+        </div>
     </div>
 
     <section class="planning-wrapper" id="planningSection">
@@ -374,200 +606,173 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 09h00 -->
+                    <!-- 09h -->
                     <tr>
                         <th><span class="time-main">09h00</span><span class="time-end">10h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
-                        <td data-day="0" rowspan="2" class="multi-course">
-                            <div class="course-block cb-msgn" data-course-id="terminale_stmg-msgn">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Term STMG</span>
+                        <td data-day="0" rowspan="2">
+                            <div class="course-block cb-msgn" data-course-id="msgn">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">MSGN</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">09h – 11h</span>
+                                </div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
                     </tr>
-                    <!-- 10h00 -->
+                    <!-- 10h -->
                     <tr>
                         <th><span class="time-main">10h00</span><span class="time-end">11h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
                     </tr>
-                    <!-- 11h00 -->
+                    <!-- 11h -->
                     <tr>
                         <th><span class="time-main">11h00</span><span class="time-end">12h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
-                        <td data-day="0" rowspan="2" class="multi-course">
-                            <div class="course-block cb-eco-droit" data-course-id="terminale_stmg-eco-droit">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Term STMG</span>
-                                <span class="cb-name">Eco & Droit</span>
+                        <td data-day="0" rowspan="2">
+                            <div class="course-block cb-eco-droit" data-course-id="eco-droit">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
+                                <span class="cb-name">Droit &amp; Économie</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">11h – 13h</span>
+                                </div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
                     </tr>
-                    <!-- 12h00 -->
+                    <!-- 12h -->
                     <tr>
                         <th><span class="time-main">12h00</span><span class="time-end">13h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
                     </tr>
-                    <!-- 13h00 -->
+                    <!-- 13h -->
                     <tr>
                         <th><span class="time-main">13h00</span><span class="time-end">14h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- 14h00 -->
+                    <!-- 14h -->
                     <tr>
                         <th><span class="time-main">14h00</span><span class="time-end">15h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
-                        <td data-day="0" rowspan="2" class="multi-course">
-                            <div class="course-block cb-francais" data-course-id="premiere_generale-francais">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Prem G</span>
-                                <span class="cb-name">Français</span>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-histoire" data-course-id="terminale_generale-histoire">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Term G</span>
-                                <span class="cb-name">HG EMC</span>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- 15h00 -->
+                    <!-- 15h -->
                     <tr>
                         <th><span class="time-main">15h00</span><span class="time-end">16h00</span></th>
                         <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td>
-                        <td data-day="5" rowspan="2" class="multi-course">
-                            <div class="course-block cb-msgn" data-course-id="terminale_stmg-msgn-ven">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Term STMG</span>
+                        <td data-day="5" rowspan="2">
+                            <div class="course-block cb-msgn" data-course-id="msgn-ven">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
                                 <span class="cb-name">MSGN</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">15h – 17h</span>
+                                </div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
-                        <td data-day="6" rowspan="2" class="multi-course">
-                            <div class="course-block cb-physique" data-course-id="premiere_generale-physique">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Prem G</span>
-                                <span class="cb-name">Physique</span>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-maths" data-course-id="terminale_generale-maths">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Term G</span>
-                                <span class="cb-name">Maths</span>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
+                        <td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- 16h00 -->
+                    <!-- 16h -->
                     <tr>
                         <th><span class="time-main">16h00</span><span class="time-end">17h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td>
-                        <td data-day="0" rowspan="2" class="multi-course">
-                            <div class="course-block cb-maths" data-course-id="premiere_generale-maths">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Prem G</span>
-                                <span class="cb-name">Maths</span>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-francais" data-course-id="premiere_stmg-francais">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Prem STMG</span>
-                                <span class="cb-name">Français</span>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- 17h00 -->
+                    <!-- 17h -->
                     <tr>
                         <th><span class="time-main">17h00</span><span class="time-end">18h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td>
-                        <td data-day="5" rowspan="2" class="multi-course">
-                            <div class="course-block cb-eco-droit" data-course-id="terminale_stmg-eco-droit-ven">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span><span class="status-badge badge-rattrapage">★ Rattrapage</span>
-                                <span class="cb-level">Term STMG</span>
-                                <span class="cb-name">Eco & Droit</span>
+                        <td data-day="1"></td><td data-day="2"></td>
+                        <td data-day="3" rowspan="2">
+                            <div class="course-block cb-francais" data-course-id="francais">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
+                                <span class="cb-name">Français</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">17h – 19h</span>
+                                </div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
-                        <td data-day="6" rowspan="2" class="multi-course">
-                            <div class="course-block cb-svt" data-course-id="premiere_generale-svt">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Prem G</span>
-                                <span class="cb-name">SVT</span>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-physique" data-course-id="terminale_generale-physique">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Term G</span>
-                                <span class="cb-name">Physique</span>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-maths" data-course-id="dnb-maths">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">TEAMS</span>
-                                <span class="cb-name">Maths</span>
+                        <td data-day="4"></td>
+                        <td data-day="5" rowspan="2">
+                            <div class="course-block cb-eco-droit" data-course-id="eco-droit-ven">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
+                                <span class="cb-name">Droit &amp; Économie</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">17h – 19h</span>
+                                </div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
+                        <td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- 18h00 -->
+                    <!-- 18h -->
                     <tr>
                         <th><span class="time-main">18h00</span><span class="time-end">19h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="4"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- 19h00 (LA LIGNE LA PLUS CHARGÉE) -->
+                    <!-- 19h -->
                     <tr>
                         <th><span class="time-main">19h00</span><span class="time-end">20h00</span></th>
-                        <td data-day="1" rowspan="2" class="multi-course">
-                            <div class="course-block cb-svt" data-course-id="terminale_generale-svt">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Term G</span><span class="cb-name">SVT</span><div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-maths" data-course-id="premiere_stmg-maths">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Prem STMG</span><span class="cb-name">Maths</span><div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-francais" data-course-id="dnb-francais">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">TEAMS</span><span class="cb-name">Français</span><div class="cb-custom-note"></div>
+                        <td data-day="1" rowspan="2">
+                            <div class="course-block cb-maths" data-course-id="maths">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
+                                <span class="cb-name">Mathématiques</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">19h – 21h</span>
+                                </div>
+                                <div class="cb-custom-note"></div>
                             </div>
                         </td>
-                        <td data-day="2" rowspan="2" class="multi-course">
-                            <div class="course-block cb-philo" data-course-id="terminale_generale-philo">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Term G</span><span class="cb-name">Philo</span><div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-mercatique" data-course-id="terminale_stmg-mercatique">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Term STMG</span><span class="cb-name">Mercatique</span><div class="cb-custom-note"></div>
-                            </div>
-                        </td>
-                        <td data-day="3" rowspan="2" class="multi-course">
-                            <div class="course-block cb-philo" data-course-id="terminale_stmg-philo">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Term STMG</span><span class="cb-name">Philo</span><div class="cb-custom-note"></div>
-                            </div>
-                            <div class="course-block cb-ens-sci" data-course-id="terminale_generale-ens-sci">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Term G</span><span class="cb-name">Ens. Sci.</span><div class="cb-custom-note"></div>
+                        <td data-day="2" rowspan="2">
+                            <div class="course-block cb-mercatique" data-course-id="mercatique">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
+                                <span class="cb-name">Marketing</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">19h – 21h</span>
+                                </div>
+                                <div class="cb-custom-note"></div>
                             </div>
                         </td>
-                        <td data-day="4" rowspan="2" class="multi-course">
-                            <div class="course-block cb-maths" data-course-id="terminale_stmg-maths">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Term STMG</span><span class="cb-name">Maths</span><div class="cb-custom-note"></div>
+                        <td data-day="3" rowspan="2">
+                            <div class="course-block cb-philo" data-course-id="philo">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
+                                <span class="cb-name">Philosophie</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">19h – 21h</span>
+                                </div>
+                                <div class="cb-custom-note"></div>
                             </div>
-                            <div class="course-block cb-histoire" data-course-id="terminale_stmg-histoire">
-                                <span class="status-badge badge-cancelled">Annulé</span><span class="status-badge badge-postponed">Reporté</span>
-                                <span class="cb-level">Term STMG</span><span class="cb-name">HG EMC</span><div class="cb-custom-note"></div>
+                        </td>
+                        <td data-day="4" rowspan="2">
+                            <div class="course-block cb-histoire" data-course-id="histoire">
+                                <span class="status-badge badge-cancelled">Annulé</span>
+                                <span class="status-badge badge-postponed">Reporté</span>
+                                <span class="cb-name">Histoire Géographie</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">19h – 21h</span>
+                                </div>
+                                <div class="cb-custom-note"></div>
                             </div>
                         </td>
                         <td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- 20h00 -->
+                    <!-- 20h -->
                     <tr>
                         <th><span class="time-main">20h00</span><span class="time-end">21h00</span></th>
                         <td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
@@ -575,61 +780,71 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="legend-area">
+            <div class="legend-list">
+                <div class="legend-tag"><span class="legend-dot ld-maths"></span>Mathématiques</div>
+                <div class="legend-tag"><span class="legend-dot ld-mercatique"></span>Marketing</div>
+                <div class="legend-tag"><span class="legend-dot ld-philo"></span>Philosophie</div>
+                <div class="legend-tag"><span class="legend-dot ld-histoire"></span>Histoire-Géo</div>
+                <div class="legend-tag"><span class="legend-dot ld-msgn"></span>MSGN</div>
+                <div class="legend-tag"><span class="legend-dot ld-eco-droit"></span>Droit &amp; Éco</div>
+                <div class="legend-tag"><span class="legend-dot ld-francais"></span>Français</div>
+                <div class="legend-tag"><span class="legend-dot ld-anglais"></span>Anglais</div>
+            </div>
+            <div class="total-hours">Volume : <span>18 h / semaine</span></div>
+        </div>
     </section>
 </main>
 
 <footer>
-    BFT Education Group · Planning Global · 2026-2027
+    BFT Education Group · Terminale STMG · 2026-2027
 </footer>
 
 <script>
-    // =========================================================
-    // GOOGLE SHEETS
-    // =========================================================
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlhZH8-HZduOPsbbmHVYtbeVaJwPVmijJkxRWsjhix5I7UwBH4-lWOTuJn3VvBQVIN4yEOIPqDCPDJ/pub?gid=1961795058&single=true&output=csv";
+    const CURRENT_LEVELS = ["terminale_stmg", "premiere_generale"]; // Tolère les 2 noms de classe
 
     const DAY_MAP = { lundi: 1, mardi: 2, mercredi: 3, jeudi: 4, vendredi: 5, samedi: 6, dimanche: 0 };
-    const HOUR_ROW_MAP = {
-        '9h': 1, '09h': 1, '9h00': 1, '09h00': 1, '9': 1, '09': 1,
-        '10h': 2, '10h00': 2, '10': 2,
-        '11h': 3, '11h00': 3, '11': 3,
-        '12h': 4, '12h00': 4, '12': 4,
-        '13h': 5, '13h00': 5, '13': 5,
-        '14h': 6, '14h00': 6, '14': 6,
-        '15h': 7, '15h00': 7, '15': 7,
-        '16h': 8, '16h00': 8, '16': 8,
-        '17h': 9, '17h00': 9, '17': 9,
-        '18h': 10, '18h00': 10, '18': 10,
-        '19h': 11, '19h00': 11, '19': 11,
-        '20h': 12, '20h00': 12, '20': 12
-    };
 
-    const ROW_TIME_LABELS = {
-        1: ['09h', '11h'], 2: ['11h', '13h'], 3: ['13h', '15h'],
-        4: ['15h', '17h'], 5: ['17h', '19h'], 6: ['19h', '21h']
-    };
+    // Extraire l'index de ligne peu importe le format (ex: "9h-11h", "09h00", "9", "09")
+    function parseRowIndex(hourStr) {
+        if (!hourStr) return null;
+        const match = hourStr.match(/(\d{1,2})/);
+        if (!match) return null;
+        const h = parseInt(match[1], 10);
+        if (h >= 9 && h <= 20) {
+            return h - 8; // 9h -> Ligne 1, 10h -> Ligne 2, etc.
+        }
+        return null;
+    }
 
     const today = new Date().getDay();
     document.querySelectorAll('#timetable th[data-day]').forEach(el => {
         if (parseInt(el.dataset.day) === today) el.classList.add('today-header');
     });
 
-    function placeDynamicCourseBlock(fullId, courseId, level, subjectName, dayName, hourStart, status, noteText) {
+    // Création dynamique d'un bloc de cours (Placé selon Jour + Heure)
+    function placeDynamicCourseBlock(courseId, subjectName, dayName, hourStart, status, noteText) {
         const dayNum = DAY_MAP[dayName.toLowerCase().trim()];
-        let h = hourStart.toLowerCase().trim().replace(/\s/g, '');
-        const rowIndex = HOUR_ROW_MAP[h];
+        const rowIndex = parseRowIndex(hourStart);
 
-        if (dayNum === undefined || !rowIndex) return;
+        if (dayNum === undefined || !rowIndex) {
+            console.warn('Créneau non trouvé:', dayName, hourStart);
+            return;
+        }
 
         const tbody = document.querySelector('#timetable tbody');
-        const targetRow = tbody.querySelectorAll('tr')[rowIndex - 1];
+        const rows = tbody.querySelectorAll('tr');
+        const targetRow = rows[rowIndex - 1];
         if (!targetRow) return;
 
         const targetCell = targetRow.querySelector(`td[data-day="${dayNum}"]`);
         if (!targetCell) return;
 
-        if (rowIndex < tbody.querySelectorAll('tr').length && !targetCell.classList.contains('multi-course')) {
-            const nextRow = tbody.querySelectorAll('tr')[rowIndex];
+        // Fusion sur 2h
+        if (rowIndex < rows.length) {
+            const nextRow = rows[rowIndex];
             if (nextRow) {
                 const nextCell = nextRow.querySelector(`td[data-day="${dayNum}"]`);
                 if (nextCell) {
@@ -640,10 +855,10 @@
             targetCell.setAttribute('rowspan', '2');
         }
 
-        targetCell.classList.add('multi-course');
-
         let cbClass = 'cb-' + courseId.replace(/-ven$/, '');
-        
+        let startHInt = parseInt(hourStart.match(/(\d{1,2})/)[1], 10);
+        let endHInt = startHInt + 2;
+
         let badgeHtml = '';
         let statusClass = '';
 
@@ -654,32 +869,24 @@
             badgeHtml = '<span class="status-badge badge-cancelled" style="display:block">ANNULÉ</span>';
             statusClass = 'is-cancelled';
         } else if (status.includes('report') || status.includes('postpon')) {
-            badgeHtml = '<span class="status-badge badge-postponed" style="display:block">REPORTÉ</span>';
-            statusClass = 'is-postponed';
-        } else if (noteText && noteText.toLowerCase().includes('exceptionn')) {
-            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#f59e0b; color:#fff;">★ EXCEPTIONNEL</span>';
+            badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#f59e0b; color:#fff;">⏳ REPORTÉ</span>';
+            statusClass = 'is-rattrapage';
         }
 
-        const labels = ROW_TIME_LABELS[rowIndex] || [hourStart, ''];
-        
-        // Nettoyer le nom du niveau pour l'affichage (ex: "premiere_generale" -> "Prem G")
-        let levelShort = level;
-        if (level.includes('premiere_generale')) levelShort = "Prem G";
-        if (level.includes('premiere_stmg')) levelShort = "Prem STMG";
-        if (level.includes('terminale_generale')) levelShort = "Term G";
-        if (level.includes('terminale_stmg')) levelShort = "Term STMG";
-        if (level.includes('dnb')) levelShort = "DNB / TEAMS";
-
-        targetCell.innerHTML += `
-            <div class="course-block ${cbClass} ${statusClass}" data-course-id="${fullId}-dynamic">
+        targetCell.innerHTML = `
+            <div class="course-block ${cbClass} ${statusClass}" data-course-id="${courseId}-dynamic">
                 ${badgeHtml}
-                <span class="cb-level">${levelShort}</span>
                 <span class="cb-name">${subjectName}</span>
+                <div class="cb-details">
+                    <span class="cb-badge">2h</span>
+                    <span class="cb-time">${startHInt}h – ${endHInt}h</span>
+                </div>
                 ${noteText ? `<div class="cb-custom-note" style="display:block">📌 ${noteText}</div>` : ''}
             </div>
         `;
     }
 
+    // Synchro Google Sheets
     async function fetchGoogleSheetsStatuses() {
         if (!GOOGLE_SHEET_CSV_URL) return;
 
@@ -705,50 +912,41 @@
                 const note     = cols[6] || '';
                 const date     = cols[7] || '';
 
-                const fullId = level + '-' + courseId;
-                const fullIdVen = fullId + '-ven';
+                if (!CURRENT_LEVELS.includes(level)) return;
+
                 const combinedNote = [note, date].filter(Boolean).join(' · ');
+                const blocks = document.querySelectorAll(`.course-block[data-course-id="${courseId}"], .course-block[data-course-id="${courseId}-ven"]`);
 
-                if (day && hour) {
-                    const blocks = document.querySelectorAll(`.course-block[data-course-id="${fullId}"], .course-block[data-course-id="${fullIdVen}"]`);
-
-                    if (status.includes('rattrap') || status.includes('suppl') || blocks.length === 0) {
-                        placeDynamicCourseBlock(fullId, courseId, level, subject, day, hour, status, combinedNote);
-                    } 
-                    else if (status.includes('report') || status.includes('postpon')) {
-                        blocks.forEach(block => {
-                            block.classList.add('is-postponed');
-                            const noteEl = block.querySelector('.cb-custom-note');
-                            if (noteEl) {
-                                noteEl.textContent = '⏳ ' + (combinedNote || `Reporté au ${day} ${hour}`);
-                                noteEl.style.display = 'block';
-                            }
-                        });
-                    }
-                } 
-                else {
-                    const blocks = document.querySelectorAll(`.course-block[data-course-id="${fullId}"], .course-block[data-course-id="${fullIdVen}"]`);
+                // 1) Si le cours est REPORTÉ
+                if (status.includes('report') || status.includes('postpon')) {
+                    // Colore en jaune le bloc initial s'il existe
                     blocks.forEach(block => {
-                        block.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
+                        block.classList.add('is-postponed');
                         const noteEl = block.querySelector('.cb-custom-note');
-
-                        if (status.includes('annul') || status.includes('cancel')) {
-                            block.classList.add('is-cancelled');
-                            if (noteEl && combinedNote) {
-                                noteEl.textContent = '❌ ' + combinedNote;
-                                noteEl.style.display = 'block';
-                            }
-                        } else if (status.includes('report') || status.includes('postpon')) {
-                            block.classList.add('is-postponed');
-                            if (noteEl && combinedNote) {
-                                noteEl.textContent = '⏳ ' + combinedNote;
-                                noteEl.style.display = 'block';
-                            }
-                        } else {
-                            if (noteEl && combinedNote) {
-                                noteEl.textContent = '📌 ' + combinedNote;
-                                noteEl.style.display = 'block';
-                            }
+                        if (noteEl) {
+                            noteEl.textContent = '⏳ ' + (combinedNote || `Reporté au ${day} ${hour}`);
+                            noteEl.style.display = 'block';
+                        }
+                    });
+                    // Si un nouveau Jour et une Heure sont renseignés, CRÉE la nouvelle case !
+                    if (day && hour) {
+                        placeDynamicCourseBlock(courseId, subject, day, hour, 'report', combinedNote);
+                    }
+                }
+                // 2) Si c'est un RATTRAPAGE
+                else if (status.includes('rattrap') || status.includes('suppl')) {
+                    if (day && hour) {
+                        placeDynamicCourseBlock(courseId, subject, day, hour, status, combinedNote);
+                    }
+                }
+                // 3) Autre statut (Annulé, etc.)
+                else if (status.includes('annul') || status.includes('cancel')) {
+                    blocks.forEach(block => {
+                        block.classList.add('is-cancelled');
+                        const noteEl = block.querySelector('.cb-custom-note');
+                        if (noteEl && combinedNote) {
+                            noteEl.textContent = '❌ ' + combinedNote;
+                            noteEl.style.display = 'block';
                         }
                     });
                 }
@@ -764,6 +962,7 @@
     async function downloadPDF() {
         const btn = document.getElementById('downloadBtn');
         btn.classList.add('is-loading');
+        btn.classList.remove('is-success');
 
         try {
             const clone = document.getElementById('planningSection').cloneNode(true);
@@ -777,28 +976,32 @@
                         <div style="width:42px;height:42px;background:#4f46e5;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">BFT</div>
                         <div>
                             <div style="font-size:18px;font-weight:900;color:#0f172a;letter-spacing:-0.5px">BFT Education Group</div>
-                            <div style="font-size:11px;color:#64748b;font-weight:600;margin-top:2px">Planning Général des Cours · 2026-2027</div>
+                            <div style="font-size:11px;color:#64748b;font-weight:600;margin-top:2px">Emploi du temps · 2026-2027</div>
                         </div>
                     </div>
-                    <div style="background:#eef2ff;color:#4f46e5;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:800">Toutes les classes</div>
+                    <div style="background:#eef2ff;color:#4f46e5;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:800">Terminale STMG</div>
                 </div>
             `;
 
             const wrap = document.createElement('div');
-            wrap.style.cssText = 'position:absolute;left:-9999px;top:0;width:1500px;background:#fff;padding:28px';
+            wrap.style.cssText = 'position:absolute;left:-9999px;top:0;width:1120px;background:#fff;padding:28px';
             wrap.innerHTML = `<style>
                 *{animation:none!important;transition:none!important;transform:none!important;box-shadow:none!important}
                 .table-scroll{overflow:visible!important;width:100%!important}
-                .schedule{width:100%!important;min-width:100%!important;border-spacing:6px!important}
+                .schedule{width:100%!important;min-width:100%!important;border-spacing:5px!important}
                 .planning-wrapper{border:none!important;border-radius:0!important;padding:0!important;background:transparent!important;box-shadow:none!important}
-                .course-block{border:1px solid rgba(0,0,0,0.06)!important; padding:8px!important;}
+                .course-block{border:1px solid rgba(0,0,0,0.06)!important}
             </style>`;
-            
             wrap.appendChild(header);
             wrap.appendChild(clone);
             document.body.appendChild(wrap);
 
-            const canvas = await html2canvas(wrap, { scale: 1.5, backgroundColor: '#ffffff', logging: false, useCORS: true });
+            const canvas = await html2canvas(wrap, {
+                scale: 1.5,
+                backgroundColor: '#ffffff',
+                logging: false,
+                useCORS: true
+            });
             document.body.removeChild(wrap);
 
             const { jsPDF } = window.jspdf;
@@ -815,7 +1018,7 @@
             }
 
             pdf.addImage(canvas.toDataURL('image/jpeg', 0.93), 'JPEG', (pw - w) / 2, (ph - h) / 2, w, h);
-            pdf.save('Planning-General-BFT.pdf');
+            pdf.save('Emploi-du-temps-Terminale-STMG.pdf');
 
             btn.classList.remove('is-loading');
             btn.classList.add('is-success');
@@ -823,7 +1026,7 @@
         } catch (err) {
             console.error(err);
             btn.classList.remove('is-loading');
-            alert('Erreur PDF.');
+            alert('Erreur PDF. Réessayez ou utilisez Ctrl+P.');
         }
     }
 </script>
