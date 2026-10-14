@@ -729,11 +729,12 @@
 
 <script>
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlhZH8-HZduOPsbbmHVYtbeVaJwPVmijJkxRWsjhix5I7UwBH4-lWOTuJn3VvBQVIN4yEOIPqDCPDJ/pub?gid=1961795058&single=true&output=csv";
-    const CURRENT_LEVELS = ["terminale_stmg", "premiere_generale"]; // Tolère les 2 noms
+    
+    // NIVEAU STRICTEMENT UNIQUE (Seulement Terminale STMG)
+    const CURRENT_LEVEL = "terminale_stmg";
 
     const DAY_MAP = { lundi: 1, mardi: 2, mercredi: 3, jeudi: 4, vendredi: 5, samedi: 6, dimanche: 0 };
 
-    // Extraire l'index de ligne peu importe le format (ex: "9h-11h", "09h00", "9", "09")
     function parseRowIndex(hourStr) {
         if (!hourStr) return null;
         const match = hourStr.match(/(\d{1,2})/);
@@ -748,7 +749,7 @@
         if (parseInt(el.dataset.day) === today) el.classList.add('today-header');
     });
 
-    // Création dynamique d'un bloc de cours 
+    // Création dynamique d'un nouveau bloc de cours 
     function placeDynamicCourseBlock(courseId, subjectName, dayName, hourStart, status, noteText) {
         const dayNum = DAY_MAP[dayName.toLowerCase().trim()];
         const rowIndex = parseRowIndex(hourStart);
@@ -781,7 +782,7 @@
         let endHInt = startHInt + 2;
 
         let badgeHtml = '';
-        let statusClass = 'is-rattrapage'; // Par défaut, bordure stylisée
+        let statusClass = 'is-rattrapage';
 
         if (status.includes('deplac') || status.includes('déplac')) {
             badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#0284c7; color:#fff;">🔀 DÉPLACÉ</span>';
@@ -820,24 +821,36 @@
 
                 if (cols.length < 4) return;
 
-                const level    = (cols[0] || '').toLowerCase();
-                const courseId = (cols[1] || '').toLowerCase();
+                const level    = (cols[0] || '').toLowerCase().trim();
+                const courseId = (cols[1] || '').toLowerCase().trim();
                 const subject  = cols[2] || '';
-                const status   = (cols[3] || '').toLowerCase();
+                const status   = (cols[3] || '').toLowerCase().trim();
                 const day      = cols[4] || '';
                 const hour     = cols[5] || '';
                 const note     = cols[6] || '';
                 const date     = cols[7] || '';
 
-                if (!CURRENT_LEVELS.includes(level)) return;
+                // FILTRAGE STRICT PAR CLASSE (IGNORE LES AUTRES CLASSES)
+                if (level !== CURRENT_LEVEL) return;
 
                 const combinedNote = [note, date].filter(Boolean).join(' · ');
                 const blocks = document.querySelectorAll(`.course-block[data-course-id="${courseId}"], .course-block[data-course-id="${courseId}-ven"]`);
 
-                // 1) Si le cours est DÉPLACÉ
-                if (status.includes('deplac') || status.includes('déplac')) {
+                // 1) COURS NORMAL (RÉINITIALISATION DE LA CASE)
+                if (status === 'normal') {
                     blocks.forEach(block => {
-                        block.classList.add('is-cancelled'); // Ancien cours grisé
+                        block.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
+                        const noteEl = block.querySelector('.cb-custom-note');
+                        if (noteEl) {
+                            noteEl.textContent = '';
+                            noteEl.style.display = 'none';
+                        }
+                    });
+                }
+                // 2) COURS DÉPLACÉ
+                else if (status.includes('deplac') || status.includes('déplac')) {
+                    blocks.forEach(block => {
+                        block.classList.add('is-cancelled'); // Ancien créneau grisé
                         const noteEl = block.querySelector('.cb-custom-note');
                         if (noteEl) {
                             noteEl.textContent = '🔀 Déplacé au ' + (day || '') + ' ' + (hour || '');
@@ -846,10 +859,10 @@
                     });
                     if (day && hour) placeDynamicCourseBlock(courseId, subject, day, hour, 'deplace', combinedNote);
                 }
-                // 2) Si le cours est REPORTÉ
+                // 3) COURS REPORTÉ
                 else if (status.includes('report') || status.includes('postpon')) {
                     blocks.forEach(block => {
-                        block.classList.add('is-postponed'); // Ancien cours jauni
+                        block.classList.add('is-postponed'); // Ancien créneau jauni
                         const noteEl = block.querySelector('.cb-custom-note');
                         if (noteEl) {
                             noteEl.textContent = '⏳ Reporté au ' + (day || '') + ' ' + (hour || '');
@@ -858,11 +871,11 @@
                     });
                     if (day && hour) placeDynamicCourseBlock(courseId, subject, day, hour, 'report', combinedNote);
                 }
-                // 3) Si c'est un RATTRAPAGE
+                // 4) RATTRAPAGE
                 else if (status.includes('rattrap') || status.includes('suppl')) {
                     if (day && hour) placeDynamicCourseBlock(courseId, subject, day, hour, 'rattrap', combinedNote);
                 }
-                // 4) Si ANNULÉ
+                // 5) COURS ANNULÉ
                 else if (status.includes('annul') || status.includes('cancel')) {
                     blocks.forEach(block => {
                         block.classList.add('is-cancelled');
