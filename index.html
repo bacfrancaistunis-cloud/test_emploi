@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emploi du temps — Terminale STMG</title>
+    <title>Emploi du temps — Première STMG</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -96,8 +96,6 @@
             animation: fadeUp 0.5s ease 0.08s both;
         }
 
-        .hero { flex: 1; min-width: 0; }
-
         .eyebrow {
             display: inline-block;
             background: #e0e7ff;
@@ -159,9 +157,8 @@
 
         .download-btn svg { width: 17px; height: 17px; }
         .download-btn.is-loading { pointer-events: none; }
-        .download-btn.is-loading .btn-text { opacity: 0; }
+        .download-btn.is-loading .btn-text, .download-btn.is-success .btn-text { opacity: 0; }
         .download-btn.is-success { background: #16a34a; }
-        .download-btn.is-success .btn-text { opacity: 0; }
 
         .btn-spinner {
             display: none;
@@ -376,29 +373,23 @@
             opacity: 0.85;
         }
 
-        /* Couleurs matières */
+        /* Couleurs */
         .cb-maths { background: #d1fae5; color: #065f46; }
         .cb-maths .cb-badge { color: #047857; }
-        .cb-mercatique { background: #fce7f3; color: #9d174d; }
-        .cb-mercatique .cb-badge { color: #be185d; }
-        .cb-philo { background: #f3e8ff; color: #6b21a8; }
-        .cb-philo .cb-badge { color: #7e22ce; }
-        .cb-histoire { background: #fee2e2; color: #991b1b; }
-        .cb-histoire .cb-badge { color: #b91c1c; }
-        .cb-msgn { background: #dbeafe; color: #1e40af; }
-        .cb-msgn .cb-badge { color: #1d4ed8; }
-        .cb-eco-droit { background: #fef3c7; color: #92400e; }
-        .cb-eco-droit .cb-badge { color: #b45309; }
-        .cb-anglais { background: #ffedd5; color: #9a3412; }
-        .cb-anglais .cb-badge { color: #c2410c; }
-        .cb-francais { background: #ccfbf1; color: #115e59; }
-        .cb-francais .cb-badge { color: #0f766e; }
+
+        .cb-francais { background: #fee2e2; color: #991b1b; }
+        .cb-francais .cb-badge { color: #b91c1c; }
+
         .cb-svt { background: #fef3c7; color: #92400e; }
         .cb-physique { background: #e0e7ff; color: #3730a3; }
+        .cb-histoire { background: #f3e8ff; color: #581c87; }
+        .cb-philo { background: #fce7f3; color: #831843; }
         .cb-ens-sci { background: #e0f2fe; color: #075985; }
+        .cb-msgn { background: #f1f5f9; color: #1e293b; }
+        .cb-mercatique { background: #ffe4e6; color: #881337; }
+        .cb-eco-droit { background: #d1fae5; color: #064e3b; }
         .cb-techno { background: #fae8ff; color: #4c1d95; }
 
-        /* Badges statut */
         .status-badge {
             display: none;
             width: fit-content;
@@ -468,20 +459,33 @@
         }
 
         .legend-list { display: flex; flex-wrap: wrap; gap: 10px; }
-        .legend-tag { display: flex; align-items: center; gap: 6px; background: #f8fafc; padding: 5px 11px; border-radius: 8px; font-size: 11px; font-weight: 700; color: var(--muted); }
+
+        .legend-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f8fafc;
+            padding: 5px 11px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
         .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
         .ld-maths { background: #10b981; }
-        .ld-mercatique { background: #db2777; }
-        .ld-philo { background: #9333ea; }
-        .ld-histoire { background: #dc2626; }
-        .ld-msgn { background: #2563eb; }
-        .ld-eco-droit { background: #f59e0b; }
-        .ld-francais { background: #14b8a6; }
-        .ld-anglais { background: #ea580c; }
+        .ld-francais { background: #ef4444; }
+
         .total-hours { font-size: 13px; font-weight: 800; }
         .total-hours span { color: var(--primary); }
 
-        footer { text-align: center; padding: 10px 20px 36px; color: var(--muted); font-size: 12px; font-weight: 500; }
+        footer {
+            text-align: center;
+            padding: 10px 20px 36px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 500;
+        }
 
         @media (max-width: 800px) {
             .scroll-hint { display: flex; }
@@ -524,7 +528,7 @@
                 <p>Emploi du temps</p>
             </div>
         </div>
-        <div class="level-badge">Terminale STMG</div>
+        <div class="level-badge">Première STMG</div>
     </div>
 </header>
 
@@ -532,7 +536,7 @@
     <div class="hero-row">
         <section class="hero">
             <div class="eyebrow">Année 2026-2027</div>
-            <h2>Terminale <span>STMG</span></h2>
+            <h2>Première <span>STMG</span></h2>
             <p>Retrouvez votre emploi du temps et l'état de chaque cours en temps réel.</p>
         </section>
 
@@ -582,36 +586,22 @@
                     <!-- 09h -->
                     <tr>
                         <th><span class="time-main">09h00</span><span class="time-end">10h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
-                        <td data-day="0" rowspan="2">
-                            <div class="course-block cb-msgn" data-course-id="msgn">
-                                <span class="cb-name">MSGN</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">09h – 11h</span></div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
                     <!-- 10h -->
                     <tr>
                         <th><span class="time-main">10h00</span><span class="time-end">11h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
                     <!-- 11h -->
                     <tr>
                         <th><span class="time-main">11h00</span><span class="time-end">12h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
-                        <td data-day="0" rowspan="2">
-                            <div class="course-block cb-eco-droit" data-course-id="eco-droit">
-                                <span class="cb-name">Droit &amp; Économie</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">11h – 13h</span></div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
                     <!-- 12h -->
                     <tr>
                         <th><span class="time-main">12h00</span><span class="time-end">13h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
                     <!-- 13h -->
                     <tr>
@@ -626,75 +616,44 @@
                     <!-- 15h -->
                     <tr>
                         <th><span class="time-main">15h00</span><span class="time-end">16h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td>
-                        <td data-day="5" rowspan="2">
-                            <div class="course-block cb-msgn" data-course-id="msgn-ven">
-                                <span class="cb-name">MSGN</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">15h – 17h</span></div>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
+                    </tr>
+                    <!-- 16h — Français Dimanche 16h-18h -->
+                    <tr>
+                        <th><span class="time-main">16h00</span><span class="time-end">17h00</span></th>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
+                        <td data-day="0" rowspan="2">
+                            <div class="course-block cb-francais" data-course-id="francais">
+                                <span class="cb-name">Français</span>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">16h – 18h</span>
+                                </div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
-                        <td data-day="6"></td><td data-day="0"></td>
-                    </tr>
-                    <!-- 16h -->
-                    <tr>
-                        <th><span class="time-main">16h00</span><span class="time-end">17h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
                     <!-- 17h -->
                     <tr>
                         <th><span class="time-main">17h00</span><span class="time-end">18h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td>
-                        <td data-day="3" rowspan="2">
-                            <div class="course-block cb-francais" data-course-id="francais">
-                                <span class="cb-name">Français</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">17h – 19h</span></div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
-                        <td data-day="4"></td>
-                        <td data-day="5" rowspan="2">
-                            <div class="course-block cb-eco-droit" data-course-id="eco-droit-ven">
-                                <span class="cb-name">Droit &amp; Économie</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">17h – 19h</span></div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
-                        <td data-day="6"></td><td data-day="0"></td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td>
                     </tr>
                     <!-- 18h -->
                     <tr>
                         <th><span class="time-main">18h00</span><span class="time-end">19h00</span></th>
-                        <td data-day="1"></td><td data-day="2"></td><td data-day="4"></td><td data-day="6"></td><td data-day="0"></td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="4"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
-                    <!-- 19h -->
+                    <!-- 19h — Maths Jeudi 19h-21h -->
                     <tr>
                         <th><span class="time-main">19h00</span><span class="time-end">20h00</span></th>
-                        <td data-day="1" rowspan="2">
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td>
+                        <td data-day="4" rowspan="2">
                             <div class="course-block cb-maths" data-course-id="maths">
                                 <span class="cb-name">Mathématiques</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">19h – 21h</span></div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
-                        <td data-day="2" rowspan="2">
-                            <div class="course-block cb-mercatique" data-course-id="mercatique">
-                                <span class="cb-name">Marketing</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">19h – 21h</span></div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
-                        <td data-day="3" rowspan="2">
-                            <div class="course-block cb-philo" data-course-id="philo">
-                                <span class="cb-name">Philosophie</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">19h – 21h</span></div>
-                                <div class="cb-custom-note"></div>
-                            </div>
-                        </td>
-                        <td data-day="4" rowspan="2">
-                            <div class="course-block cb-histoire" data-course-id="histoire">
-                                <span class="cb-name">Histoire Géographie</span>
-                                <div class="cb-details"><span class="cb-badge">2h</span><span class="cb-time">19h – 21h</span></div>
+                                <div class="cb-details">
+                                    <span class="cb-badge">2h</span>
+                                    <span class="cb-time">19h – 21h</span>
+                                </div>
                                 <div class="cb-custom-note"></div>
                             </div>
                         </td>
@@ -703,7 +662,7 @@
                     <!-- 20h -->
                     <tr>
                         <th><span class="time-main">20h00</span><span class="time-end">21h00</span></th>
-                        <td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
+                        <td data-day="1"></td><td data-day="2"></td><td data-day="3"></td><td data-day="5"></td><td data-day="6"></td><td data-day="0"></td>
                     </tr>
                 </tbody>
             </table>
@@ -712,29 +671,29 @@
         <div class="legend-area">
             <div class="legend-list">
                 <div class="legend-tag"><span class="legend-dot ld-maths"></span>Mathématiques</div>
-                <div class="legend-tag"><span class="legend-dot ld-mercatique"></span>Marketing</div>
-                <div class="legend-tag"><span class="legend-dot ld-philo"></span>Philosophie</div>
-                <div class="legend-tag"><span class="legend-dot ld-histoire"></span>Histoire-Géo</div>
-                <div class="legend-tag"><span class="legend-dot ld-msgn"></span>MSGN</div>
-                <div class="legend-tag"><span class="legend-dot ld-eco-droit"></span>Droit &amp; Éco</div>
                 <div class="legend-tag"><span class="legend-dot ld-francais"></span>Français</div>
-                <div class="legend-tag"><span class="legend-dot ld-anglais"></span>Anglais</div>
             </div>
-            <div class="total-hours">Volume : <span>18 h / semaine</span></div>
+            <div class="total-hours">Volume : <span>4 h / semaine</span></div>
         </div>
     </section>
 </main>
 
-<footer>BFT Education Group · Terminale STMG · 2026-2027</footer>
+<footer>
+    BFT Education Group · Première STMG · 2026-2027
+</footer>
 
+<!-- =========================================================
+     NOUVEAU MOTEUR JAVASCRIPT (Robuste & Strict)
+========================================================= -->
 <script>
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlhZH8-HZduOPsbbmHVYtbeVaJwPVmijJkxRWsjhix5I7UwBH4-lWOTuJn3VvBQVIN4yEOIPqDCPDJ/pub?gid=1961795058&single=true&output=csv";
     
-    // NIVEAU STRICTEMENT UNIQUE (Seulement Terminale STMG)
-    const CURRENT_LEVEL = "terminale_stmg";
+    // FILTRAGE STRICT : Première STMG uniquement
+    const CURRENT_LEVEL = "premiere_stmg";
 
     const DAY_MAP = { lundi: 1, mardi: 2, mercredi: 3, jeudi: 4, vendredi: 5, samedi: 6, dimanche: 0 };
 
+    // Extraction universelle de l'heure (accepte 9h-11h, 09h00, 9, etc.)
     function parseRowIndex(hourStr) {
         if (!hourStr) return null;
         const match = hourStr.match(/(\d{1,2})/);
@@ -749,7 +708,7 @@
         if (parseInt(el.dataset.day) === today) el.classList.add('today-header');
     });
 
-    // Création dynamique d'un nouveau bloc de cours 
+    // Placement dynamique d'un cours
     function placeDynamicCourseBlock(courseId, subjectName, dayName, hourStart, status, noteText) {
         const dayNum = DAY_MAP[dayName.toLowerCase().trim()];
         const rowIndex = parseRowIndex(hourStart);
@@ -764,7 +723,7 @@
         const targetCell = targetRow.querySelector(`td[data-day="${dayNum}"]`);
         if (!targetCell) return;
 
-        // Fusion sur 2h
+        // Fusion 2h
         if (rowIndex < rows.length) {
             const nextRow = rows[rowIndex];
             if (nextRow) {
@@ -782,14 +741,17 @@
         let endHInt = startHInt + 2;
 
         let badgeHtml = '';
-        let statusClass = 'is-rattrapage';
+        let statusClass = ''; // Par défaut : cours normal sans surbrillance violete
 
         if (status.includes('deplac') || status.includes('déplac')) {
             badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#0284c7; color:#fff;">🔀 DÉPLACÉ</span>';
+            statusClass = 'is-rattrapage';
         } else if (status.includes('report') || status.includes('postpon')) {
             badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#f59e0b; color:#fff;">⏳ REPORTÉ</span>';
+            statusClass = 'is-rattrapage';
         } else if (status.includes('rattrap') || status.includes('suppl')) {
             badgeHtml = '<span class="status-badge badge-rattrapage" style="display:block; background:#4f46e5; color:#fff;">★ RATTRAPAGE</span>';
+            statusClass = 'is-rattrapage';
         }
 
         targetCell.innerHTML = `
@@ -830,14 +792,14 @@
                 const note     = cols[6] || '';
                 const date     = cols[7] || '';
 
-                // FILTRAGE STRICT PAR CLASSE (IGNORE LES AUTRES CLASSES)
+                // FILTRAGE STRICT PAR CLASSE
                 if (level !== CURRENT_LEVEL) return;
 
                 const combinedNote = [note, date].filter(Boolean).join(' · ');
-                const blocks = document.querySelectorAll(`.course-block[data-course-id="${courseId}"], .course-block[data-course-id="${courseId}-ven"]`);
+                const blocks = document.querySelectorAll(`.course-block[data-course-id="${courseId}"]`);
 
-                // 1) COURS NORMAL (RÉINITIALISATION DE LA CASE)
-                if (status === 'normal') {
+                // 1) COURS NORMAL (RÉINITIALISATION + AJOUT DYNAMIQUE NORMAL)
+                if (status === 'normal' || status === '') {
                     blocks.forEach(block => {
                         block.classList.remove('is-cancelled', 'is-postponed', 'is-rattrapage');
                         const noteEl = block.querySelector('.cb-custom-note');
@@ -846,11 +808,16 @@
                             noteEl.style.display = 'none';
                         }
                     });
+
+                    // NOUVEAUTÉ : Si Jour et Heure sont spécifiés, ajoute le cours comme un cours NORMAL
+                    if (day && hour) {
+                        placeDynamicCourseBlock(courseId, subject, day, hour, 'normal', combinedNote);
+                    }
                 }
                 // 2) COURS DÉPLACÉ
                 else if (status.includes('deplac') || status.includes('déplac')) {
                     blocks.forEach(block => {
-                        block.classList.add('is-cancelled'); // Ancien créneau grisé
+                        block.classList.add('is-cancelled');
                         const noteEl = block.querySelector('.cb-custom-note');
                         if (noteEl) {
                             noteEl.textContent = '🔀 Déplacé au ' + (day || '') + ' ' + (hour || '');
@@ -862,7 +829,7 @@
                 // 3) COURS REPORTÉ
                 else if (status.includes('report') || status.includes('postpon')) {
                     blocks.forEach(block => {
-                        block.classList.add('is-postponed'); // Ancien créneau jauni
+                        block.classList.add('is-postponed');
                         const noteEl = block.querySelector('.cb-custom-note');
                         if (noteEl) {
                             noteEl.textContent = '⏳ Reporté au ' + (day || '') + ' ' + (hour || '');
@@ -913,7 +880,7 @@
                             <div style="font-size:11px;color:#64748b;font-weight:600;margin-top:2px">Emploi du temps · 2026-2027</div>
                         </div>
                     </div>
-                    <div style="background:#eef2ff;color:#4f46e5;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:800">Terminale STMG</div>
+                    <div style="background:#eef2ff;color:#4f46e5;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:800">Première STMG</div>
                 </div>
             `;
 
@@ -926,6 +893,7 @@
                 .planning-wrapper{border:none!important;border-radius:0!important;padding:0!important;background:transparent!important;box-shadow:none!important}
                 .course-block{border:1px solid rgba(0,0,0,0.06)!important}
             </style>`;
+            
             wrap.appendChild(header);
             wrap.appendChild(clone);
             document.body.appendChild(wrap);
@@ -947,7 +915,7 @@
             }
 
             pdf.addImage(canvas.toDataURL('image/jpeg', 0.93), 'JPEG', (pw - w) / 2, (ph - h) / 2, w, h);
-            pdf.save('Emploi-du-temps-Terminale-STMG.pdf');
+            pdf.save('Emploi-du-temps-Premiere-STMG.pdf');
 
             btn.classList.remove('is-loading');
             btn.classList.add('is-success');
